@@ -1,0 +1,39 @@
+﻿{
+	"type": 
+	[{
+			"name": "WJDH双模",
+			"value": 3437
+		},
+		{
+			"name": "WJDH电商",
+			"value": 3437
+		}, {
+			"name": "WJDH",
+			"value": 3437
+		}, {
+			"name": "营销宝",
+			"value": 3437
+		}, {
+			"name": "常规",
+			"value": 3437
+		}
+	],
+	"company": [{
+			"name": "一",
+			"value": 195
+		},
+		{
+			"name": "成都一",
+			"value": 195
+		}
+	],
+	"artisan": [{
+			"name": "朱凯",
+			"value": 195
+		},
+		{
+			"name": "张田",
+			"value": 195
+		}
+	]
+}

@@ -13,9 +13,7 @@ const portfinder = require('portfinder')
 const express = require('express')
 const app = express()
 var appData = require('../list.json') //加载本地数据文件
-var appData2 = require('../statistics.json') //加载本地数据文件
 var seller = appData //获取对应的本地数据
-var statistics = appData2
 var apiRoutes = express.Router()
 app.use('/apis', apiRoutes)
 
@@ -59,64 +57,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 		},
 		before(app) {
 			app.get('/apis/DoitHandler', (req, res) => {
-				res.json({
-					code: 0,
-					'username': '罗彬',
-					'msg': '加载成功！',
-					"date": '2018-5',
-					"statistics": statistics,
-					data: seller
-				}) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
+				res.json(seller) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
 			}),
 			app.post('/apis/DoitHandler', function(req, res) { // 注意这里改为post就可以了
-				res.json({
-					code: 0,
-					'username': '罗彬',
-					'msg': '加载成功！',
-					"date": '2018-5',
-					"statistics": statistics,
-					data: seller
-				}) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
-			}),
-			app.get('/apis/EditHandler', (req, res) => {
-				res.json({
-					code: 0,
-					'username': '罗彬',
-					'msg': '加载成功！',
-					"date": '2018-5',
-					"statistics": statistics,
-					data: seller
-				}) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
-			}),
-			app.post('/apis/EditHandler', function(req, res) { // 注意这里改为post就可以了
-				res.json({
-					code: 0,
-					'username': '罗彬',
-					'msg': '加载成功！',
-					"date": '2018-5',
-					"statistics": statistics,
-					data: seller
-				}) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
-			}),
-			app.get('/apis/LoginHandler', (req, res) => {
-				res.json({
-					code: 0,
-					'username': '罗彬',
-					'msg': '加载成功！',
-					"date": '2018-5',
-					"statistics": statistics,
-					data: seller
-				}) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
-			}),
-			app.post('/apis/LoginHandler', function(req, res) { // 注意这里改为post就可以了
-				res.json({
-					code: 0,
-					'username': '罗彬',
-					'msg': '加载成功！',
-					"date": '2018-5',
-					"statistics": statistics,
-					data: seller
-				}) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
+				res.json(seller) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
 			})
 		}
 	},

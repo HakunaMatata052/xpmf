@@ -7,8 +7,9 @@ var Home = r => require.ensure([], () => r(require('./profile/home/home.vue')), 
 var Site = r => require.ensure([], () => r(require('./profile/home/site.vue')), 'site');
 var Template = r => require.ensure([], () => r(require('./profile/home/template.vue')), 'template');
 
-
 var Favaorite = r => require.ensure([], () => r(require('./profile/favaorite/index.vue')), 'favaorite');
+
+var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login');
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -30,10 +31,13 @@ const router = new VueRouter({
 				component: Template,
 				//redirect: 'template',
 			}]
-		},{
-		path:'/favaorite',
-		component:Favaorite
-	}]
+		}, {
+			path: '/favaorite',
+			component: Favaorite
+		}]
+	}, {
+		path: '/login',
+		component: Login
 	}]
 })
 

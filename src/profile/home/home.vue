@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-tabs :value="path" type="card" @tab-click="handleClick">
+		<el-tabs v-model="path" type="card" @tab-click="handleClick">
 			<el-tab-pane :label="item.name" v-for="item in tabs" :name="item.url"></el-tab-pane>
 		</el-tabs>
 		<div class="tab-content">
@@ -14,10 +14,10 @@
 			return {
 				path: '',
 				tabs: [{
-					name: '用户管理',
+					name: '站点',
 					url: "/home/site"
 				}, {
-					name: '用户管理2',
+					name: '模板',
 					url: "/home/template"
 				}]
 			};
@@ -39,20 +39,6 @@
 	};
 </script>
 <style>
-	html,
-	body {
-		padding: 0;
-		margin: 0;
-	}
-	
-	#home {
-		height: 100%;
-	}
-	
-	.el-main {
-		background: #f1f4f5;
-	}
-	
 	.el-tabs__header {
 		margin-bottom: 0;
 	}

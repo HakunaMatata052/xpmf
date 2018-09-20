@@ -6,7 +6,10 @@ import App from './app.vue'
 import router from './routers'
 import vueResource from 'vue-resource'
 import ElementUI from 'element-ui';
+import store from './store';
+import base from './utils';
 
+Vue.use(base);
 Vue.use(ElementUI);
 Vue.use(VueRouter)
 Vue.use(vueResource);
@@ -17,5 +20,6 @@ Vue.http.options.headers = {
 };
 const vue = new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

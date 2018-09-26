@@ -1,13 +1,25 @@
 exports.install = function(Vue, options) {
-	Vue.prototype.ajax_json = function(url, data, fn) {
-		this.$http.post(url, data, fn).then(res => {
-			var fnc;
-			if(fn == undefined) {
-				fnc = data;
-			} else {
-				fnc = fn;
+	Vue.prototype.get_json = function(url, fn) {
+		this.$http.get(url, fn).then(res => {
+			if(fn!=undefined){
+				fn(res.data);
 			}
-			fnc(res.data);
+		}, error => {
+			this.$message(this.$store.state.status[error.status]);
+			//console.info(error)
+		})
+	};
+	Vue.prototype.post_json = function(url, data, fn) {
+		this.$http.post(url, data, fn).then(res => {
+			fn(res.data);
+		}, error => {
+			this.$message(this.$store.state.status[error.status]);
+			//console.info(error)
+		})
+	};
+	Vue.prototype.del_json = function(url, data, fn) {
+		this.$http.delete(url, fn).then(res => {
+			fn(res.data);
 		}, error => {
 			if(error.status == 401) {
 				this.$message('登陆异常！请重新登陆');
@@ -20,7 +32,13 @@ exports.install = function(Vue, options) {
 			//console.info(error)
 		})
 	};
-	Vue.prototype.jump_href = function(url) {
-		window.location.href = url;
+	//跳转页面 
+	Vue.prototype.jump_href = function(url, target) {
+		if(target == '_blank') {
+			window.open(url);
+		} else {
+			window.location.href = url;
+		}
+
 	};
 };

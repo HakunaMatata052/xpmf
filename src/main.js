@@ -14,9 +14,9 @@ Vue.use(ElementUI);
 Vue.use(VueRouter)
 Vue.use(vueResource);
 Vue.config.debug = false;
-Vue.http.options.emulateJSON = true;
+//Vue.http.options.emulateJSON = true;
 Vue.http.options.headers = {
-  'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+'Authorization':'Bearer '+ localStorage.token
 };
 const vue = new Vue({
   router,

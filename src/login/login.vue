@@ -1,20 +1,22 @@
 <template>
 	<div id="login">
-		<div class="logo"><img src="../assets/images/LOGO.png" alt="" /></div>
+		<div class="login-box">
+			<div class="logo"><img src="../assets/images/LOGO.png" alt="" /></div>
 
-		<el-input placeholder="用户名" v-model="username">
-			<i slot="suffix" class="el-input__icon el-icon-edit"></i>
-		</el-input>
-		<div class="em"></div>
-		<el-input placeholder="密码" v-model="password" type="password">
-			<i slot="suffix" class="el-input__icon el-icon-view"></i>
-		</el-input>
-		<div class="em"></div>
-		<el-button type="primary" class="submit" @click="submit">登陆</el-button>
-		<div id="bg">
-			<canvas></canvas>
-			<canvas></canvas>
-			<canvas></canvas>
+			<el-input placeholder="用户名" v-model="login.username">
+				<i slot="suffix" class="el-input__icon el-icon-edit"></i>
+			</el-input>
+			<div class="em"></div>
+			<el-input placeholder="密码" v-model="login.password" type="password">
+				<i slot="suffix" class="el-input__icon el-icon-view"></i>
+			</el-input>
+			<div class="em"></div>
+			<el-button type="primary" class="submit" @click="loginFn">登陆</el-button>
+			<div id="bg">
+				<canvas></canvas>
+				<canvas></canvas>
+				<canvas></canvas>
+			</div>
 		</div>
 	</div>
 </template>
@@ -23,39 +25,29 @@
 	export default {
 		data() {
 			return {
-				username: '',
-				password: ''
+				login: {
+					username: '',
+					password: ''
+				}
 			}
 		},
 		methods: {
-			submit() {
+			loginFn() {
 				var that = this;
-				that.$http.post(this.addr, {
-					params: {
-						token: '1'
-					},
-					name: '123'
-				}).then(res => {
-					console.info(res.data)
-				}, error => {
-					console.info(error)
+				that.post_json(that.$store.state.api + 'token', that.login, function(data) {
+					localStorage.token = data.token
+					console.log(localStorage.token)
+					that.$router.push({
+						path: '/'
+					})
 				})
 			}
 		},
 		created() {
 			var that = this;
-			that.$http.post(that.$store.state.login).then(res => {
-				if(res.data.code == 0) {
-					that.$router.push({
-						//path: '/home/site'
-					})
-				}
-			}, error => {
-				console.info(error)
-			})
+			console.log(localStorage.token)
 		},
 		mounted() {
-			document.body.classList.add('login');
 			(function() {
 				var canvas = document.getElementsByTagName("canvas"),
 					background = canvas[0],
@@ -296,24 +288,22 @@
 			})();
 		},
 		destroyed() {
-			document.body.classList.remove('login');
+			//document.body.classList.remove('login');
 		}
 	}
 </script>
 
-<style>
-	body.login {
-		background: #fff;
+<style scoped>
+	#login * {
+		box-sizing: border-box;
+	}
+	#login {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		height: 100%;
 	}
-	
-	* {
-		box-sizing: border-box;
-	}
-	
-	#login {
+	.login-box {
 		width: 440px;
 		padding: 40px;
 		background: #fff;
@@ -348,5 +338,10 @@
 		left: 0;
 		width: 100%;
 		height: 100%;
+	}
+	
+	.el-button {
+		background-color: #ee3231;
+		border-color: #ee3231;
 	}
 </style>

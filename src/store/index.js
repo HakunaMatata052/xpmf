@@ -4,8 +4,12 @@ Vue.use(vuex);
 
 export default new vuex.Store({
 	state: {
-		login:'https://jsonblob.com/api/jsonBlob/5011de83-bbf5-11e8-b599-33aeb0ff2350',
-		site:'/apis/DoitHandler',
+		status:{
+			403:'密码错误！',
+			401:'没有权限操作！'
+		},
+		api:'http://192.168.0.101:9001/api/',
+		site:'http://192.168.0.101:9001/api/',
 		token:"57373A7E05CB44079B2F12C14A5E83A9",
 		domain: "阿斯达",
 		notice: true,

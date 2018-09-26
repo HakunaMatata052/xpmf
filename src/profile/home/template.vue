@@ -1,17 +1,20 @@
 <template>
 	<div id="template">
-		<el-row>
-			<el-col :span="8" v-for="(o, index) in 2" :key="o" :offset="index > 0 ? 2 : 0">
-				<el-card :body-style="{ padding: '0px' }">
-					<img src="../../assets/images/hamburger.png" class="image">
-					<div style="padding: 14px;">
-						<span>好吃的汉堡</span>
-						<div class="bottom clearfix">
-							<time class="time">{{ currentDate }}</time>
-							<el-button type="text" class="button">操作按钮</el-button>
-						</div>
-					</div>
-				</el-card>
+		<el-row type="flex" justify="space-between">
+			<el-col :span="8">
+				<div class="img">
+					<img src="../../assets/images/hamburger.png" alt="" />
+				</div>
+				<div class="info">
+					<h3>电脑网站模板</h3>
+					<p>编号 : metv2
+						<br> 绑定域名 : shop.xajianzhan.com
+						<br> 购买日期 : 2018-02-10</p>
+				</div>
+				<div class="btn-group"></div>
+			</el-col>
+			<el-col :span="8">
+				<el-button type="primary">获取源码</el-button>
 			</el-col>
 		</el-row>
 	</div>
@@ -19,42 +22,22 @@
 
 <script>
 	export default {
-  data() {
-    return {
-      currentDate: new Date()
-    };
-  }
-}
+		data() {
+			return {
+				currentDate: new Date()
+			};
+		}
+	}
 </script>
 
 <style scoped>
- .time {
-    font-size: 13px;
-    color: #999;
-  }
-  
-  .bottom {
-    margin-top: 13px;
-    line-height: 12px;
-  }
-
-  .button {
-    padding: 0;
-    float: right;
-  }
-
-  .image {
-    width: 100%;
-    display: block;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-      display: table;
-      content: "";
-  }
-  
-  .clearfix:after {
-      clear: both
-  }
+	.img {
+		width: 300px;
+		height: 200px;
+	}
+	
+	.img img {
+		width: 100%;
+		height: auto;
+	}
 </style>

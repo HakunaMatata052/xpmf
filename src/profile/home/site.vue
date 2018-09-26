@@ -1,49 +1,57 @@
 <template>
 	<div id="site">
-		<el-alert :closable="false" :title="'官方销售的西部数码主机系统会自动安装，无需手动一键安装；官方销售的阿里云主机购买请点击站点列表右侧的【网站安装】或【网站安装/迁移】进行自动安装。'" type="error">
-		</el-alert>
-		<br>
+		<!--<el-alert :closable="false" :title="'官方销售的西部数码主机系统会自动安装，无需手动一键安装；官方销售的阿里云主机购买请点击站点列表右侧的【网站安装】或【网站安装/迁移】进行自动安装。'" type="error">
+		</el-alert>-->
+		<div class="site-list" v-for="item in sitelist">
+			<div class="site-list-left">
+				<div class="site-name">
+					<h3>{{item.siteName}}</h3><small>(有效期至：{{item.expires}})</small>
+				</div>
+				<div class="btn-group">
+					<el-button size="small" type="primary" @click="jump_href('http://'+item.domain,'_blank')">访问网站</el-button>
+					<el-button size="small" type="primary" @click="bindDomainFn(item.siteId)">绑定域名</el-button>
+				</div>
+			</div>
+			<div class="site-list-right">
+				<div class="btn-group">
+					<el-button size="small">工单</el-button>
+					<el-button size="small" @click="ftpFn(item.siteId)">FTP</el-button>
 
-		<el-table :data="sitelist" stripe expand-change="asd()" style="width: 100%">
-			<el-table-column prop="siteName" label="网站名称" width="180">
-			</el-table-column>
-			<el-table-column prop="expires" label="有效期">
-			</el-table-column>
-			<el-table-column label="FTP">
-				<template slot-scope="scope">
-					<el-button size="mini" type="primary" @click="ftpFn(scope.row.siteId)">FTP</el-button>
-				</template>
-			</el-table-column>
-
-			<el-table-column label="操作">
-				<template slot-scope="scope">
-					<el-button size="mini" icon="el-icon-search" type="success" @click="jump_href('/login')">访问网站</el-button>
-					<el-button size="mini" icon="el-icon-search" type="warning" @click="bindDomainFn(scope.row.siteId)">绑定域名</el-button>
-				</template>
-			</el-table-column>
-
-		</el-table>
+					<el-button size="small" type="danger" @click="del(item.siteId)">删除</el-button>
+				</div>
+			</div>
+		</div>
+		<br />
+		<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn">
+		</el-pagination>
 		<br>
 		<el-container>
-			<el-button type="danger">一键安装（官方购买主机无需一键安装）</el-button>
+			<el-button type="danger" @click="asd">一键安装（官方购买主机无需一键安装）</el-button>
 			<el-button type="primary">去开通试用</el-button>
 		</el-container>
 		<el-dialog title="绑定域名" :visible.sync="dialogBindDomain">
 			<el-form :model="bindDomainForm">
 				<el-row :gutter="20">
 					<el-col :span="21">
-						<el-input placeholder="请输入域名" v-model="bindDomainForm.bindDomain">
+						<el-input placeholder="请输入域名" v-model="bindDomainForm.domain">
 							<template slot="prepend">Http://</template>
 						</el-input>
 					</el-col>
 					<el-col :span="3">
-						<el-button type="success" icon="el-icon-check" style="width: 100%;"></el-button>
+						<el-button type="success" icon="el-icon-check" style="width: 100%;" @click="bind"></el-button>
 					</el-col>
 				</el-row>
 			</el-form>
-			<el-table :data="sitelist" stripe expand-change="asd()" style="width: 100%">
-				<el-table-column prop="domain" label="网站域名">
+			<el-table :data="domainlist" stripe style="width: 100%">
+				<el-table-column prop="id" label="ID" width="50">
 				</el-table-column>
+				
+				<el-table-column prop="domain" label="域名">
+				</el-table-column>
+				
+				<el-table-column prop="creatime" label="绑定时间">
+				</el-table-column>
+				
 				<el-table-column label="操作" width="50">
 					<template slot-scope="scope">
 						<el-button type="danger" icon="el-icon-delete" circle></el-button>
@@ -80,87 +88,103 @@
 		data() {
 			return {
 				sitelist: [],
+				domainlist:[],
 				ftplist: {},
 				dialogBindDomain: false,
 				dialogFtp: false,
 				bindDomainForm: {
-					bindDomain: ''
+					id:'',
+					domain: ''
 				},
-				bindDomainList: []
+				bindDomainList: [],
+				page:0,
+				size:0,
+				total:0,
 			}
 		},
 		methods: {
 			asd() {
+				localStorage.token = '';
+	
+			},
+			getList(val) {
 				var that = this;
-				that.ajax_json(that.$store.state.site, {
-					name: '123'
-				}, function(data) {
-					that.data = data.data;
+				that.get_json(that.$store.state.api + 'usersite/page/'+val, function(data) {
+					that.sitelist = data.data;
+					that.page = data.page;
+					that.size = data.size;
+					that.total = data.total;
+					console.log(that.total)
 				})
 			},
 			ftpFn(id) {
 				var that = this;
-				that.ajax_json(that.$store.state.site, {
-					id: id
-				}, function(data) {
-					that.data = data.data;
-
+				that.get_json(that.$store.state.api+'usersite/'+id+'/ftp', function(data) {
+					
 					that.dialogFtp = true;
 				})
 			},
 			bindDomainFn(id) {
 				var that = this;
-				that.ajax_json(that.$store.state.site, {
-					id: id
-				}, function(data) {
-					that.data = data.data;
+				that.get_json(that.$store.state.api+'usersite/'+id+'/domains', function(data) {
+					that.domainlist = data;
+					that.bindDomainForm.id = id;
 					that.dialogBindDomain = true;
 				})
+			},
+			bind(){				
+				var that = this;
+				that.post_json(that.$store.state.api+'usersite/bind',that.bindDomainForm ,function(data) {
+					that.$message({
+						type:'success',
+						message:'绑定成功'
+					});
+					that.bindDomainFn(that.bindDomainForm.id)
+					
+				})
+			},
+			del() {
+				var that = this;
+				that.get_json(that.$store.state.api, function(data) {
+					that.sitelist = data.data;
+				})
+			},
+			pageFn(val) {
+				this.getList(val)
 			}
 		},
 		created() {
-			var that = this;
-			that.ajax_json(that.$store.state.site, {
-				name: '123'
-			}, function(data) {
-				console.log(data)
-				that.sitelist = data.data;
-			})
-
+			this.getList(1)
 		}
 	}
 </script>
-<style>
-	.sitename {
-		font-size: 24px;
+<style scoped>
+	.site-list {
+		display: flex;
+		justify-content: space-between;
+		padding: 10px 0;
+		border-bottom: 1px solid #eee;
 	}
 	
-	.sitename small {
-		font-size: 14px;
+	.site-list-left {}
+	
+	.site-list-left .site-name {}
+	
+	.site-list-left .site-name h3 {
+		display: inline;
+		font-size: 20px;
+		margin-right: 20px;
+	}
+	
+	.site-list-left .site-name small {
 		color: #f00;
 	}
 	
-	.sitename i {
-		font-size: 14px;
+	.site-list-left .btn-group {
+		margin-top: 10px;
 	}
 	
-	.sitename i:hover {
-		color: #f00;
-		cursor: pointer;
-	}
-	
-	.table-expand {
-		font-size: 0;
-	}
-	
-	.table-expand label {
-		width: 90px;
-		color: #99a9bf;
-	}
-	
-	.table-expand .el-form-item {
-		margin-right: 0;
-		margin-bottom: 0;
-		width: 50%;
+	.site-list-right .btn-group {
+		margin-top: 36px;
 	}
 </style>

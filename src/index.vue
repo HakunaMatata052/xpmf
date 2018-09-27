@@ -15,7 +15,7 @@
 		<el-container class="container">
 			<!--<el-header>Header</el-header>-->
 			<el-aside width="240px">
-				<el-menu router default-active="1" text-color="#333" active-text-color="#333" class="sideleft">
+				<el-menu router default-active="1" text-color="#333" active-text-color="#ee3231" class="sideleft">
 					<el-menu-item index="/home">
 						<i class="el-icon-menu"></i>
 						<span slot="title">我的产品</span>
@@ -32,10 +32,16 @@
 						<i class="el-icon-goods"></i>
 						<span slot="title">案例申请</span>
 					</el-menu-item>
-					<el-menu-item index="/record">
+					<el-menu-item index="/finance">
 						<i class="el-icon-printer"></i>
 						<span slot="title">财务中心</span>
 					</el-menu-item>
+					
+					<el-menu-item index="/finance/dounorder">
+						<i class="el-icon-printer"></i>
+						<span slot="title">未完成订单</span>
+					</el-menu-item>
+					
 				</el-menu>
 
 			</el-aside>
@@ -84,7 +90,7 @@
 					</div>
 				</div>
 				<div class="foot-bot">
-					<p>OPYRIGHT (C) 2018 UEMO. ALL RIGHTS RESERVED 陕ICP备05010374号</p>
+					<p>OPYRIGHT (C) 2018 BTOE. ALL RIGHTS RESERVED 陕ICP备05010374号</p>
 				</div>
 			</div>
 		</el-footer>
@@ -134,6 +140,9 @@
 		padding: 0 20px;
 		color: #fff;
 		align-self: flex-end
+	}
+	.header .logout i{
+		margin-right: 5px;
 	}
 	
 	.container {
@@ -211,7 +220,7 @@
 		margin-bottom: 30px;
 	}
 	
-	.foot-h-l a {
+	.foot-h-l li > a {
 		font-size: 13px;
 		color: #999;
 		line-height: 26px;
@@ -219,12 +228,9 @@
 	}
 	
 	.foot-h-l div a {
-		width: 30px;
-		height: 22px;
 		text-align: center;
 		padding-top: 8px;
 		line-height: 30px;
-		float: left;
 		margin-right: 4%;
 		border-radius: 20px;
 		transition: all 0.3s ease 0s;
@@ -234,7 +240,10 @@
 		font-size: 20px;
 		color: #acadae;
 	}
-	
+	.foot-h-l div i:hover {
+		
+		color: #ee3231;
+	}
 	.foot-h-r {
 		width: 25%;
 		float: right;

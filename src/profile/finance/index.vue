@@ -14,26 +14,17 @@
 			return {
 				path: '',
 				tabs: [{
-					name: '站点',
-					url: "/home/site"
-				}, {
-					name: '模板',
-					url: "/home/template"
-				}, {
-					name: '授权',
-					url: "/home/template"
-				}, {
-					name: '空间',
-					url: "/home/template"
-				}, {
-					name: '域名',
-					url: "/home/template"
-				}, {
-					name: '无忧',
-					url: "/home/template"
-				}, {
-					name: '服务',
-					url: "/home/template"
+					name: '账户设置',
+					url: "/finance/info"
+				},{
+					name: '消费记录',
+					url: "/finance/record"
+				},{
+					name: '充值',
+					url: "/finance/dorecharge"
+				},{
+					name: '未完成订单',
+					url: "/finance/dounorder"
 				}]
 			};
 		},

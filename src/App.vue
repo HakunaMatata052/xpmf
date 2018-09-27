@@ -51,7 +51,7 @@
 		color: #333;
 		margin: 0;
 		line-height: 1.5;
-		height: 100%;		
+		height: 100%;
 		background: #fff9f1;
 	}
 	
@@ -158,7 +158,18 @@
 		font-weight: normal;
 		font-style: normal;
 	}
+	
 	.clearfix {
 		clear: both;
+	}
+	
+	.el-card {
+		border: 0;
+		-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+		box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+	}
+	
+	.el-card__header span {
+		font-size: 16px;
 	}
 </style>

@@ -9,7 +9,7 @@
 				</div>
 				<div class="btn-group">
 					<el-button size="small" type="primary" @click="jump_href('http://'+item.domain,'_blank')">访问网站</el-button>
-					<el-button size="small" type="primary" @click="bindDomainFn(item.siteId)">绑定域名</el-button>
+					<el-button size="small" type="success" @click="bindDomainFn(item.siteId)">绑定域名</el-button>
 				</div>
 			</div>
 			<div class="site-list-right">
@@ -157,7 +157,7 @@
 	.site-list {
 		display: flex;
 		justify-content: space-between;
-		padding: 10px 0;
+		padding: 30px 0;
 		border-bottom: 1px solid #eee;
 	}
 	

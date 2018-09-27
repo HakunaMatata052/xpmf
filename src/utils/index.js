@@ -17,7 +17,7 @@ exports.install = function(Vue, options) {
 			//console.info(error)
 		})
 	};
-	Vue.prototype.del_json = function(url, data, fn) {
+	Vue.prototype.del_json = function(url, fn) {
 		this.$http.delete(url, fn).then(res => {
 			fn(res.data);
 		}, error => {

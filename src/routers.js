@@ -18,22 +18,37 @@ const router = new VueRouter({
 		path: '/',
 		component: Index,
 		redirect: '/home',
+		meta: {
+			title: '首页'
+		},
 		children: [{ //前台路由配置
 			path: '/home',
 			component: Home,
 			redirect: '/home/site',
+			meta: {
+				title: '站点'
+			},
 			children: [{
 				path: 'site',
 				component: Site,
 				//redirect: 'site',
+				meta: {
+					title: '站点'
+				},
 			}, {
 				path: 'template',
 				component: Template,
 				//redirect: 'template',
+				meta: {
+					title: '模板'
+				},
 			}]
 		}, {
 			path: '/favaorite',
-			component: Favaorite
+			component: Favaorite,
+			meta: {
+				title: '模板收藏夹'
+			},
 		}]
 	}, {
 		path: '/login',
@@ -42,7 +57,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	console.log(`路由到：${to.path}`)
+	if(to.meta.title) {
+		document.title = to.meta.title+'-个人中心'
+	}
 	next();
 });
 

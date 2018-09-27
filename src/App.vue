@@ -1,5 +1,5 @@
 <template>
-		<router-view></router-view>
+	<router-view></router-view>
 </template>
 <script>
 	export default {
@@ -9,8 +9,8 @@
 
 			}
 		},
-		mounted: function(){
-			
+		mounted: function() {
+
 		},
 		created() {
 			console.log('app初始化')
@@ -18,9 +18,147 @@
 	}
 </script>
 <style>
-body,html{
-	height: 100%;
-	padding: 0;
-	margin: 0;
-}
+	::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+		background-color: #F5F5F5;
+	}
+	
+	::-webkit-scrollbar-track {
+		border-radius: 10px;
+		background-color: #E2E2E2;
+	}
+	
+	::-webkit-scrollbar-thumb {
+		border-radius: 10px;
+		-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+		background-color: #555;
+	}
+	
+	* {
+		box-sizing: border-box;
+		padding: 0;
+		margin: 0;
+		font-family: 'Microsoft YaHei', arial, helvetica, clean, sans-serif;
+	}
+	
+	html {
+		height: 100%;
+	}
+	
+	body {
+		font: 14px/1.231 'Microsoft YaHei', arial, helvetica, clean, sans-serif;
+		color: #333;
+		margin: 0;
+		line-height: 1.5;
+		height: 100%;		
+		background: #fff9f1;
+	}
+	
+	:focus {
+		outline: 1;
+	}
+	
+	article,
+	aside,
+	canvas,
+	details,
+	figcaption,
+	figure,
+	footer,
+	header,
+	hgroup,
+	menu,
+	nav,
+	section,
+	summary {
+		display: block;
+	}
+	
+	a {
+		color: #333;
+		text-decoration: none;
+		-webkit-transition: all .3s ease-out;
+		transition: all .3s ease-out;
+	}
+	
+	a:link,
+	a:hover,
+	a:active,
+	a:visited {
+		text-decoration: none;
+	}
+	
+	ins {
+		background-color: #ff9;
+		color: #000;
+		text-decoration: none;
+	}
+	
+	mark {
+		background-color: #ff9;
+		color: #000;
+		font-style: italic;
+		font-weight: bold;
+	}
+	
+	del {
+		text-decoration: line-through;
+	}
+	
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+	}
+	
+	hr {
+		display: block;
+		height: 1px;
+		border: 0;
+		border-top: 1px solid #cccccc;
+		margin: 1em 0;
+		padding: 0;
+	}
+	
+	input,
+	select {
+		vertical-align: middle;
+	}
+	
+	li,
+	ul {
+		list-style-type: none;
+	}
+	
+	img {
+		border: none;
+	}
+	
+	input,
+	textarea {
+		outline: 0;
+		border: 0;
+	}
+	
+	textarea {
+		resize: none;
+	}
+	
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	dl,
+	dd,
+	dt,
+	i,
+	em {
+		font-weight: normal;
+		font-style: normal;
+	}
+	.clearfix {
+		clear: both;
+	}
 </style>

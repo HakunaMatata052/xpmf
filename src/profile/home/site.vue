@@ -17,7 +17,7 @@
 					<el-button size="small">工单</el-button>
 					<el-button size="small" @click="ftpFn(item.siteId)">FTP</el-button>
 
-					<el-button size="small" type="danger" @click="del(item.siteId)">删除</el-button>
+					<el-button size="small" type="danger" @click="delSiteFn(item.siteId)">删除</el-button>
 				</div>
 			</div>
 		</div>
@@ -45,13 +45,13 @@
 			<el-table :data="domainlist" stripe style="width: 100%">
 				<el-table-column prop="id" label="ID" width="50">
 				</el-table-column>
-				
+
 				<el-table-column prop="domain" label="域名">
 				</el-table-column>
-				
+
 				<el-table-column prop="creatime" label="绑定时间">
 				</el-table-column>
-				
+
 				<el-table-column label="操作" width="50">
 					<template slot-scope="scope">
 						<el-button type="danger" icon="el-icon-delete" circle></el-button>
@@ -63,17 +63,8 @@
 
 		<el-dialog title="FTP信息" :visible.sync="dialogFtp">
 			<el-form label-position="left" inline class="table-expand">
-				<el-form-item label="商品名称">
-					<span>阿斯达四大</span>
-				</el-form-item>
-				<el-form-item label="所属店铺">
-					<span>阿斯达四大</span>
-				</el-form-item>
-				<el-form-item label="商品 ID">
-					<span>阿是大师大师的</span>
-				</el-form-item>
-				<el-form-item label="店铺 ID">
-					<span>阿萨德撒的</span>
+				<el-form-item :label="key" v-for="(value, key)  in ftplist">
+					<span>{{value}}</span>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -88,28 +79,28 @@
 		data() {
 			return {
 				sitelist: [],
-				domainlist:[],
+				domainlist: [],
 				ftplist: {},
 				dialogBindDomain: false,
 				dialogFtp: false,
 				bindDomainForm: {
-					id:'',
+					id: '',
 					domain: ''
 				},
 				bindDomainList: [],
-				page:0,
-				size:0,
-				total:0,
+				page: 0,
+				size: 0,
+				total: 0,
 			}
 		},
 		methods: {
 			asd() {
 				localStorage.token = '';
-	
+
 			},
 			getList(val) {
 				var that = this;
-				that.get_json(that.$store.state.api + 'usersite/page/'+val, function(data) {
+				that.get_json(that.$store.state.api + 'usersite/page/' + val, function(data) {
 					that.sitelist = data.data;
 					that.page = data.page;
 					that.size = data.size;
@@ -119,34 +110,38 @@
 			},
 			ftpFn(id) {
 				var that = this;
-				that.get_json(that.$store.state.api+'usersite/'+id+'/ftp', function(data) {
-					
+				that.get_json(that.$store.state.api + 'usersite/' + id + '/ftp', function(data) {
+					that.ftplist = data;
 					that.dialogFtp = true;
 				})
 			},
 			bindDomainFn(id) {
 				var that = this;
-				that.get_json(that.$store.state.api+'usersite/'+id+'/domains', function(data) {
+				that.get_json(that.$store.state.api + 'usersite/' + id + '/domains', function(data) {
 					that.domainlist = data;
 					that.bindDomainForm.id = id;
 					that.dialogBindDomain = true;
 				})
 			},
-			bind(){				
+			bind() {
 				var that = this;
-				that.post_json(that.$store.state.api+'usersite/bind',that.bindDomainForm ,function(data) {
+				that.post_json(that.$store.state.api + 'usersite/bind', that.bindDomainForm, function(data) {
 					that.$message({
-						type:'success',
-						message:'绑定成功'
+						type: 'success',
+						message: '绑定成功！'
 					});
 					that.bindDomainFn(that.bindDomainForm.id)
-					
+
 				})
 			},
-			del() {
+			delSiteFn(id) {
 				var that = this;
-				that.get_json(that.$store.state.api, function(data) {
-					that.sitelist = data.data;
+				that.del_json(that.$store.state.api + 'usersite/' + id , function(data) {
+					that.$message({
+						type: 'success',
+						message: '删除成功！'
+					});
+					that.getList(that.page)
 				})
 			},
 			pageFn(val) {
@@ -186,5 +181,20 @@
 	
 	.site-list-right .btn-group {
 		margin-top: 36px;
+	}
+	
+	.table-expand {
+		font-size: 0;
+	}
+	
+	.table-expand label {
+		width: 90px;
+		color: #99a9bf;
+	}
+	
+	.table-expand .el-form-item {
+		margin-right: 0;
+		margin-bottom: 0;
+		width: 50%;
 	}
 </style>

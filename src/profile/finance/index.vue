@@ -14,9 +14,6 @@
 			return {
 				path: '',
 				tabs: [{
-					name: '账户设置',
-					url: "/finance/info"
-				},{
 					name: '消费记录',
 					url: "/finance/record"
 				},{
@@ -25,12 +22,18 @@
 				},{
 					name: '未完成订单',
 					url: "/finance/dounorder"
+				},{
+					name: '申请发票',
+					url: "/finance/doinvoice_apply"
+				},{
+					name: '开票记录',
+					url: "/finance/invoice_record"
 				}]
+				
 			};
 		},
 		methods: {
 			handleClick(tab, event) {
-				//console.log(tab, event);
 				this.jump(tab.name);
 			},
 			jump(url) {
@@ -39,7 +42,7 @@
 				})
 			}
 		},
-		mounted() {
+		created() {
 			this.path = this.$route.path
 		}
 	};

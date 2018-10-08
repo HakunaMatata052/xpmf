@@ -8,9 +8,14 @@ export default new vuex.Store({
 			403:'密码错误！',
 			401:'没有权限操作！'
 		},
+		login:{
+			token:'',
+			role:'',
+			expires:''
+		},
+		refresh_token:'http://192.168.0.122:9001/api/token/refresh',   //刷新token
 		api:'http://192.168.0.122:9001/api/',
 		site:'http://192.168.0.101:9001/api/',
-		token:"57373A7E05CB44079B2F12C14A5E83A9",
 		domain: "阿斯达",
 		notice: true,
 	},

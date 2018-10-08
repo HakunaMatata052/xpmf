@@ -34,9 +34,14 @@
 		methods: {
 			loginFn() {
 				var that = this;
-				that.post_json(that.$store.state.api + 'token', that.login, function(data) {
-					localStorage.token = data.token
-					console.log(localStorage.token)
+				that.post_json(that.$store.state.api + 'login', that.login, function(data) {
+					localStorage.setItem('token', data.token);
+					localStorage.setItem('role', data.role);
+					localStorage.setItem('expires', data.expires);
+					that.$message({
+						type: 'success',
+						message: '登陆成功！'
+					});
 					that.$router.push({
 						path: '/'
 					})
@@ -45,7 +50,14 @@
 		},
 		created() {
 			var that = this;
-			console.log(localStorage.token)
+			that.get_json(that.$store.state.api + 'token/valid', function(data) {
+				localStorage.setItem('token', data.token);
+				localStorage.setItem('role', data.role);
+				localStorage.setItem('expires', data.expires);
+				that.$router.push({
+					path: '/'
+				})
+			})
 		},
 		mounted() {
 			(function() {
@@ -297,12 +309,14 @@
 	#login * {
 		box-sizing: border-box;
 	}
+	
 	#login {
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		height: 100%;
 	}
+	
 	.login-box {
 		width: 440px;
 		padding: 40px;

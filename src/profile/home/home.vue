@@ -24,16 +24,16 @@
 					url: "/home/template"
 				}, {
 					name: '空间',
-					url: "/home/template"
+					url: "/home/host"
 				}, {
 					name: '域名',
-					url: "/home/template"
+					url: "/home/domain"
 				}, {
 					name: '无忧',
-					url: "/home/template"
+					url: "/home/wuyou"
 				}, {
 					name: '服务',
-					url: "/home/template"
+					url: "/home/service"
 				}]
 			};
 		},

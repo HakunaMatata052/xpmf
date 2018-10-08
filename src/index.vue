@@ -10,35 +10,39 @@
 				<a href="">导航</a>
 				<a href="">导航</a>
 			</div>
-			<a href="" class="logout"><i class="iconfont icon-tuichu"></i>退出</a>
+			<a href="" class="logout" @click="logout"><i class="iconfont icon-tuichu"></i>退出</a>
 		</el-header>
 		<el-container class="container">
 			<!--<el-header>Header</el-header>-->
 			<el-aside width="240px">
 				<el-menu router default-active="1" text-color="#333" active-text-color="#ee3231" class="sideleft">
+					<el-menu-item index="/info">
+						<i class="iconfont icon-z-user"></i>
+						<span slot="title">个人设置</span>
+					</el-menu-item>
 					<el-menu-item index="/home">
-						<i class="el-icon-menu"></i>
+						<i class="iconfont icon-chanpin"></i>
 						<span slot="title">我的产品</span>
 					</el-menu-item>
 					<el-menu-item index="/favaorite">
-						<i class="el-icon-star-off"></i>
+						<i class="iconfont icon-shoucang"></i>
 						<span slot="title">模板收藏夹</span>
 					</el-menu-item>
 					<el-menu-item index="/process">
-						<i class="el-icon-service"></i>
+						<i class="iconfont icon-kefu"></i>
 						<span slot="title">客服工单</span>
 					</el-menu-item>
 					<el-menu-item index="/caseapply">
-						<i class="el-icon-goods"></i>
+						<i class="iconfont icon-gongwenbao"></i>
 						<span slot="title">案例申请</span>
 					</el-menu-item>
 					<el-menu-item index="/finance">
-						<i class="el-icon-printer"></i>
+						<i class="iconfont icon-caiwujiesuan"></i>
 						<span slot="title">财务中心</span>
 					</el-menu-item>
 					
 					<el-menu-item index="/finance/dounorder">
-						<i class="el-icon-printer"></i>
+						<i class="iconfont icon-dingdan"></i>
 						<span slot="title">未完成订单</span>
 					</el-menu-item>
 					
@@ -52,7 +56,6 @@
 			</el-container>
 		</el-container>
 		<el-footer class="footer">
-
 			<div class="footer">
 				<div class="foot-header">
 					<div class="center clearfix">
@@ -173,6 +176,10 @@
 	.sideleft .el-menu-item:focus,
 	.sideleft .el-menu-item:hover {
 		background: #fff9f1;
+	}
+	.sideleft .iconfont {
+		margin-right: 10px;
+		font-size: 20px;
 	}
 	
 	.el-main {

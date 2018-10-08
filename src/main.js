@@ -13,11 +13,13 @@ Vue.use(base);
 Vue.use(ElementUI);
 Vue.use(VueRouter)
 Vue.use(vueResource);
-Vue.config.debug = false;
+//Vue.config.debug = false;
 //Vue.http.options.emulateJSON = true;
-Vue.http.options.headers = {
-'Authorization':'Bearer '+ localStorage.token
-};
+
+//Vue.http.options.headers = {
+//'Authorization':'Bearer '+ store.state.token
+//};
+
 const vue = new Vue({
   router,
   store,

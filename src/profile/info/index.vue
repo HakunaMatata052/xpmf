@@ -6,7 +6,7 @@
 			</div>
 			<div class="item">
 				<div class="item-left">
-					<el-upload class="avatar-uploader" action="https://jsonplaceholder.typicode.com/posts/" :show-file-list="false" :on-success="handleAvatarSuccess">
+					<el-upload class="avatar-uploader" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
 						<img v-if="imageUrl" :src="imageUrl" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 					</el-upload>
@@ -41,31 +41,13 @@
 					<el-input v-model="userinfo.cellphone"></el-input>
 				</div>
 			</div>
-			
-			<div class="item">
-				<div class="item-left">
-					<h4>修改密码</h4>
-				</div>
-				<div class="item-right">
-					<el-input v-model="userinfo.oldpassword"></el-input>
-				</div>
-			</div>
-			
-			<div class="item">
-				<div class="item-left">
-					<h4>修改密码</h4>
-				</div>
-				<div class="item-right">
-					<el-input v-model="userinfo.password"></el-input>
-				</div>
-			</div>
 
 			<div class="item">
 				<div class="item-left">
-					<h4>确认密码</h4>
+					<h4>密码</h4>
 				</div>
 				<div class="item-right">
-					<el-input v-model="userinfo.password"></el-input>
+					<el-button type="primary" @click="dialogFormVisible = true">修改密码</el-button>
 				</div>
 			</div>
 			<hr />
@@ -99,7 +81,7 @@
 					<h4>选择城市</h4>
 				</div>
 				<div class="item-right" style="width: 40%;">
-					<el-cascader placeholder="试试搜索：西安" size="large" :options="options" v-model="selectedOptions" filterable change-on-select @change='cityFn'  style="width: 100%;"></el-cascader>
+					<el-cascader placeholder="试试搜索：西安" size="large" :options="options" v-model="selectedOptions" filterable change-on-select @change='cityFn' style="width: 100%;"></el-cascader>
 				</div>
 			</div>
 			<div class="item">
@@ -110,15 +92,31 @@
 					<el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10}" placeholder="请输入内容" v-model="company.address">
 					</el-input>
 				</div>
-			</div>			
+			</div>
 			<div class="item">
 				<div class="item-left">
 					<el-button type="primary" @click="submit">提交</el-button>
 				</div>
 			</div>
-			 
-		</el-card>
 
+		</el-card>
+		<el-dialog title="修改密码" :visible.sync="dialogFormVisible" width="500px">
+			<el-form :model="form" :rules="rules" ref="form" status-icon>
+				<el-form-item label="旧密码" label-width="80px" prop="Old">
+					<el-input v-model="form.Old" type="password" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="新密码" label-width="80px" prop="New">
+					<el-input v-model="form.New" type="password" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="确认密码" label-width="80px" prop="Confirm">
+					<el-input v-model="form.Confirm" type="password" autocomplete="off"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="dialogFormVisible = false">取 消</el-button>
+				<el-button type="primary" @click="changePassword('form')">确 定</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -126,16 +124,67 @@
 	import { regionData, CodeToText, TextToCode } from 'element-china-area-data'
 	export default {
 		data() {
+			var validatePass = (rule, value, callback) => {
+				if(value === '') {
+					callback(new Error('请再次输入密码'));
+				} else if(value !== this.form.New) {
+					callback(new Error('两次输入密码不一致!'));
+				} else {
+					callback();
+				}
+			};
 			return {
 				imageUrl: '',
 				userinfo: {},
-				company:{},
+				company: {},
 				options: regionData,
-				selectedOptions: []
+				selectedOptions: [],
+				headers: {},
+				dialogFormVisible: false,
+				form: {
+					Old: '',
+					New: '',
+					Confirm: ''
+				},
+				rules: {
+					Old: [{
+							required: true,
+							message: '请输入旧密码',
+							trigger: 'blur'
+						},
+						{
+							min: 4,
+							max: 16,
+							message: '长度在 3 到 5 个字符',
+							trigger: 'blur'
+						}
+					],
+					New: [{
+							required: true,
+							message: '请输入新密码',
+							trigger: 'blur'
+						},
+						{
+							min: 4,
+							max: 16,
+							message: '长度在 3 到 5 个字符',
+							trigger: 'blur'
+						}
+					],
+					Confirm: [{
+							required: true,
+							message: '请输入新密码',
+							trigger: 'blur'
+						},{
+						validator: validatePass,
+						trigger: 'blur'
+					}]
+				}
 			};
 		},
 		created() {
 			this.getinfo();
+			this.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
 		},
 		methods: {
 			handleAvatarSuccess(res, file) {
@@ -148,17 +197,35 @@
 					that.company = data.company;
 				})
 			},
-			cityFn(val){
-				var that =this;
+			cityFn(val) {
+				var that = this;
 				var province = CodeToText[val[0]];
 				var city = CodeToText[val[1]];
 				that.company.province = province;
 				that.company.city = city;
 			},
-			submit(){
+			changePassword(formName) {
+				var that = this;
+				this.$refs[formName].validate((valid) => {
+					if(valid) {
+						that.dialogFormVisible = false;
+						that.post_json(that.$store.state.api + 'user/changepassword', that.form, function(data) {
+							//console.log(that.userinfo)
+						})
+					} else {
+						that.$message({
+							type: 'error',
+							message: '密码输入有误！'
+						});
+						return false;
+					}
+				});
+
+			},
+			submit() {
 				var that = this;
 				console.log(that.userinfo)
-				that.post_json(that.$store.state.api + 'user/mine',that.userinfo, function(data) {
+				that.put_json(that.$store.state.api + 'user', that.userinfo, function(data) {
 					//console.log(that.userinfo)
 				})
 			}

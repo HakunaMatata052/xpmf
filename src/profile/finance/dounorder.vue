@@ -1,7 +1,7 @@
 <template>
 	<div id="record">
 
-		<el-table :data="dounorderlist" stripe style="width: 100%">
+		<el-table :data="list" stripe style="width: 100%">
 			<el-table-column prop="goodsName" label="商品明细" width="200">
 			</el-table-column>
 			<el-table-column prop="price" label="价格" width="100">
@@ -27,27 +27,27 @@
 	export default {
 		data() {
 			return {
-				dounorderlist: [],
+				list: [],
 				page: 0,
 				size: 0,
 				total: 0
 			};
 		},
 		created() {
-			this.getdounorderList(1);
+			this.getList(1);
 		},
 		methods: {
-			getdounorderList(val) {
+			getList(val) {
 				var that = this;
 				that.get_json(that.$store.state.api + '/order/uncomplated/page/' + val, function(data) {
-					that.dounorderlist = data.data;
+					that.list = data.data;
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
 				})
 			},
 			pageFn(val) {
-				this.getdounorderList(val)
+				this.getList(val)
 			}
 		}
 	}

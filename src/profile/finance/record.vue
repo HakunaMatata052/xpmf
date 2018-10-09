@@ -1,7 +1,7 @@
 <template>
 	<div id="record">
 
-			<el-table :data="recordlist" stripe style="width: 100%">
+			<el-table :data="list" stripe style="width: 100%">
 				<el-table-column prop="typeString" label="类型" width="80">
 				</el-table-column>
 				<el-table-column prop="amount" label="金额" width="200">
@@ -28,27 +28,27 @@
 	export default {
 		data() {
 			return {
-				recordlist: [],
+				list: [],
 				page: 0,
 				size: 0,
 				total: 0
 			};
 		},
 		created() {
-			this.getrecordList(1);
+			this.getList(1);
 		},
 		methods: {
-			getrecordList(val) {
+			getList(val) {
 				var that = this;
 				that.get_json(that.$store.state.api + '/userconsumption/page/' + val, function(data) {
-					that.recordlist = data.data;
+					that.list = data.data;
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
 				})
 			},
 			pageFn(val) {
-				this.getrecordList(val)
+				this.getList(val)
 			}
 		}
 	}

@@ -48,8 +48,11 @@
 				})
 			}
 		},
-		mounted() {
-			this.path = this.$route.path
+		mounted() {			
+			this.path = this.$route.path;
+			this.$router.afterEach(route => {
+				this.path = this.$route.path;
+			})
 		}
 	};
 </script>

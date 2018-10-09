@@ -2,7 +2,7 @@
 	<div id="record">
 		<el-alert title="购买或充值 60 天内的金额可以在此页面申请开票，如单次开票金额未满 800 元，需要支付 25 元的快递费。" type="warning">
 		</el-alert>
-		<el-table :data="doinvoicelist" stripe @selection-change="handleSelectionChange" style="width: 100%">
+		<el-table :data="list" stripe @selection-change="handleSelectionChange" style="width: 100%">
 			<el-table-column type="selection" width="55">
 			</el-table-column>
 			<el-table-column prop="typeString" label="类型" width="80">
@@ -33,7 +33,7 @@
 	export default {
 		data() {
 			return {
-				doinvoicelist: [],
+				list: [],
 				page: 0,
 				size: 0,
 				total: 0,
@@ -41,20 +41,20 @@
 			};
 		},
 		created() {
-			this.getdoinvoiceList(1);
+			this.getList(1);
 		},
 		methods: {
-			getdoinvoiceList(val) {
+			getList(val) {
 				var that = this;
 				that.get_json(that.$store.state.api + 'invoice/apply/page/' + val, function(data) {
-					that.doinvoicelist = data.data;
+					that.list = data.data;
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
 				})
 			},
 			pageFn(val) {
-				this.getdoinvoiceList(val)
+				this.getList(val)
 			},
 			handleSelectionChange(val) {
 				this.applyId = [];
@@ -70,7 +70,7 @@
 						type: 'success',
 						message: '提交成功！'
 					});
-					that.getdoinvoiceList(0)
+					that.getList(0)
 				})
 			},
 			submit() {
@@ -80,7 +80,7 @@
 						type: 'success',
 						message: '提交成功！'
 					});
-					that.getdoinvoiceList(0)
+					that.getList(0)
 				})
 			}
 		}

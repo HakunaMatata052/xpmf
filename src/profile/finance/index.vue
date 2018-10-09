@@ -16,20 +16,20 @@
 				tabs: [{
 					name: '消费记录',
 					url: "/finance/record"
-				},{
+				}, {
 					name: '充值',
 					url: "/finance/dorecharge"
-				},{
+				}, {
 					name: '未完成订单',
 					url: "/finance/dounorder"
-				},{
+				}, {
 					name: '申请发票',
 					url: "/finance/doinvoice_apply"
-				},{
+				}, {
 					name: '开票记录',
 					url: "/finance/invoice_record"
 				}]
-				
+
 			};
 		},
 		methods: {
@@ -43,7 +43,10 @@
 			}
 		},
 		created() {
-			this.path = this.$route.path
+			this.path = this.$route.path;
+			this.$router.afterEach(route => {
+				this.path = this.$route.path;
+			})
 		}
 	};
 </script>
@@ -77,6 +80,7 @@
 	.tabs .el-tabs__header {
 		margin-bottom: 0;
 	}
+	
 	.tabs .tab-content {
 		padding: 20px;
 	}

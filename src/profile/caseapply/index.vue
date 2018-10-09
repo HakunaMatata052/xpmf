@@ -11,7 +11,7 @@
 					<br> 2、新派魔方的用户遍及全国各地（甚至全球），且以中小企业为主，这其中一定包含着您的潜在客户！
 				</p>
 			</div>
-			<el-table :data="caselist" stripe style="width: 100%">
+			<el-table :data="list" stripe style="width: 100%">
 				<el-table-column prop="siteId" label="ID" width="80">
 				</el-table-column>
 				<el-table-column prop="domain" label="网站域名" width="200">
@@ -42,20 +42,20 @@
 	export default {
 		data() {
 			return {
-				caselist: [],
-				page: 0,
+				list: [],
+				page: 1,
 				size: 0,
 				total: 0
 			};
 		},
 		created() {
-			this.getCaseList(1);
+			this.getList(1);
 		},
 		methods: {
-			getCaseList(val) {
+			getList(val) {
 				var that = this;
-				that.get_json(that.$store.state.api + '/caseapply/page/' + val, function(data) {
-					that.caselist = data.data;
+				that.get_json(that.$store.state.api + '/case/page/' + val, function(data) {
+					that.list = data.data;
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
@@ -63,16 +63,16 @@
 			},
 			putCase(val) {
 				var that = this;
-				that.put_json(that.$store.state.api + 'caseapply/' + val + '/showcase', function(data) {
+				that.put_json(that.$store.state.api + 'case/' + val + '/showcase',{},function(data) {
 					that.$message({
 						type: 'success',
 						message: '提交成功！'
 					});
-					that.getCaseList(page);
+					that.getList(this.page);
 				})
 			},
 			pageFn(val) {
-				this.getCaseList(val)
+				this.getList(val)
 			}
 		}
 	}

@@ -108,10 +108,10 @@ exports.install = function(Vue, options) {
 			})
 		}
 	};
-	Vue.prototype.put_json = function(url, fn) {
+	Vue.prototype.put_json = function(url,data,fn) {
 		var that = this;
 		if(that.timex() > 0) {
-			that.$http.put(url, {},{
+			that.$http.put(url, data,{
 				headers: {
 					'Authorization': 'Bearer ' + localStorage.getItem('token')
 				}
@@ -124,7 +124,7 @@ exports.install = function(Vue, options) {
 			})
 		} else if(that.timex() <= 0) {
 			that.refresh_token(function() {
-				that.$http.put(url, {},{
+				that.$http.put(url,data,{
 					headers: {
 						'Authorization': 'Bearer ' + localStorage.getItem('token')
 					}

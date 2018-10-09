@@ -34,10 +34,14 @@
 		methods: {
 			loginFn() {
 				var that = this;
-				that.post_json(that.$store.state.api + 'login', that.login, function(data) {
-					localStorage.setItem('token', data.token);
-					localStorage.setItem('role', data.role);
-					localStorage.setItem('expires', data.expires);
+				that.$http.post(that.$store.state.api + 'login', that.login, {
+					headers: {
+						'Authorization': 'Bearer ' + localStorage.getItem('token')
+					}
+				}).then(res => {
+					localStorage.setItem('token', res.data.token);
+					localStorage.setItem('role', res.data.role);
+					localStorage.setItem('expires', res.data.expires);
 					that.$message({
 						type: 'success',
 						message: '登陆成功！'
@@ -45,19 +49,41 @@
 					that.$router.push({
 						path: '/'
 					})
+				}, error => {
+					that.ajax_error(error.status)
 				})
+
 			}
 		},
 		created() {
 			var that = this;
-			that.get_json(that.$store.state.api + 'token/valid', function(data) {
-				localStorage.setItem('token', data.token);
-				localStorage.setItem('role', data.role);
-				localStorage.setItem('expires', data.expires);
-				that.$router.push({
-					path: '/'
+			if(that.timex() > 0) {
+				that.$http.get(that.$store.state.api + 'token/valid', {
+					headers: {
+						'Authorization': 'Bearer ' + localStorage.getItem('token')
+					}
+				}).then(res => {
+					that.$router.push({
+						path: '/'
+					})
+				}, error => {
+					//that.ajax_error(error.status)
 				})
-			})
+			} else if(that.timex() <= 0) {
+				that.refresh_token(function() {
+					that.$http.get(that.$store.state.api + 'token/valid', {
+						headers: {
+							'Authorization': 'Bearer ' + localStorage.getItem('token')
+						}
+					}).then(res => {
+						that.$router.push({
+							path: '/'
+						})
+					}, error => {
+						//that.ajax_error(error.status)
+					})
+				})
+			}
 		},
 		mounted() {
 			(function() {

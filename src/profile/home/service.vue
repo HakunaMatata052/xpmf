@@ -9,7 +9,8 @@
 					<span class="remainDays">剩余{{scope.row.remainDays}}天</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="操作"  width="200">
+			<el-table-column label="操作" width="200">
+
 			</el-table-column>
 		</el-table>
 		<br />
@@ -17,6 +18,7 @@
 		</el-pagination>
 		<br />
 		<el-button type="primary">去购买</el-button>
+
 	</div>
 </template>
 
@@ -36,7 +38,7 @@
 		methods: {
 			getList(val) {
 				var that = this;
-				that.get_json(that.$store.state.api + 'userdomain/page/' + val, function(data) {
+				that.get_json(that.$store.state.api + 'userservice/page/' + val, function(data) {
 					that.list = data.data;
 					that.page = data.page;
 					that.size = data.size;

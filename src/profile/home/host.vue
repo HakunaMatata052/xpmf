@@ -15,6 +15,9 @@
 			</el-table-column>
 
 			<el-table-column label="操作" width="200">
+				<template slot-scope="scope">
+						<el-button size="mini"  @click="ftpFn(scope.row.siteId)" type="success">查看FTP</el-button>
+				</template>
 			</el-table-column>
 		</el-table>
 		<br />
@@ -22,6 +25,17 @@
 		</el-pagination>
 		<br />
 		<el-button type="primary">去购买</el-button>
+				<el-dialog title="FTP信息" :visible.sync="dialogFtp">
+			<el-form label-position="left" inline class="table-expand">
+				<el-form-item :label="key" v-for="(value, key)  in ftplist">
+					<span>{{value}}</span>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="dialogFtp = false">取 消</el-button>
+				<el-button type="primary" @click="dialogFtp = false">确 定</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -32,7 +46,9 @@
 				domainList: [],
 				page: 0,
 				size: 0,
-				total: 0
+				total: 0,
+				ftplist:{},
+				dialogFtp: false
 			};
 		},
 		created() {
@@ -50,6 +66,13 @@
 			},
 			pageFn(val) {
 				this.getList(val)
+			},
+			ftpFn(id) {
+				var that = this;
+				that.get_json(that.$store.state.api + 'usersite/' + id + '/ftp', function(data) {
+					that.ftplist = data;
+					that.dialogFtp = true;
+				})
 			}
 		}
 	}

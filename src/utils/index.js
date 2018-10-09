@@ -111,7 +111,7 @@ exports.install = function(Vue, options) {
 	Vue.prototype.put_json = function(url, fn) {
 		var that = this;
 		if(that.timex() > 0) {
-			that.$http.put(url, {
+			that.$http.put(url, {},{
 				headers: {
 					'Authorization': 'Bearer ' + localStorage.getItem('token')
 				}
@@ -124,8 +124,7 @@ exports.install = function(Vue, options) {
 			})
 		} else if(that.timex() <= 0) {
 			that.refresh_token(function() {
-
-				that.$http.put(url, {
+				that.$http.put(url, {},{
 					headers: {
 						'Authorization': 'Bearer ' + localStorage.getItem('token')
 					}
@@ -156,12 +155,15 @@ exports.install = function(Vue, options) {
 	};
 	//Ajax请求错误执行的函数
 	Vue.prototype.ajax_error = function(status) {
-		if(status == 401) {
+		if(status == 401 || status == 403) {
 			this.$router.push({
 				path: '/login'
 			})
 		} else {
 			this.$message(this.$store.state.status[status]);
+			this.$router.push({
+				path: '/login'
+			})
 			//console.info(error)
 		}
 	};

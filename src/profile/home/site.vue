@@ -16,7 +16,6 @@
 				<div class="btn-group">
 					<el-button size="small">工单</el-button>
 					<el-button size="small" @click="ftpFn(item.siteId)">FTP</el-button>
-
 					<el-button size="small" type="danger" @click="delSiteFn(item.siteId)">删除</el-button>
 				</div>
 			</div>

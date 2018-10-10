@@ -7,7 +7,7 @@
 			<div class="item">
 				<div class="item-left">
 					<el-upload class="avatar-uploader" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
-						<img v-if="imageUrl" :src="imageUrl" class="avatar">
+						<img v-if="avatar" :src="avatar" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 					</el-upload>
 				</div>
@@ -121,7 +121,7 @@
 </template>
 
 <script>
-	import { regionData, CodeToText, TextToCode } from 'element-china-area-data'
+	import { provinceAndCityData,CodeToText,TextToCode   } from 'element-china-area-data'
 	export default {
 		data() {
 			var validatePass = (rule, value, callback) => {
@@ -134,10 +134,10 @@
 				}
 			};
 			return {
-				imageUrl: '',
+				avatar: '',
 				userinfo: {},
 				company: {},
-				options: regionData,
+				options: provinceAndCityData,
 				selectedOptions: [],
 				headers: {},
 				dialogFormVisible: false,
@@ -172,10 +172,10 @@
 						}
 					],
 					Confirm: [{
-							required: true,
-							message: '请输入新密码',
-							trigger: 'blur'
-						},{
+						required: true,
+						message: '请输入新密码',
+						trigger: 'blur'
+					}, {
 						validator: validatePass,
 						trigger: 'blur'
 					}]
@@ -188,13 +188,18 @@
 		},
 		methods: {
 			handleAvatarSuccess(res, file) {
-				this.imageUrl = URL.createObjectURL(file.raw);
+				this.avatar = URL.createObjectURL(file.raw);
 			},
 			getinfo() {
 				var that = this;
 				that.get_json(that.$store.state.api + 'user/mine', function(data) {
 					that.userinfo = data;
 					that.company = data.company;
+					var city = [];
+					city[0] = TextToCode[data.company.province].code;
+					city[1] = TextToCode[data.company.province][data.company.city].code;
+					that.selectedOptions = city;
+					console.log(that.selectedOptions)
 				})
 			},
 			cityFn(val) {
@@ -210,6 +215,10 @@
 					if(valid) {
 						that.dialogFormVisible = false;
 						that.post_json(that.$store.state.api + 'user/changepassword', that.form, function(data) {
+							that.$message({
+								type: 'success',
+								message: '密码修改成功！'
+							});
 							//console.log(that.userinfo)
 						})
 					} else {
@@ -224,8 +233,11 @@
 			},
 			submit() {
 				var that = this;
-				console.log(that.userinfo)
 				that.put_json(that.$store.state.api + 'user', that.userinfo, function(data) {
+					that.$message({
+						type: 'success',
+						message: '资料修改成功！'
+					});
 					//console.log(that.userinfo)
 				})
 			}

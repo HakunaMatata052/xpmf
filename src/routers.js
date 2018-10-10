@@ -10,20 +10,15 @@ var Host = r => require.ensure([], () => r(require('./profile/home/host.vue')), 
 var Domain = r => require.ensure([], () => r(require('./profile/home/domain.vue')), 'domain');
 var Wuyou = r => require.ensure([], () => r(require('./profile/home/wuyou.vue')), 'wuyou');
 var Service = r => require.ensure([], () => r(require('./profile/home/service.vue')), 'service');
-
-
 var Favaorite = r => require.ensure([], () => r(require('./profile/favaorite/index.vue')), 'favaorite');
-
 var Caseapply = r => require.ensure([], () => r(require('./profile/caseapply/index.vue')), 'caseapply');
-
 var Finance = r => require.ensure([], () => r(require('./profile/finance/index.vue')), 'finance');
 var Record = r => require.ensure([], () => r(require('./profile/finance/record.vue')), 'record');
 var Dounorder = r => require.ensure([], () => r(require('./profile/finance/dounorder.vue')), 'dounorder');
 var Doinvoice_apply = r => require.ensure([], () => r(require('./profile/finance/doinvoice_apply.vue')), 'doinvoice_apply');
 var Invoice_record = r => require.ensure([], () => r(require('./profile/finance/invoice_record.vue')), 'invoice_record');
-
 var Info = r => require.ensure([], () => r(require('./profile/info/index.vue')), 'info');
-
+var Process = r => require.ensure([], () => r(require('./profile/process/index.vue')), 'process');
 var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login');
 
 Vue.use(VueRouter);
@@ -145,6 +140,13 @@ const router = new VueRouter({
 					//redirect: 'site',
 					meta: {
 						title: '账户信息'
+					},
+				},{
+					path: 'process',
+					component: Process,
+					//redirect: 'site',
+					meta: {
+						title: '客服工单'
 					},
 				}]
 		}, {

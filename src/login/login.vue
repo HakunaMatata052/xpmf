@@ -50,7 +50,10 @@
 						path: '/'
 					})
 				}, error => {
-					that.ajax_error(error.status)
+					that.$message({
+						type: 'error',
+						message: '密码错误！'
+					});
 				})
 
 			}

@@ -21,6 +21,10 @@ var Info = r => require.ensure([], () => r(require('./profile/info/index.vue')),
 var Process = r => require.ensure([], () => r(require('./profile/process/index.vue')), 'process');
 var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login');
 
+var admin_template = r => require.ensure([], () => r(require('./admin/template/index.vue')), 'admin_template');
+var template_category = r => require.ensure([], () => r(require('./admin/template_category/index.vue')), 'template_category');
+
+
 Vue.use(VueRouter);
 const router = new VueRouter({
 	mode: 'hash', //hash 打包需要使用hash 无#： history
@@ -98,7 +102,7 @@ const router = new VueRouter({
 				meta: {
 					title: '案例申请'
 				}
-			},{ 
+			}, {
 				path: 'finance',
 				component: Finance,
 				redirect: '/finance/record',
@@ -112,21 +116,21 @@ const router = new VueRouter({
 					meta: {
 						title: '消费记录'
 					},
-				},{
+				}, {
 					path: 'dounorder',
 					component: Dounorder,
 					//redirect: 'site',
 					meta: {
 						title: '未完成订单'
 					},
-				},{
+				}, {
 					path: 'doinvoice_apply',
 					component: Doinvoice_apply,
 					//redirect: 'site',
 					meta: {
 						title: '申请发票'
 					},
-				},{
+				}, {
 					path: 'invoice_record',
 					component: Invoice_record,
 					//redirect: 'site',
@@ -134,21 +138,38 @@ const router = new VueRouter({
 						title: '开票记录'
 					},
 				}]
-			},{
-					path: 'info',
-					component: Info,
-					//redirect: 'site',
-					meta: {
-						title: '账户信息'
-					},
-				},{
-					path: 'process',
-					component: Process,
-					//redirect: 'site',
-					meta: {
-						title: '客服工单'
-					},
-				}]
+			}, {
+				path: 'info',
+				component: Info,
+				//redirect: 'site',
+				meta: {
+					title: '账户信息'
+				},
+			}, {
+				path: 'process',
+				component: Process,
+				//redirect: 'site',
+				meta: {
+					title: '客服工单'
+				},
+			}, {
+				path: '/admin/template',
+				component: admin_template,
+				//redirect: 'site',
+				meta: {
+					title: '模板列表'
+				},
+			}
+			, {
+				path: '/admin/template_category',
+				component: template_category,
+				//redirect: 'site',
+				meta: {
+					title: '模板类别'
+				},
+			}
+			
+			]
 		}, {
 			path: '/login',
 			component: Login

@@ -15,37 +15,48 @@
 		<el-container class="container">
 			<!--<el-header>Header</el-header>-->
 			<el-aside width="240px">
-				<el-menu router default-active="1" text-color="#333" active-text-color="#ee3231" class="sideleft">
-					<el-menu-item index="/info">
+				<el-menu router :default-active="active" text-color="#333" active-text-color="#ee3231" class="sideleft">
+					<el-menu-item index="/info" v-if="consumer||agent">
 						<i class="iconfont icon-z-user"></i>
 						<span slot="title">个人设置</span>
 					</el-menu-item>
-					<el-menu-item index="/home">
+					<el-menu-item index="/home/site" v-if="consumer||agent">
 						<i class="iconfont icon-chanpin"></i>
 						<span slot="title">我的产品</span>
 					</el-menu-item>
-					<el-menu-item index="/favaorite">
+					<el-menu-item index="/favaorite" v-if="consumer||agent">
 						<i class="iconfont icon-shoucang"></i>
 						<span slot="title">模板收藏夹</span>
 					</el-menu-item>
-					<el-menu-item index="/process">
+					<el-menu-item index="/process" v-if="consumer||agent">
 						<i class="iconfont icon-kefu"></i>
 						<span slot="title">客服工单</span>
 					</el-menu-item>
-					<el-menu-item index="/caseapply">
+					<el-menu-item index="/caseapply" v-if="consumer||agent">
 						<i class="iconfont icon-gongwenbao"></i>
 						<span slot="title">案例申请</span>
 					</el-menu-item>
-					<el-menu-item index="/finance">
+					<el-menu-item index="/finance" v-if="consumer||agent">
 						<i class="iconfont icon-caiwujiesuan"></i>
 						<span slot="title">财务中心</span>
 					</el-menu-item>
-					
-					<el-menu-item index="/finance/dounorder">
+					<el-menu-item index="/finance/dounorder" v-if="consumer||agent">
 						<i class="iconfont icon-dingdan"></i>
 						<span slot="title">未完成订单</span>
 					</el-menu-item>
 					
+					<el-menu-item index="/admin/template" v-if="admin">
+						<i class="iconfont icon-dingdan"></i>
+						<span slot="title">模板列表</span>
+					</el-menu-item>
+					<el-menu-item index="/admin/template_category" v-if="admin">
+						<i class="iconfont icon-dingdan"></i>
+						<span slot="title">模板类别</span>
+					</el-menu-item>
+					<el-menu-item index="/admin/template_category" v-if="admin">
+						<i class="iconfont icon-dingdan"></i>
+						<span slot="title">案例列表</span>
+					</el-menu-item>
 				</el-menu>
 
 			</el-aside>
@@ -100,6 +111,33 @@
 	</div>
 </template>
 <script>
+		export default {
+		data() {
+			return {
+				active:'/home',
+				admin:false,
+				consumer:false,
+				agent:false
+			};
+		},
+		created() {
+			var that = this;
+			that.active = that.$route.path;
+			that.$router.afterEach(route => {
+				that.active = that.$route.path;
+			});
+			var role = localStorage.getItem('role');
+			if(role=='Admin'){
+				that.admin = true;
+			}else if(role=='Consumer'){
+				that.consumer = true;
+			}else if(role=='Agent'){
+				that.consumer = true;
+				that.agent = true;
+			}
+			
+		}
+	};
 </script>
 <style scoped>
 	#home {

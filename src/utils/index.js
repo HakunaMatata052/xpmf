@@ -11,7 +11,14 @@ exports.install = function(Vue, options) {
 					fn(res.data);
 				}
 			}, error => {
-				that.ajax_error(error.status)
+				if(error.data.length != 0) {
+					this.$message({
+						type: 'error',
+						message: error.data
+					});
+				} else {
+					this.ajax_error(error.status)
+				}
 			})
 		} else if(that.timex() <= 0) {
 			that.refresh_token(function() {
@@ -24,7 +31,14 @@ exports.install = function(Vue, options) {
 						fn(res.data);
 					}
 				}, error => {
-					that.ajax_error(error.status)
+					if(error.data.length != 0) {
+						this.$message({
+							type: 'error',
+							message: error.data
+						});
+					} else {
+						this.ajax_error(error.status)
+					}
 				})
 			})
 		} else {
@@ -47,7 +61,14 @@ exports.install = function(Vue, options) {
 					fn(res.data);
 				}
 			}, error => {
-				this.ajax_error(error.status)
+				if(error.data.length != 0) {
+					this.$message({
+						type: 'error',
+						message: error.data
+					});
+				} else {
+					this.ajax_error(error.status)
+				}
 			})
 		} else if(that.timex() <= 0) {
 			that.refresh_token(function() {
@@ -61,7 +82,14 @@ exports.install = function(Vue, options) {
 						fn(res.data);
 					}
 				}, error => {
-					this.ajax_error(error.status)
+					if(error.data.length != 0) {
+						this.$message({
+							type: 'error',
+							message: error.data
+						});
+					} else {
+						this.ajax_error(error.status)
+					}
 				})
 			})
 		} else {
@@ -74,21 +102,12 @@ exports.install = function(Vue, options) {
 	};
 	Vue.prototype.del_json = function(url, fn) {
 		var that = this;
-		if(that.timex() > 0) {
-			that.$http.delete(url, {
-				headers: {
-					'Authorization': 'Bearer ' + localStorage.getItem('token')
-				}
-			}).then(res => {
-				if(fn != undefined) {
-					fn(res.data);
-				}
-			}, error => {
-				this.ajax_error(error.status)
-			})
-		} else if(that.timex() <= 0) {
-			that.refresh_token(function() {
-
+		that.$confirm('确认删除？', '提示', {
+			confirmButtonText: '确定',
+			cancelButtonText: '取消',
+			type: 'warning'
+		}).then(() => {
+			if(that.timex() > 0) {
 				that.$http.delete(url, {
 					headers: {
 						'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -98,20 +117,56 @@ exports.install = function(Vue, options) {
 						fn(res.data);
 					}
 				}, error => {
-					this.ajax_error(error.status)
+					if(error.data.length != 0) {
+						this.$message({
+							type: 'error',
+							message: error.data
+						});
+					} else {
+						this.ajax_error(error.status)
+					}
+
 				})
-			})
-		} else {
-			that.$message(that.$store.state.status[status]);
-			that.$router.push({
-				path: '/login'
-			})
-		}
+			} else if(that.timex() <= 0) {
+				that.refresh_token(function() {
+
+					that.$http.delete(url, {
+						headers: {
+							'Authorization': 'Bearer ' + localStorage.getItem('token')
+						}
+					}).then(res => {
+						if(fn != undefined) {
+							fn(res.data);
+						}
+					}, error => {
+						if(error.data.length != 0) {
+							this.$message({
+								type: 'error',
+								message: error.data
+							});
+						} else {
+							this.ajax_error(error.status)
+						}
+					})
+				})
+			} else {
+				that.$message(that.$store.state.status[status]);
+				that.$router.push({
+					path: '/login'
+				})
+			}
+		}).catch(() => {
+			this.$message({
+				type: 'info',
+				message: '已取消删除'
+			});
+		});
+
 	};
-	Vue.prototype.put_json = function(url,data,fn) {
+	Vue.prototype.put_json = function(url, data, fn) {
 		var that = this;
 		if(that.timex() > 0) {
-			that.$http.put(url, data,{
+			that.$http.put(url, data, {
 				headers: {
 					'Authorization': 'Bearer ' + localStorage.getItem('token')
 				}
@@ -124,7 +179,7 @@ exports.install = function(Vue, options) {
 			})
 		} else if(that.timex() <= 0) {
 			that.refresh_token(function() {
-				that.$http.put(url,data,{
+				that.$http.put(url, data, {
 					headers: {
 						'Authorization': 'Bearer ' + localStorage.getItem('token')
 					}
@@ -133,7 +188,14 @@ exports.install = function(Vue, options) {
 						fn(res.data);
 					}
 				}, error => {
-					this.ajax_error(error.status)
+					if(error.data.length != 0) {
+						this.$message({
+							type: 'error',
+							message: error.data
+						});
+					} else {
+						this.ajax_error(error.status)
+					}
 				})
 			})
 		} else {
@@ -178,7 +240,14 @@ exports.install = function(Vue, options) {
 				fn();
 			}
 		}, error => {
-			this.ajax_error(error.status)
+			if(error.data.length != 0) {
+				this.$message({
+					type: 'error',
+					message: error.data
+				});
+			} else {
+				this.ajax_error(error.status)
+			}
 		})
 	};
 

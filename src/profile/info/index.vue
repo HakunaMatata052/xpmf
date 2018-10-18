@@ -7,7 +7,7 @@
 			<div class="item">
 				<div class="item-left">
 					<el-upload class="avatar-uploader" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
-						<img v-if="avatar" :src="avatar" class="avatar">
+						<img v-if="userinfo.fullpathAvatar" :src="userinfo.fullpathAvatar" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 					</el-upload>
 				</div>
@@ -188,18 +188,23 @@
 		},
 		methods: {
 			handleAvatarSuccess(res, file) {
-				this.avatar = URL.createObjectURL(file.raw);
+				this.userinfo.avatar = res;
+				this.userinfo.fullpathAvatar = URL.createObjectURL(file.raw);
 			},
 			getinfo() {
 				var that = this;
 				that.get_json(that.$store.state.api + 'user/mine', function(data) {
+					data.fullpathAvatar = that.$store.state.pic +  data.fullpathAvatar;
 					that.userinfo = data;
 					that.company = data.company;
 					var city = [];
-					city[0] = TextToCode[data.company.province].code;
-					city[1] = TextToCode[data.company.province][data.company.city].code;
+					if(data.company.province!=null&&data.company.province.length!=0){
+						city[0] = TextToCode[data.company.province].code;
+					}
+					if(data.company.province!=null&&data.company.province.length!=0){
+						city[1] = TextToCode[data.company.province][data.company.city].code;
+					}
 					that.selectedOptions = city;
-					console.log(that.selectedOptions)
 				})
 			},
 			cityFn(val) {

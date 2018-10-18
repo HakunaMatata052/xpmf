@@ -46,9 +46,16 @@
 						type: 'success',
 						message: '登陆成功！'
 					});
-					that.$router.push({
-						path: '/'
-					})
+					if(res.data.role=="Admin") {
+						that.$router.push({
+							path: '/admin/config'
+						})
+					} else {
+
+						that.$router.push({
+							path: '/'
+						})
+					}
 				}, error => {
 					that.$message({
 						type: 'error',
@@ -110,7 +117,6 @@
 						speed: 0.5,
 						angle: 20
 					};
-
 				if(background.getContext) {
 					var bctx = background.getContext('2d'),
 						fctx1 = foreground1.getContext('2d'),
@@ -317,10 +323,8 @@
 						drawBack();
 					};
 
-					window.onload = function() {
-						setCanvasHeight();
-						createItem();
-					}
+					setCanvasHeight();
+					createItem();
 					window.onresize = function() {
 						setCanvasHeight();
 						createItem();

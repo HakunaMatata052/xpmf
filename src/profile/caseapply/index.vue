@@ -18,13 +18,16 @@
 				</el-table-column>
 				<el-table-column label="是否加入案例展示" width="150">
 					<template slot-scope="scope">
-						<span v-if="scope.row.showcaseStatus==0">否</span>
-						<span v-else-if="scope.row.showcaseStatus==1">是</span>
+						<span v-if="scope.row.showcaseStatus!=100">否</span>
+						<span v-else-if="scope.row.showcaseStatus==100">是</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">
-						<el-button size="mini" @click="putCase(scope.row.siteId)" type="success">申请展示案例</el-button>
+						<el-button size="mini" @click="putCase(scope.row.siteId)" type="success" v-if="scope.row.showcaseStatus==0">申请展示案例</el-button>
+						<el-button size="mini" @click="putCase(scope.row.siteId)" type="success" v-else-if="scope.row.showcaseStatus==10" disabled>审核中</el-button>
+						<el-button size="mini" @click="putCase(scope.row.siteId)" type="success" v-else-if="scope.row.showcaseStatus==20">已驳回，再次申请展示案例</el-button>
+						<el-button size="mini" @click="putCase(scope.row.siteId)" type="success" v-else-if="scope.row.showcaseStatus==30" disabled>已通过</el-button>
 					</template>
 				</el-table-column>
 				<el-table-column prop="showcaseStatusString" label="备注">
@@ -68,7 +71,7 @@
 						type: 'success',
 						message: '提交成功！'
 					});
-					that.getList(this.page);
+					that.getList(that.page);
 				})
 			},
 			pageFn(val) {

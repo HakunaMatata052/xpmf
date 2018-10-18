@@ -258,8 +258,4 @@ exports.install = function(Vue, options) {
 		console.log(new Date(endTime).getTime() - startTime.getTime());
 		return new Date(endTime).getTime() - startTime.getTime();
 	};
-	//退出登录 
-	Vue.prototype.logout = function() {
-		localStorage.clear();
-	};
 };

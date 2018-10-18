@@ -9,8 +9,6 @@ import ElementUI from 'element-ui';
 import store from './store';
 import base from './utils';
 
-
-
 Vue.use(base);
 Vue.use(ElementUI);
 Vue.use(VueRouter)
@@ -23,7 +21,7 @@ Vue.use(vueResource);
 //};
 
 const vue = new Vue({
-  router,
-  store,
-  render: h => h(App)
+	router,
+	store,
+	render: h => h(App)
 }).$mount('#app')

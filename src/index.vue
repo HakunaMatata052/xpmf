@@ -5,12 +5,12 @@
 				<img src="./assets/images/header-logo.png" alt="" />
 			</div>
 			<div class="nav">
-				<a href="">导航</a>
+				<a href="">首页</a>
 				<a href="">导航</a>
 				<a href="">导航</a>
 				<a href="">导航</a>
 			</div>
-			<a href="" class="logout" @click="logout"><i class="iconfont icon-tuichu"></i>退出</a>
+			<a href="javascript:;" class="logout" @click="logout"><i class="iconfont icon-tuichu"></i>退出</a>
 		</el-header>
 		<el-container class="container">
 			<!--<el-header>Header</el-header>-->
@@ -44,7 +44,11 @@
 						<i class="iconfont icon-dingdan"></i>
 						<span slot="title">未完成订单</span>
 					</el-menu-item>
-					
+
+					<el-menu-item index="/admin/config" v-if="admin">
+						<i class="iconfont icon-dingdan"></i>
+						<span slot="title">网站设置</span>
+					</el-menu-item>
 					<el-menu-item index="/admin/template" v-if="admin">
 						<i class="iconfont icon-dingdan"></i>
 						<span slot="title">模板列表</span>
@@ -53,9 +57,17 @@
 						<i class="iconfont icon-dingdan"></i>
 						<span slot="title">模板类别</span>
 					</el-menu-item>
-					<el-menu-item index="/admin/template_category" v-if="admin">
+					<el-menu-item index="/admin/case" v-if="admin">
 						<i class="iconfont icon-dingdan"></i>
-						<span slot="title">案例列表</span>
+						<span slot="title">案例管理</span>
+					</el-menu-item>
+					<el-menu-item index="/admin/category" v-if="admin">
+						<i class="iconfont icon-dingdan"></i>
+						<span slot="title">栏目管理</span>
+					</el-menu-item>
+					<el-menu-item index="/admin/content" v-if="admin">
+						<i class="iconfont icon-dingdan"></i>
+						<span slot="title">内容管理</span>
 					</el-menu-item>
 				</el-menu>
 
@@ -111,14 +123,22 @@
 	</div>
 </template>
 <script>
-		export default {
+	export default {
 		data() {
 			return {
-				active:'/home',
-				admin:false,
-				consumer:false,
-				agent:false
+				active: '/home/site',
+				admin: false,
+				consumer: false,
+				agent: false
 			};
+		},
+		methods :{
+			logout() {
+				localStorage.clear();
+				this.$router.push({
+					path: '/login'
+				})
+			}
 		},
 		created() {
 			var that = this;
@@ -127,15 +147,15 @@
 				that.active = that.$route.path;
 			});
 			var role = localStorage.getItem('role');
-			if(role=='Admin'){
+			if(role == 'Admin') {
 				that.admin = true;
-			}else if(role=='Consumer'){
+			} else if(role == 'Consumer') {
 				that.consumer = true;
-			}else if(role=='Agent'){
+			} else if(role == 'Agent') {
 				that.consumer = true;
 				that.agent = true;
 			}
-			
+
 		}
 	};
 </script>
@@ -166,8 +186,9 @@
 	
 	.header .nav a {
 		color: #fff;
-		padding: 0 20px;
+		padding: 0 30px;
 		line-height: 66px;
+		font-size: 16px;
 	}
 	
 	.header .nav a:hover {
@@ -182,7 +203,8 @@
 		color: #fff;
 		align-self: flex-end
 	}
-	.header .logout i{
+	
+	.header .logout i {
 		margin-right: 5px;
 	}
 	
@@ -215,6 +237,7 @@
 	.sideleft .el-menu-item:hover {
 		background: #fff9f1;
 	}
+	
 	.sideleft .iconfont {
 		margin-right: 10px;
 		font-size: 20px;
@@ -224,7 +247,9 @@
 		padding-top: 0;
 	}
 	
-	.footer {padding: 0;}
+	.footer {
+		padding: 0;
+	}
 	
 	.foot-header {
 		background-color: #fff;
@@ -265,7 +290,7 @@
 		margin-bottom: 30px;
 	}
 	
-	.foot-h-l li > a {
+	.foot-h-l li>a {
 		font-size: 13px;
 		color: #999;
 		line-height: 26px;
@@ -285,10 +310,11 @@
 		font-size: 20px;
 		color: #acadae;
 	}
+	
 	.foot-h-l div i:hover {
-		
 		color: #ee3231;
 	}
+	
 	.foot-h-r {
 		width: 25%;
 		float: right;

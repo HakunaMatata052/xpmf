@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 var Index = r => require.ensure([], () => r(require('./index.vue')), 'index');
 
+//用户
 var Home = r => require.ensure([], () => r(require('./profile/home/home.vue')), 'home');
 var Site = r => require.ensure([], () => r(require('./profile/home/site.vue')), 'site');
 var Template = r => require.ensure([], () => r(require('./profile/home/template.vue')), 'template');
@@ -19,11 +20,18 @@ var Doinvoice_apply = r => require.ensure([], () => r(require('./profile/finance
 var Invoice_record = r => require.ensure([], () => r(require('./profile/finance/invoice_record.vue')), 'invoice_record');
 var Info = r => require.ensure([], () => r(require('./profile/info/index.vue')), 'info');
 var Process = r => require.ensure([], () => r(require('./profile/process/index.vue')), 'process');
-var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login');
 
+//管理员
 var admin_template = r => require.ensure([], () => r(require('./admin/template/index.vue')), 'admin_template');
 var template_category = r => require.ensure([], () => r(require('./admin/template_category/index.vue')), 'template_category');
+var admin_case = r => require.ensure([], () => r(require('./admin/case/index.vue')), 'admin_case');
+var content = r => require.ensure([], () => r(require('./admin/content/index.vue')), 'content');
+var category = r => require.ensure([], () => r(require('./admin/category/index.vue')), 'category');
+var config = r => require.ensure([], () => r(require('./admin/config/index.vue')), 'config');
 
+//公用
+var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login');
+var page404 = r => require.ensure([], () => r(require('./errorpage/404.vue')), 'page404');
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -31,7 +39,7 @@ const router = new VueRouter({
 	routes: [{
 			path: '*',
 			component: Index,
-			redirect: '/home/site',
+			redirect: '404',
 		},
 		{ //前台路由配置
 			path: '/',
@@ -159,20 +167,56 @@ const router = new VueRouter({
 				meta: {
 					title: '模板列表'
 				},
-			}
-			, {
+			}, {
 				path: '/admin/template_category',
 				component: template_category,
 				//redirect: 'site',
 				meta: {
 					title: '模板类别'
 				},
-			}
-			
-			]
+			}, {
+				path: '/admin/case',
+				component: admin_case,
+				//redirect: 'site',
+				meta: {
+					title: '案例管理'
+				},
+			}, {
+				path: '/admin/config',
+				component: config,
+				//redirect: 'site',
+				meta: {
+					title: '网站设置'
+				},
+			}, {
+				path: '/admin/content',
+				component: content,
+				//redirect: 'site',
+				meta: {
+					title: '文章管理'
+				},
+			}, {
+				path: '/admin/category',
+				component: category,
+				//redirect: 'site',
+				meta: {
+					title: '栏目管理'
+				},
+			}]
 		}, {
 			path: '/login',
-			component: Login
+			component: Login,
+			meta:{
+				title:'登陆'
+			}
+		},
+		{
+			path: '/404',
+			component: page404,
+			//redirect: 'site',
+			meta: {
+				title: '未找到页面'
+			},
 		}
 	]
 })
@@ -187,4 +231,4 @@ router.beforeEach((to, from, next) => {
 router.afterEach(route => {
 
 })
-export default router
+export default router;

@@ -11,14 +11,14 @@
 				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list">
 					<div class="template-list">
 						<div class="img">
-							<img src="../../assets/images/hamburger.png" alt="" />
+							<img :src="$store.state.pic+item.fullpathPicture" alt="" />
 						</div>
 						<div class="info">
 							<h3>{{item.name}}</h3>
 							<p>编号 : {{item.code}}</p>
 							<div class="btn-group">
 								<el-button size="mini" type="success" @click="editDialog(item.id)">编辑模板</el-button>
-								<el-button size="mini" type="danger">删除模板</el-button>
+								<el-button size="mini" type="danger" @click="del(item.id)">删除模板</el-button>
 							</div>
 						</div>
 						<div class="btn-group"></div>
@@ -43,7 +43,7 @@
 					<el-col :span="8">
 						<el-form-item label="缩略图" label-width="120px">
 							<el-upload class="img-uploader" :action="$store.state.api+'template/picture'" :headers="headers" :show-file-list="false" :on-success="picSuccess">
-								<img v-if="form.picture" :src="form.picture" class="img">
+								<img v-if="form.fullpathPicture" :src="form.fullpathPicture" class="img">
 								<i v-else class="el-icon-plus img-uploader-icon"></i>
 							</el-upload>
 						</el-form-item>
@@ -161,6 +161,7 @@
 				that.dialogFormVisible = true;
 				if(id.length != 0) {
 					that.get_json(that.$store.state.api + 'template/' + id, function(data) {
+						data.fullpathPicture = that.$store.state.pic+data.fullpathPicture;
 						that.form = data;
 					});
 				}
@@ -200,6 +201,16 @@
 					}
 				});
 			},
+			del(val) {
+				var that = this;
+				that.del_json(that.$store.state.api + 'template/' + val, function(data) {
+					that.$message({
+						type: 'success',
+						message: '删除成功!!'
+					});
+					that.getList(that.page);
+				})
+			},
 			close() {
 				this.form = {};
 				this.dialogFormVisible = false;
@@ -209,8 +220,9 @@
 				this.sourceState = true;
 				//this.form.source = res;
 			},
-			picSuccess(res){
-				this.$set(this.form, 'picture', res);
+			picSuccess(res,file){
+				this.form.picture = res;								
+				this.$set(this.form, 'fullpathPicture', URL.createObjectURL(file.raw));
 			}
 		}
 	}
@@ -284,7 +296,7 @@
 		display: block;
 	}
 	
-	.avatar-uploader .el-upload {
+	.img-uploader .el-upload {
 		border: 1px dashed #d9d9d9;
 		border-radius: 6px;
 		cursor: pointer;

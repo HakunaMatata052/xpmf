@@ -46,28 +46,40 @@
 					</el-menu-item>
 
 					<el-menu-item index="/admin/config" v-if="admin">
-						<i class="iconfont icon-dingdan"></i>
+						<i class="iconfont icon-setting"></i>
 						<span slot="title">网站设置</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/template" v-if="admin">
-						<i class="iconfont icon-dingdan"></i>
+						<i class="iconfont icon-mobanguanli"></i>
 						<span slot="title">模板列表</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/template_category" v-if="admin">
-						<i class="iconfont icon-dingdan"></i>
+						<i class="iconfont icon-leibieguanli"></i>
 						<span slot="title">模板类别</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/case" v-if="admin">
-						<i class="iconfont icon-dingdan"></i>
+						<i class="iconfont icon-gongwenbao"></i>
 						<span slot="title">案例管理</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/category" v-if="admin">
-						<i class="iconfont icon-dingdan"></i>
+						<i class="iconfont icon-menu"></i>
 						<span slot="title">栏目管理</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/content" v-if="admin">
-						<i class="iconfont icon-dingdan"></i>
+						<i class="iconfont icon-content"></i>
 						<span slot="title">内容管理</span>
+					</el-menu-item>
+					<el-menu-item index="/admin/user" v-if="admin">
+						<i class="iconfont icon-z-user"></i>
+						<span slot="title">会员管理</span>
+					</el-menu-item>
+					<el-menu-item index="/admin/process" v-if="admin">
+						<i class="iconfont icon-kefu"></i>
+						<span slot="title">工单管理</span>
+					</el-menu-item>
+					<el-menu-item index="/admin/links" v-if="admin">
+						<i class="iconfont icon-links"></i>
+						<span slot="title">友情链接</span>
 					</el-menu-item>
 				</el-menu>
 

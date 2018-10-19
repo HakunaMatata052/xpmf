@@ -34,11 +34,9 @@
 				<el-form-item label="模板名称" label-width="120px" prop="name">
 					<el-input v-model="form.name"></el-input>
 				</el-form-item>
-
 				<el-form-item label="案例地址" label-width="120px">
 					<el-input v-model="form.showcase"></el-input>
 				</el-form-item>
-
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="缩略图" label-width="120px">
@@ -47,9 +45,7 @@
 								<i v-else class="el-icon-plus img-uploader-icon"></i>
 							</el-upload>
 						</el-form-item>
-
 					</el-col>
-
 					<el-col :span="16">
 						<el-form-item label="模板分类" label-width="120px" prop="categoryId">
 							<el-select v-model="form.categoryId" placeholder="请选择模板类别">
@@ -64,16 +60,13 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-
 				<el-form-item label="模板压缩包" label-width="120px" prop="source">
 					<el-input v-model="form.source" class="uploadInput"></el-input>
 					<el-upload class="upload" :action="$store.state.api+'template/source/'" :headers="headers" :on-success="sourceSuccess" :show-file-list="false">
 						<el-button size="small" type="primary">点击上传</el-button>
 					</el-upload>
 					<i class="el-icon-success" v-if="sourceState"></i>
-
 				</el-form-item>
-
 				<el-form-item label="排序" label-width="120px">
 					<el-input v-model="form.ordering"></el-input>
 				</el-form-item>

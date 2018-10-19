@@ -14,6 +14,8 @@
 				</el-table-column>
 				<el-table-column prop="title" label="工单标题">
 				</el-table-column>
+				<el-table-column prop="consumerUsername" label="用户名">
+				</el-table-column>				
 				<el-table-column prop="typeString" label="类型" width="200px">
 					<template slot-scope="scope">
 						<el-tag type="success">{{scope.row.typeString}}
@@ -46,6 +48,10 @@
 				<dl>
 					<dt>编号</dt>
 					<dd>{{workorder.id}}</dd>
+				</dl>
+				<dl>
+					<dt>用户名</dt>
+					<dd>{{workorder.consumerUsername}}</dd>
 				</dl>
 				<dl>
 					<dt>问题类型</dt>
@@ -184,7 +190,7 @@
 		methods: {
 			getList(type, val) {
 				var that = this;
-				that.get_json(that.$store.state.api + 'workorder/status/' + type + '/page/' + val, function(data) {
+				that.get_json(that.$store.state.api + 'admin/workorder/status/' + type + '/page/' + val, function(data) {
 					that.list = data.data;
 					that.page = data.page;
 					that.size = data.size;

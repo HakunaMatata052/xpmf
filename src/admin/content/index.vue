@@ -12,6 +12,8 @@
 				</el-table-column>
 				<el-table-column prop="newsCategory.name" label="所属栏目">
 				</el-table-column>
+				<el-table-column prop="ordering" label="排序" width="180">
+				</el-table-column>
 				<el-table-column label="操作" width="200">
 					<template slot-scope="scope">
 						<el-button size="mini" type="primary" @click="editDialog(scope.row.id)">编辑</el-button>
@@ -79,9 +81,6 @@
 </template>
 
 <script>
-	import Vue from 'vue';
-	import VueQuillEditor from 'vue-quill-editor'
-	Vue.use(VueQuillEditor)
 	export default {
 		data() {
 			return {

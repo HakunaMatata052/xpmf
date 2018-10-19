@@ -57,7 +57,7 @@
 					<h4>公司名称</h4>
 				</div>
 				<div class="item-right">
-					<el-input v-model="company.companyName"></el-input>
+					<el-input v-model="userCompany.userCompanyName"></el-input>
 				</div>
 			</div>
 			<div class="item">
@@ -65,7 +65,7 @@
 					<h4>联系人</h4>
 				</div>
 				<div class="item-right">
-					<el-input v-model="company.contactUserName"></el-input>
+					<el-input v-model="userCompany.contactUserName"></el-input>
 				</div>
 			</div>
 			<div class="item">
@@ -73,7 +73,7 @@
 					<h4>固定电话</h4>
 				</div>
 				<div class="item-right">
-					<el-input v-model="company.contactPhone"></el-input>
+					<el-input v-model="userCompany.contactPhone"></el-input>
 				</div>
 			</div>
 			<div class="item">
@@ -89,7 +89,7 @@
 					<h4>详细地址</h4>
 				</div>
 				<div class="item-right" style="width: 40%;">
-					<el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10}" placeholder="请输入内容" v-model="company.address">
+					<el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10}" placeholder="请输入内容" v-model="userCompany.address">
 					</el-input>
 				</div>
 			</div>
@@ -136,7 +136,7 @@
 			return {
 				avatar: '',
 				userinfo: {},
-				company: {},
+				userCompany: {},
 				options: provinceAndCityData,
 				selectedOptions: [],
 				headers: {},
@@ -155,7 +155,7 @@
 						{
 							min: 4,
 							max: 16,
-							message: '长度在 3 到 5 个字符',
+							message: '长度在 4 到 16 个字符',
 							trigger: 'blur'
 						}
 					],
@@ -196,13 +196,13 @@
 				that.get_json(that.$store.state.api + 'user/mine', function(data) {
 					data.fullpathAvatar = that.$store.state.pic +  data.fullpathAvatar;
 					that.userinfo = data;
-					that.company = data.company;
+					that.userCompany = data.userCompany;
 					var city = [];
-					if(data.company.province!=null&&data.company.province.length!=0){
-						city[0] = TextToCode[data.company.province].code;
+					if(data.userCompany.province!=null&&data.userCompany.province.length!=0){
+						city[0] = TextToCode[data.userCompany.province].code;
 					}
-					if(data.company.province!=null&&data.company.province.length!=0){
-						city[1] = TextToCode[data.company.province][data.company.city].code;
+					if(data.userCompany.province!=null&&data.userCompany.province.length!=0){
+						city[1] = TextToCode[data.userCompany.province][data.userCompany.city].code;
 					}
 					that.selectedOptions = city;
 				})
@@ -211,8 +211,8 @@
 				var that = this;
 				var province = CodeToText[val[0]];
 				var city = CodeToText[val[1]];
-				that.company.province = province;
-				that.company.city = city;
+				that.userCompany.province = province;
+				that.userCompany.city = city;
 			},
 			changePassword(formName) {
 				var that = this;

@@ -28,6 +28,9 @@ var admin_case = r => require.ensure([], () => r(require('./admin/case/index.vue
 var content = r => require.ensure([], () => r(require('./admin/content/index.vue')), 'content');
 var category = r => require.ensure([], () => r(require('./admin/category/index.vue')), 'category');
 var config = r => require.ensure([], () => r(require('./admin/config/index.vue')), 'config');
+var user = r => require.ensure([], () => r(require('./admin/user/index.vue')), 'user');
+var admin_process = r => require.ensure([], () => r(require('./admin/process/index.vue')), 'admin_process');
+var links = r => require.ensure([], () => r(require('./admin/links/index.vue')), 'links');
 
 //公用
 var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login');
@@ -201,6 +204,27 @@ const router = new VueRouter({
 				//redirect: 'site',
 				meta: {
 					title: '栏目管理'
+				},
+			}, {
+				path: '/admin/user',
+				component: user,
+				//redirect: 'site',
+				meta: {
+					title: '会员管理'
+				},
+			}, {
+				path: '/admin/process',
+				component: admin_process,
+				//redirect: 'site',
+				meta: {
+					title: '工单管理'
+				},
+			}, {
+				path: '/admin/links',
+				component: links,
+				//redirect: 'site',
+				meta: {
+					title: '友情链接'
 				},
 			}]
 		}, {

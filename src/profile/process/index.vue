@@ -14,6 +14,8 @@
 				</el-table-column>
 				<el-table-column prop="title" label="工单标题">
 				</el-table-column>
+				<el-table-column prop="consumerUsername" label="用户名">
+				</el-table-column>
 				<el-table-column prop="typeString" label="类型" width="200px">
 					<template slot-scope="scope">
 						<el-tag type="success">{{scope.row.typeString}}
@@ -46,6 +48,10 @@
 				<dl>
 					<dt>编号</dt>
 					<dd>{{workorder.id}}</dd>
+				</dl>
+				<dl>
+					<dt>用户名</dt>
+					<dd>{{workorder.consumerUsername}}</dd>
 				</dl>
 				<dl>
 					<dt>问题类型</dt>
@@ -93,8 +99,8 @@
 				<h2>回复交流区</h2>
 				<p class="tip">暂无内容</p>
 			</div>
-			<span slot="footer" class="dialog-footer">
-			    <quill-editor v-model="content" ref="QuillEditor" :options="editorOption" ></quill-editor>
+			<span slot="footer" class="dialog-footer">				
+					<vue-ckeditor v-model="content" :config="config"/>
 			    <el-button type="primary" class="submit" @click="submitReply(workorder.id)">提交</el-button>
 			 </span>
 		</el-dialog>
@@ -104,7 +110,7 @@
 					<el-input v-model="form.title"></el-input>
 				</el-form-item>
 				<el-form-item label="问题描述">
-					<quill-editor v-model="form.Description" ref="QuillEditor" :options="editorOption"></quill-editor>
+					<vue-ckeditor v-model="form.Description" :config="config" />
 				</el-form-item>
 				<el-form-item label="问题分类" prop="Type">
 					<el-select v-model="form.Type" placeholder="请选择活动区域" style="width: 100%;">
@@ -126,7 +132,11 @@
 </template>
 
 <script>
+	import VueCkeditor from 'vue-ckeditor2';
 	export default {
+		components: {
+			VueCkeditor
+		},
 		data() {
 			return {
 				list: [],
@@ -175,11 +185,25 @@
 						message: '请选择问题类型',
 						trigger: 'change'
 					}]
+				},
+				config: {
+					toolbar: [
+						['Bold', 'Italic', 'Underline','Link','Unlink','Image']
+					],
+					height: 150,
+					filebrowserImageUploadUrl: '',
+					fileTools_requestHeaders: {
+						Authorization: ''
+					},
+					fileTools_defaultFileName:'file',
+					language: 'zh-cn',
 				}
 			};
 		},
 		created() {
 			this.getList(100, 1);
+			this.config.fileTools_requestHeaders.Authorization = 'Bearer ' + localStorage.getItem('token');
+			this.config.filebrowserImageUploadUrl = this.$store.state.pic +'api/workorder/picture';
 		},
 		methods: {
 			getList(type, val) {

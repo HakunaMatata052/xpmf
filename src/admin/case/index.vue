@@ -3,13 +3,13 @@
 		<el-card class="box-card" shadow="never">
 			<div slot="header" class="clearfix">
 				<span>模板类别</span>
-				<el-button type="primary" style="margin-left: 30px;" @click="dialogFormVisible=true">新增案例</el-button>
+				<el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新增案例</el-button>
 			</div>
 			<el-tabs v-model="path" @tab-click="handleClick">
 				<el-tab-pane label="已通过" name="case/cases/page/"></el-tab-pane>
 				<el-tab-pane label="待审核" name="case/admin/page/"></el-tab-pane>
 			</el-tabs>
-			<el-table :data="list" stripe style="width: 100%" v-show="path=='case/cases/page/'">
+			<el-table :data="list" stripe style="width: 100%" v-show="path=='case/cases/page/'" v-loading="loading">
 				<el-table-column prop="id" label="ID" width="80px">
 				</el-table-column>
 				<el-table-column prop="siteName" label="网站名称">
@@ -48,7 +48,7 @@
 			</el-pagination>
 		</el-card>
 		<el-dialog title="编辑案例" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
-			<el-form :model="form" :rules="rules" ref="form">
+			<el-form :model="form" :rules="rules" ref="form" v-loading="dialogloading">
 				<el-form-item label="名称" label-width="120px" prop="siteName">
 					<el-input v-model="form.siteName"></el-input>
 				</el-form-item>
@@ -56,7 +56,7 @@
 					<el-input v-model="form.domain"></el-input>
 				</el-form-item>
 				<el-form-item label="缩略图" label-width="120px" prop="picture">
-					<el-upload class="img-uploader" :action="$store.state.api+'case/picture'" :headers="headers" :show-file-list="false" :on-success="picSuccess">
+					<el-upload class="img-uploader" name="upload" :action="$store.state.api+'case/picture'" :headers="headers" :show-file-list="false" :on-success="picSuccess">
 						<img v-if="form.picture" :src="form.fullpathPicture" class="img">
 						<i v-else class="el-icon-plus img-uploader-icon"></i>
 					</el-upload>
@@ -75,7 +75,7 @@
 			</div>
 		</el-dialog>
 		<el-dialog title="通过审核" :visible.sync="auditDialog" :fullscreen="false" @closed="close">
-			<el-upload class="img-uploader" :action="$store.state.api+'case/picture'" :headers="headers" :show-file-list="false" :on-success="auditpic">
+			<el-upload class="img-uploader" name="upload" :action="$store.state.api+'case/picture'" :headers="headers" :show-file-list="false" :on-success="auditpic">
 				<img v-if="audit.picture" :src="$store.state.pic+audit.picture" class="img">
 				<i v-else class="el-icon-plus img-uploader-icon"></i>
 			</el-upload>
@@ -136,7 +136,9 @@
 				audit: {
 					id: '',
 					picture: ''
-				}
+				},
+				loading: true,
+				dialogloading: true
 			};
 		},
 		created() {
@@ -151,6 +153,7 @@
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
+					that.loading = false;
 				})
 			},
 			pageFn(val) {
@@ -158,15 +161,21 @@
 			},
 			handleClick(tab, event) {
 				this.path = tab.name;
-				this.getList(tab.name, 1)
+				this.getList(tab.name, 1);
+				this.loading = true;
 			},
 			editDialog(val) {
 				var that = this;
 				that.dialogFormVisible = true;
-				that.get_json(that.$store.state.api + 'case/' + val, function(data) {
-					data.fullpathPicture = that.$store.state.pic + data.fullpathPicture;
-					that.form = data;
-				})
+				if(val.length != 0) {
+					that.get_json(that.$store.state.api + 'case/' + val, function(data) {
+						that.form = data;
+						that.dialogloading = false;
+					})
+				} else {
+					that.dialogloading = false;
+				}
+
 			},
 			edit(formName, val) {
 				var that = this;
@@ -201,7 +210,7 @@
 				});
 			},
 			picSuccess(res, file) {
-				this.form.picture = res;
+				this.form.picture = res.fileName;
 				this.$set(this.form, 'fullpathPicture', URL.createObjectURL(file.raw));
 			},
 			del(val) {
@@ -220,7 +229,7 @@
 				that.auditDialog = true;
 			},
 			auditpic(res, file) {
-				this.form.picture = res;
+				this.form.picture = res.fileName;
 				this.$set(this.form, 'fullpathPicture', URL.createObjectURL(file.raw));
 			},
 			adopt() {
@@ -251,6 +260,7 @@
 					ordering: 99
 				};
 				this.dialogFormVisible = false;
+				this.dialogloading = true;
 			}
 		}
 	}

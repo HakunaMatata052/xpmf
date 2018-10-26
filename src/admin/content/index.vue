@@ -5,12 +5,18 @@
 				<span>文章管理</span>
 				<el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新建文章</el-button>
 			</div>
-			<el-table :data="list" stripe style="width: 100%">
+			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
 				<el-table-column prop="id" label="ID" width="180">
 				</el-table-column>
 				<el-table-column prop="title" label="标题">
 				</el-table-column>
 				<el-table-column prop="newsCategory.name" label="所属栏目">
+				</el-table-column>
+				<el-table-column prop="recommended" label="是否推荐" width="180">
+					<template slot-scope="scope">
+						<el-tag type="success" v-if="scope.row.recommended==true">是</el-tag>
+						<el-tag type="danger" v-else>否</el-tag>
+					</template>
 				</el-table-column>
 				<el-table-column prop="ordering" label="排序" width="180">
 				</el-table-column>
@@ -25,7 +31,7 @@
 			<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn">
 			</el-pagination>
 		</el-card>
-		<el-dialog title="文章编辑" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
+		<el-dialog title="文章编辑" :visible.sync="dialogFormVisible" :fullscreen="true" @closed="close">
 			<el-form :model="form" :rules="rules" ref="form" label-width="120px">
 				<el-form-item label="标题" prop="title">
 					<el-input v-model="form.title"></el-input>
@@ -33,18 +39,27 @@
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="缩略图">
-							<el-upload class="img-uploader" :action="$store.state.api+'News/thumbnail'" :headers="headers" :show-file-list="false" :on-success="picSuccess">
+							<el-upload class="img-uploader" name="upload" :action="$store.state.api+'News/thumbnail'" :headers="headers" :show-file-list="false" :on-success="picSuccess">
 								<img v-if="form.fullpathThumbnail" :src="form.fullpathThumbnail" class="img">
 								<i v-else class="el-icon-plus img-uploader-icon"></i>
 							</el-upload>
 						</el-form-item>
 					</el-col>
 					<el-col :span="16">
-						<el-form-item label="栏目" prop="newsCategoryId">
-							<el-select v-model="form.newsCategoryId" placeholder="请选择活动区域">
-								<el-option :label="x.name" :value="x.id" v-for="x in categories"></el-option>
-							</el-select>
-						</el-form-item>
+						<el-row :gutter="20">
+							<el-col :span="12">
+								<el-form-item label="栏目" prop="newsCategoryId">
+									<el-select v-model="form.newsCategoryId" placeholder="请选择活动区域">
+										<el-option :label="x.name" :value="x.id" v-for="x in categories"></el-option>
+									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item label="是否推荐">
+									<el-switch v-model="form.recommended"></el-switch>
+								</el-form-item>
+							</el-col>
+						</el-row>
 						<el-form-item label="排序">
 							<el-input v-model="form.ordering"></el-input>
 						</el-form-item>
@@ -58,7 +73,7 @@
 					<el-input v-model="form.description" type="textarea"></el-input>
 				</el-form-item>
 				<el-form-item label="内容" prop="context">
-					<quill-editor v-model="form.context" ref="QuillEditor" :options="editorOption"></quill-editor>
+					<vue-ckeditor v-model="form.context" :config="config"  types="Basic" />
 				</el-form-item>
 				<br />
 				<hr />
@@ -81,7 +96,11 @@
 </template>
 
 <script>
+	import VueCkeditor from 'vue-ckeditor2';
 	export default {
+		components: {
+			VueCkeditor
+		},
 		data() {
 			return {
 				list: [],
@@ -128,18 +147,24 @@
 					}]
 				},
 				categories: [],
-				editorOption: {
-					modules: {
-						//						toolbar: [
-						//							['bold', 'italic', 'underline', 'strike', 'image', 'blockquote', 'code-block']
-						//						]
-					}
+				config: {
+					toolbar: 'full',
+					height: 300,
+					filebrowserImageUploadUrl : '', 
+					fileTools_requestHeaders :{
+						Authorization:''
+					},
+					language : 'zh-cn', 
 				},
+				loading:true,
+				dialogloading:true
 			};
 		},
 		created() {
 			this.getList(1);
-			this.headers.Authorization = 'Bearer ' + localStorage.getItem('token');
+			this.headers.Authorization = 'Bearer ' + localStorage.getItem('token');			
+			this.config.fileTools_requestHeaders.Authorization = 'Bearer ' + localStorage.getItem('token');
+			this.config.filebrowserImageUploadUrl = this.$store.state.pic +'api/News/picture';
 		},
 		methods: {
 			getList(val) {
@@ -149,6 +174,7 @@
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
+					that.loading = false;
 				})
 			},
 			pageFn(val) {
@@ -159,10 +185,12 @@
 				that.dialogFormVisible = true;
 				if(id.length != 0) {
 					that.get_json(that.$store.state.api + 'news/' + id, function(data) {
-						data.fullpathThumbnail = that.$store.state.pic + data.fullpathThumbnail;
 						that.form = data;
+						that.dialogloading = false;
 					})
-				};
+				}else{
+					that.dialogloading= false;
+				}
 
 				that.get_json(that.$store.state.api + 'NewsCategory/', function(data) {
 					that.categories = data;
@@ -213,9 +241,10 @@
 			close() {
 				this.form = {};
 				this.dialogFormVisible = false;
+				this.dialogloading = true;
 			},
 			picSuccess(res, file) {
-				this.form.thumbnail = res;
+				this.form.thumbnail = res.fileName;
 				this.$set(this.form, 'fullpathThumbnail', URL.createObjectURL(file.raw));
 			}
 		}
@@ -268,5 +297,4 @@
 	.quill-editor .ql-container {
 		height: 90px;
 	}
-	
 </style>

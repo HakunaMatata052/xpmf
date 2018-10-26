@@ -5,7 +5,7 @@
 				<span>链接管理</span>
 				<el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新建友情链接</el-button>
 			</div>
-			<el-table :data="list" stripe style="width: 100%">
+			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
 				<el-table-column prop="id" label="ID" width="180">
 				</el-table-column>
 				<el-table-column prop="title" label="标题">
@@ -23,7 +23,7 @@
 			</el-table>
 		</el-card>
 		<el-dialog title="链接编辑" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
-			<el-form :model="form" :rules="rules" ref="form" label-width="120px">
+			<el-form :model="form" :rules="rules" ref="form" label-width="120px" v-loading="dialogloading">
 				<el-form-item label="名称" prop="title">
 					<el-input v-model="form.title"></el-input>
 				</el-form-item>
@@ -60,7 +60,9 @@
 						message: '请输入链接',
 						trigger: 'blur'
 					}]
-				}
+				},
+				loading:true,
+				dialogloading:true
 			};
 		},
 		created() {
@@ -71,6 +73,7 @@
 				var that = this;
 				that.get_json(that.$store.state.api + 'FriendUrl/', function(data) {
 					that.list = data;
+					that.loading = false;
 				})
 			},
 			editDialog(id) {
@@ -79,7 +82,10 @@
 				if(id.length != 0) {
 					that.get_json(that.$store.state.api + 'FriendUrl/' + id, function(data) {
 						that.form = data;
-					})
+					});
+					that.dialogloading = false;
+				}else{
+					that.loading = false;
 				}
 			},
 			edit(formName, val) {
@@ -116,7 +122,7 @@
 			},
 			del(val) {
 				var that = this;
-				that.del_json(that.$store.state.api + 'news/' + val, function(data) {
+				that.del_json(that.$store.state.api + 'FriendUrl/' + val, function(data) {
 					that.$message({
 						type: 'success',
 						message: '删除成功!!'
@@ -127,6 +133,7 @@
 			close() {
 				this.form = {};
 				this.dialogFormVisible = false;
+				this.dialogloading = true;
 			}
 		}
 	}

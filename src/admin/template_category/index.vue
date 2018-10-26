@@ -4,9 +4,9 @@
 		<el-card class="box-card" shadow="never">
 			<div slot="header" class="clearfix">
 				<span>模板类别</span>
-				<el-button type="primary" style="margin-left: 30px;" @click="dialogFormVisible=true">创建类别</el-button>
+				<el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">创建类别</el-button>
 			</div>
-			<el-table :data="list" stripe style="width: 100%">
+			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
 				<el-table-column prop="name" label="类别名称">
 				</el-table-column>
 				<el-table-column label="操作" width="200">
@@ -18,7 +18,7 @@
 			</el-table>
 		</el-card>
 		<el-dialog title="模板内容" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
-			<el-form :model="form" :rules="rules" ref="form">
+			<el-form :model="form" :rules="rules" ref="form" v-loading="dialogloading">
 				<el-form-item label="模板名称" label-width="120px" prop="name">
 					<el-input v-model="form.name" autocomplete="off"></el-input>
 				</el-form-item>
@@ -65,7 +65,9 @@
 							trigger: 'blur'
 						}
 					]
-				}
+				},
+				loading: true,
+				dialogloading: true
 			};
 		},
 		created() {
@@ -76,14 +78,20 @@
 				var that = this;
 				that.get_json(that.$store.state.api + 'template/categories/', function(data) {
 					that.list = data;
+					that.loading = false;
 				})
 			},
 			editDialog(id) {
 				var that = this;
 				that.dialogFormVisible = true;
-				that.get_json(that.$store.state.api + 'templatecategory/'+id, function(data) {
-					that.form = data;
-				})				
+				if(id.length != 0) {
+					that.get_json(that.$store.state.api + 'templatecategory/' + id, function(data) {
+						that.form = data;
+						that.dialogloading = false;
+					})
+				}else{
+					that.dialogloading = false;
+				}
 			},
 			edit(formName, val) {
 				var that = this;

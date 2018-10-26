@@ -31,10 +31,13 @@ var config = r => require.ensure([], () => r(require('./admin/config/index.vue')
 var user = r => require.ensure([], () => r(require('./admin/user/index.vue')), 'user');
 var admin_process = r => require.ensure([], () => r(require('./admin/process/index.vue')), 'admin_process');
 var links = r => require.ensure([], () => r(require('./admin/links/index.vue')), 'links');
+var admin_finance = r => require.ensure([], () => r(require('./admin/finance/index.vue')), 'admin_finance');
 
 //公用
 var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login');
+var Register = r => require.ensure([], () => r(require('./login/register.vue')), 'register');
 var page404 = r => require.ensure([], () => r(require('./errorpage/404.vue')), 'page404');
+var page403 = r => require.ensure([], () => r(require('./errorpage/403.vue')), 'page403');
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -52,191 +55,216 @@ const router = new VueRouter({
 				title: '首页'
 			},
 			children: [{ //前台路由配置
-				path: 'home',
-				component: Home,
-				redirect: '/home/site',
-				meta: {
-					title: '站点'
-				},
-				children: [{
-					path: 'site',
-					component: Site,
-					//redirect: 'site',
+					path: 'home',
+					component: Home,
+					redirect: '/home/site',
 					meta: {
 						title: '站点'
 					},
+					children: [{
+						path: 'site',
+						component: Site,
+						//redirect: 'site',
+						meta: {
+							title: '站点'
+						},
+					}, {
+						path: 'template',
+						component: Template,
+						//redirect: 'template',
+						meta: {
+							title: '模板'
+						},
+					}, {
+						path: 'host',
+						component: Host,
+						//redirect: 'template',
+						meta: {
+							title: '空间'
+						},
+					}, {
+						path: 'domain',
+						component: Domain,
+						//redirect: 'template',
+						meta: {
+							title: '域名'
+						},
+					}, {
+						path: 'wuyou',
+						component: Wuyou,
+						//redirect: 'template',
+						meta: {
+							title: '无忧'
+						},
+					}, {
+						path: 'service',
+						component: Service,
+						//redirect: 'template',
+						meta: {
+							title: '服务'
+						},
+					}]
 				}, {
-					path: 'template',
-					component: Template,
-					//redirect: 'template',
+					path: 'favaorite',
+					component: Favaorite,
 					meta: {
-						title: '模板'
+						title: '模板收藏夹'
 					},
 				}, {
-					path: 'host',
-					component: Host,
-					//redirect: 'template',
+					path: 'caseapply',
+					component: Caseapply,
 					meta: {
-						title: '空间'
+						title: '案例申请'
+					}
+				}, {
+					path: 'finance',
+					component: Finance,
+					redirect: '/finance/record',
+					meta: {
+						title: '财务中心'
+					},
+					children: [{
+						path: 'record',
+						component: Record,
+						//redirect: 'site',
+						meta: {
+							title: '消费记录'
+						},
+					}, {
+						path: 'dounorder',
+						component: Dounorder,
+						//redirect: 'site',
+						meta: {
+							title: '未完成订单'
+						},
+					}, {
+						path: 'doinvoice_apply',
+						component: Doinvoice_apply,
+						//redirect: 'site',
+						meta: {
+							title: '申请发票'
+						},
+					}, {
+						path: 'invoice_record',
+						component: Invoice_record,
+						//redirect: 'site',
+						meta: {
+							title: '开票记录'
+						},
+					}]
+				}, {
+					path: 'info',
+					component: Info,
+					//redirect: 'site',
+					meta: {
+						title: '账户信息'
 					},
 				}, {
-					path: 'domain',
-					component: Domain,
-					//redirect: 'template',
+					path: 'process',
+					component: Process,
+					//redirect: 'site',
 					meta: {
-						title: '域名'
+						title: '客服工单'
 					},
 				}, {
-					path: 'wuyou',
-					component: Wuyou,
-					//redirect: 'template',
+					path: '/admin/template',
+					component: admin_template,
+					//redirect: 'site',
 					meta: {
-						title: '无忧'
+						title: '模板列表'
 					},
 				}, {
-					path: 'service',
-					component: Service,
-					//redirect: 'template',
+					path: '/admin/template_category',
+					component: template_category,
+					//redirect: 'site',
 					meta: {
-						title: '服务'
+						title: '模板类别'
 					},
-				}]
-			}, {
-				path: 'favaorite',
-				component: Favaorite,
-				meta: {
-					title: '模板收藏夹'
+				}, {
+					path: '/admin/case',
+					component: admin_case,
+					//redirect: 'site',
+					meta: {
+						title: '案例管理'
+					},
+				}, {
+					path: '/admin/config',
+					component: config,
+					//redirect: 'site',
+					meta: {
+						title: '网站设置'
+					},
+				}, {
+					path: '/admin/content',
+					component: content,
+					//redirect: 'site',
+					meta: {
+						title: '文章管理'
+					},
+				}, {
+					path: '/admin/category',
+					component: category,
+					//redirect: 'site',
+					meta: {
+						title: '栏目管理'
+					},
+				}, {
+					path: '/admin/user',
+					component: user,
+					//redirect: 'site',
+					meta: {
+						title: '会员管理'
+					},
+				}, {
+					path: '/admin/process',
+					component: admin_process,
+					//redirect: 'site',
+					meta: {
+						title: '工单管理'
+					},
+				}, {
+					path: '/admin/links',
+					component: links,
+					//redirect: 'site',
+					meta: {
+						title: '友情链接'
+					},
 				},
-			}, {
-				path: 'caseapply',
-				component: Caseapply,
-				meta: {
-					title: '案例申请'
+				{
+					path: '/admin/finance',
+					component: admin_finance,
+					//redirect: 'site',
+					meta: {
+						title: '财务管理'
+					},
 				}
-			}, {
-				path: 'finance',
-				component: Finance,
-				redirect: '/finance/record',
-				meta: {
-					title: '财务中心'
-				},
-				children: [{
-					path: 'record',
-					component: Record,
-					//redirect: 'site',
-					meta: {
-						title: '消费记录'
-					},
-				}, {
-					path: 'dounorder',
-					component: Dounorder,
-					//redirect: 'site',
-					meta: {
-						title: '未完成订单'
-					},
-				}, {
-					path: 'doinvoice_apply',
-					component: Doinvoice_apply,
-					//redirect: 'site',
-					meta: {
-						title: '申请发票'
-					},
-				}, {
-					path: 'invoice_record',
-					component: Invoice_record,
-					//redirect: 'site',
-					meta: {
-						title: '开票记录'
-					},
-				}]
-			}, {
-				path: 'info',
-				component: Info,
-				//redirect: 'site',
-				meta: {
-					title: '账户信息'
-				},
-			}, {
-				path: 'process',
-				component: Process,
-				//redirect: 'site',
-				meta: {
-					title: '客服工单'
-				},
-			}, {
-				path: '/admin/template',
-				component: admin_template,
-				//redirect: 'site',
-				meta: {
-					title: '模板列表'
-				},
-			}, {
-				path: '/admin/template_category',
-				component: template_category,
-				//redirect: 'site',
-				meta: {
-					title: '模板类别'
-				},
-			}, {
-				path: '/admin/case',
-				component: admin_case,
-				//redirect: 'site',
-				meta: {
-					title: '案例管理'
-				},
-			}, {
-				path: '/admin/config',
-				component: config,
-				//redirect: 'site',
-				meta: {
-					title: '网站设置'
-				},
-			}, {
-				path: '/admin/content',
-				component: content,
-				//redirect: 'site',
-				meta: {
-					title: '文章管理'
-				},
-			}, {
-				path: '/admin/category',
-				component: category,
-				//redirect: 'site',
-				meta: {
-					title: '栏目管理'
-				},
-			}, {
-				path: '/admin/user',
-				component: user,
-				//redirect: 'site',
-				meta: {
-					title: '会员管理'
-				},
-			}, {
-				path: '/admin/process',
-				component: admin_process,
-				//redirect: 'site',
-				meta: {
-					title: '工单管理'
-				},
-			}, {
-				path: '/admin/links',
-				component: links,
-				//redirect: 'site',
-				meta: {
-					title: '友情链接'
-				},
-			}]
+			]
 		}, {
 			path: '/login',
 			component: Login,
-			meta:{
-				title:'登陆'
+			meta: {
+				title: '登陆'
+			}
+		}, {
+			path: '/register',
+			component: Register,
+			meta: {
+				title: '登陆'
 			}
 		},
+		
 		{
 			path: '/404',
 			component: page404,
+			//redirect: 'site',
+			meta: {
+				title: '未找到页面'
+			},
+		},
+
+		{
+			path: '/403',
+			component: page403,
 			//redirect: 'site',
 			meta: {
 				title: '未找到页面'

@@ -1,5 +1,5 @@
 <template>
-	<div id="config">
+	<div id="config" v-loading="loading">
 		<el-card class="box-card" shadow="never">
 			<div slot="header" class="clearfix">
 				<span>网站设置</span>
@@ -38,15 +38,16 @@
 	export default {
 		data() {
 			return {
-				form: {}
+				form: {},
+				loading:true
 			};
 		},
 		created() {
 			var that = this;
 			that.get_json(that.$store.state.api + 'SiteSetting/', function(data) {
+				that.loading = false;
 				that.form = data;
 			})
-
 		},
 		methods: {
 			submit(formName) {

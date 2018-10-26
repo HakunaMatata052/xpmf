@@ -11,7 +11,7 @@
 					<el-button slot="append" icon="el-icon-search" @click="searchFn"></el-button>
 				</el-input>
 			</div>
-			<el-table :data="list" stripe style="width: 100%">
+			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
 				<el-table-column prop="id" label="ID" width="180">
 				</el-table-column>
 				<el-table-column prop="username" label="用户名">
@@ -37,9 +37,9 @@
 			</el-pagination>
 		</el-card>
 		<el-dialog title="文章编辑" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
-			<el-form :model="form" :rules="rules" ref="form" label-width="120px">
+			<el-form :model="form" :rules="rules" ref="form" label-width="120px" v-loading="dialogloading">
 				<el-form-item label="头像" label-width="120px">
-					<el-upload class="avatar-uploader" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
+					<el-upload class="avatar-uploader" name="upload" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
 						<img v-if="form.fullpathAvatar" :src="form.fullpathAvatar" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 					</el-upload>
@@ -143,7 +143,9 @@
 				options: provinceAndCityData,
 				selectedOptions: [],
 				headers: {},
-				search: ''
+				search: '',
+				loading:true,
+				dialogloading:true
 			};
 		},
 		created() {
@@ -158,12 +160,14 @@
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
+					that.loading = false;
 				})
 			},
 			pageFn(val) {
 				this.getList(this.role, val)
 			},
 			roleFn(val) {
+				this.loading = true;
 				this.getList(this.role, 1)
 			},
 			editDialog(id) {
@@ -171,7 +175,6 @@
 				that.dialogFormVisible = true;
 				if(id.length != 0) {
 					that.get_json(that.$store.state.api + 'admin/User/' + id, function(data) {
-						data.fullpathAvatar = that.$store.state.pic + data.fullpathAvatar;
 						that.form = data;
 						that.userCompany = data.userCompany;
 						var city = [];
@@ -182,8 +185,9 @@
 							city[1] = TextToCode[data.userCompany.province][data.userCompany.city].code;
 						}
 						that.selectedOptions = city;
+						that.dialogloading=false;
 					})
-				};
+				}
 			},
 			edit(formName, val) {
 				var that = this;
@@ -222,9 +226,10 @@
 					userCompany:{}
 				};
 				this.dialogFormVisible = false;
+				this.dialogloading = true;
 			},
 			handleAvatarSuccess(res, file) {
-				this.form.avatar = res;
+				this.form.avatar = res.fileName;
 				this.form.fullpathAvatar = URL.createObjectURL(file.raw);
 			},
 			cityFn(val) {
@@ -262,6 +267,7 @@
 			},
 			searchFn() {
 				var that = this;
+				that.loading = true;
 				that.post_json(that.$store.state.api + 'admin/User/search/page/1', {
 					keyword: that.search
 				}, function(data) {
@@ -269,6 +275,7 @@
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
+					that.loading = false;
 				})
 			}
 		}

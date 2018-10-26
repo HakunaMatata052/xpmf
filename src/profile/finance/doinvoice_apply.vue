@@ -65,7 +65,7 @@
 			},
 			applyFn(id){
 				var that =this;
-				that.put_json(that.$store.state.api + 'invoice/'+id+'/applying', function(data) {
+				that.put_json(that.$store.state.api + 'invoice/'+id+'/applying',{}, function(data) {
 					that.$message({
 						type: 'success',
 						message: '提交成功！'
@@ -75,7 +75,7 @@
 			},
 			submit() {
 				var that =this;
-				that.put_json(that.$store.state.api + 'invoice/'+that.applyId+'/applying', function(data) {
+				that.put_json(that.$store.state.api + 'invoice/'+that.applyId+'/applying',{}, function(data) {
 					that.$message({
 						type: 'success',
 						message: '提交成功！'

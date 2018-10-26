@@ -3,8 +3,8 @@
 		<el-tabs v-model="active" @tab-click="handleClick">
 			<el-tab-pane label="全部" name="100"></el-tab-pane>
 			<el-tab-pane label="处理中" name="30"></el-tab-pane>
-			<el-tab-pane label="已完成" name="40"></el-tab-pane>
-			<el-tab-pane label="已关闭" name="50"></el-tab-pane>
+			<el-tab-pane label="已拒绝" name="40"></el-tab-pane>
+			<el-tab-pane label="已完成" name="60"></el-tab-pane>
 		</el-tabs>
 		<el-table :data="list" stripe  style="width: 100%">
 			<el-table-column prop="amount" label="开票金额">

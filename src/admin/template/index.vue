@@ -1,6 +1,5 @@
 <template>
-	<div id="template">
-
+	<div id="template" v-loading="loading">
 		<el-card class="box-card" shadow="never">
 			<div slot="header" class="clearfix">
 				<span>模板列表</span>
@@ -11,7 +10,7 @@
 				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list">
 					<div class="template-list">
 						<div class="img">
-							<img :src="$store.state.pic+item.fullpathPicture" alt="" />
+							<img :src="item.fullpathPicture" alt="" />
 						</div>
 						<div class="info">
 							<h3>{{item.name}}</h3>
@@ -30,7 +29,7 @@
 			</el-pagination>
 		</el-card>
 		<el-dialog title="模板内容" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
-			<el-form :model="form" :rules="rules" ref="form">
+			<el-form :model="form" :rules="rules" ref="form" v-loading="dialogloading">
 				<el-form-item label="模板名称" label-width="120px" prop="name">
 					<el-input v-model="form.name"></el-input>
 				</el-form-item>
@@ -40,7 +39,7 @@
 				<el-row :gutter="20">
 					<el-col :span="8">
 						<el-form-item label="缩略图" label-width="120px">
-							<el-upload class="img-uploader" :action="$store.state.api+'template/picture'" :headers="headers" :show-file-list="false" :on-success="picSuccess">
+							<el-upload class="img-uploader" name="upload" :action="$store.state.api+'template/picture'" :headers="headers" :show-file-list="false" :on-success="picSuccess">
 								<img v-if="form.fullpathPicture" :src="form.fullpathPicture" class="img">
 								<i v-else class="el-icon-plus img-uploader-icon"></i>
 							</el-upload>
@@ -49,7 +48,7 @@
 					<el-col :span="16">
 						<el-form-item label="模板分类" label-width="120px" prop="categoryId">
 							<el-select v-model="form.categoryId" placeholder="请选择模板类别">
-								<el-option :label="x.name" :value="x.id" v-for="x in categories"></el-option>
+								<el-option :label="x.name" :value="x.id" v-for="x in categories" v-loading="cateloading"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="模板编号" label-width="120px">
@@ -62,7 +61,7 @@
 				</el-row>
 				<el-form-item label="模板压缩包" label-width="120px" prop="source">
 					<el-input v-model="form.source" class="uploadInput"></el-input>
-					<el-upload class="upload" :action="$store.state.api+'template/source/'" :headers="headers" :on-success="sourceSuccess" :show-file-list="false">
+					<el-upload class="upload" name="upload" :action="$store.state.api+'template/source/'" :headers="headers" :on-success="sourceSuccess" :show-file-list="false">
 						<el-button size="small" type="primary">点击上传</el-button>
 					</el-upload>
 					<i class="el-icon-success" v-if="sourceState"></i>
@@ -129,7 +128,10 @@
 					}]
 				},
 				categories: [],
-				sourceState: false
+				sourceState: false,
+				loading:true,
+				cateloading:true,
+				dialogloading:true
 			};
 		},
 		created() {
@@ -144,6 +146,7 @@
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
+					that.loading = false;
 				})
 			},
 			pageFn(val) {
@@ -154,12 +157,16 @@
 				that.dialogFormVisible = true;
 				if(id.length != 0) {
 					that.get_json(that.$store.state.api + 'template/' + id, function(data) {
-						data.fullpathPicture = that.$store.state.pic+data.fullpathPicture;
 						that.form = data;
+						that.dialogloading = false;
 					});
+				}else{
+					that.dialogloading = false;
 				}
 				that.get_json(that.$store.state.api + 'template/categories/', function(data) {
 					that.categories = data;
+					that.cateloading = false;
+					
 				});
 			},
 			edit(formName, val) {
@@ -214,7 +221,7 @@
 				//this.form.source = res;
 			},
 			picSuccess(res,file){
-				this.form.picture = res;								
+				this.form.picture = res.fileName;								
 				this.$set(this.form, 'fullpathPicture', URL.createObjectURL(file.raw));
 			}
 		}

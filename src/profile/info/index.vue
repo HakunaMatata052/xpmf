@@ -6,7 +6,7 @@
 			</div>
 			<div class="item">
 				<div class="item-left">
-					<el-upload class="avatar-uploader" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
+					<el-upload class="avatar-uploader" name="upload" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
 						<img v-if="userinfo.fullpathAvatar" :src="userinfo.fullpathAvatar" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 					</el-upload>
@@ -188,13 +188,12 @@
 		},
 		methods: {
 			handleAvatarSuccess(res, file) {
-				this.userinfo.avatar = res;
+				this.userinfo.avatar = res.fileName;
 				this.userinfo.fullpathAvatar = URL.createObjectURL(file.raw);
 			},
 			getinfo() {
 				var that = this;
 				that.get_json(that.$store.state.api + 'user/mine', function(data) {
-					data.fullpathAvatar = that.$store.state.pic +  data.fullpathAvatar;
 					that.userinfo = data;
 					that.userCompany = data.userCompany;
 					var city = [];

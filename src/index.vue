@@ -77,6 +77,10 @@
 						<i class="iconfont icon-kefu"></i>
 						<span slot="title">工单管理</span>
 					</el-menu-item>
+					<el-menu-item index="/admin/finance" v-if="admin">
+						<i class="iconfont icon-fapiao"></i>
+						<span slot="title">发票管理</span>
+					</el-menu-item>
 					<el-menu-item index="/admin/links" v-if="admin">
 						<i class="iconfont icon-links"></i>
 						<span slot="title">友情链接</span>

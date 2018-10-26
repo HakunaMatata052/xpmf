@@ -9,13 +9,13 @@
 			<el-tab-pane label="已关闭" name="50"></el-tab-pane>
 		</el-tabs>
 		<div class="tab-content">
-			<el-table :data="list" stripe style="width: 100%">
+			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
 				<el-table-column prop="id" label="ID" width="80px">
 				</el-table-column>
 				<el-table-column prop="title" label="工单标题">
 				</el-table-column>
 				<el-table-column prop="consumerUsername" label="用户名">
-				</el-table-column>				
+				</el-table-column>
 				<el-table-column prop="typeString" label="类型" width="200px">
 					<template slot-scope="scope">
 						<el-tag type="success">{{scope.row.typeString}}
@@ -99,8 +99,8 @@
 				<h2>回复交流区</h2>
 				<p class="tip">暂无内容</p>
 			</div>
-			<span slot="footer" class="dialog-footer">
-			    <quill-editor v-model="content" ref="QuillEditor" :options="editorOption" ></quill-editor>
+			<span slot="footer" class="dialog-footer">				
+					<vue-ckeditor v-model="content" :config="config"/>
 			    <el-button type="primary" class="submit" @click="submitReply(workorder.id)">提交</el-button>
 			 </span>
 		</el-dialog>
@@ -110,7 +110,7 @@
 					<el-input v-model="form.title"></el-input>
 				</el-form-item>
 				<el-form-item label="问题描述">
-					<quill-editor v-model="form.Description" ref="QuillEditor" :options="editorOption"></quill-editor>
+					<vue-ckeditor v-model="form.Description" :config="config" />
 				</el-form-item>
 				<el-form-item label="问题分类" prop="Type">
 					<el-select v-model="form.Type" placeholder="请选择活动区域" style="width: 100%;">
@@ -132,7 +132,11 @@
 </template>
 
 <script>
+	import VueCkeditor from 'vue-ckeditor2';
 	export default {
+		components: {
+			VueCkeditor
+		},
 		data() {
 			return {
 				list: [],
@@ -181,11 +185,26 @@
 						message: '请选择问题类型',
 						trigger: 'change'
 					}]
-				}
+				},
+				config: {
+					toolbar: [
+						['Bold', 'Italic', 'Underline','Link','Unlink','Image']
+					],
+					height: 150,
+					filebrowserImageUploadUrl: 'http://192.168.0.199:9001/api/workorder/picture',
+					fileTools_requestHeaders: {
+						Authorization: ''
+					},
+					fileTools_defaultFileName:'file',
+					language: 'zh-cn',
+				},
+				loading:true
 			};
 		},
 		created() {
 			this.getList(100, 1);
+			this.config.fileTools_requestHeaders.Authorization = 'Bearer ' + localStorage.getItem('token');
+			this.config.filebrowserImageUploadUrl = this.$store.state.pic +'api/workorder/picture'
 		},
 		methods: {
 			getList(type, val) {
@@ -195,6 +214,7 @@
 					that.page = data.page;
 					that.size = data.size;
 					that.total = data.total;
+					that.loading = false;
 				})
 			},
 			pageFn(val) {
@@ -202,7 +222,8 @@
 			},
 			handleClick(tab, event) {
 				this.active = tab.name;
-				this.getList(tab.name, 1)
+				this.getList(tab.name, 1);
+				this.loading = true;
 			},
 			openWorkorder(id) {
 				var that = this;

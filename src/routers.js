@@ -275,7 +275,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
 	if(to.meta.title) {
-		document.title = to.meta.title + '-个人中心'
+		document.title = to.meta.title + '-新派魔方'
 	}
 	next();
 });

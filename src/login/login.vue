@@ -1,6 +1,6 @@
 <template>
 	<div id="login">
-		<div class="login-box">
+		<div class="login-box" v-loading="interdiction">
 			<div class="logo"><img src="../assets/images/LOGO.png" alt="" /></div>
 
 			<el-input placeholder="用户名" v-model="login.username">
@@ -28,12 +28,14 @@
 				login: {
 					username: '',
 					password: ''
-				}
+				},
+				interdiction:false
 			}
 		},
 		methods: {
 			loginFn() {
 				var that = this;
+				that.interdiction = true;
 				that.$http.post(that.$store.state.api + 'login', that.login, {
 					headers: {
 						'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -55,12 +57,14 @@
 						that.$router.push({
 							path: '/'
 						})
-					}
+					};					
+					that.interdiction = false;
 				}, error => {
 					that.$message({
 						type: 'error',
 						message: '密码错误！'
 					});
+					that.interdiction = false;
 				})
 
 			}
@@ -348,6 +352,7 @@
 		justify-content: center;
 		align-items: center;
 		height: 100%;
+		padding: 10px;
 	}
 	
 	.login-box {

@@ -18,7 +18,7 @@
 					url: "/finance/record"
 				}, {
 					name: '充值',
-					url: "/finance/dorecharge"
+					url: "/finance/recharge"
 				}, {
 					name: '未完成订单',
 					url: "/finance/dounorder"

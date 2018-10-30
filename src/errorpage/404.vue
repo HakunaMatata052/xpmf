@@ -18,7 +18,7 @@
 	export default {
 		data() {
 			return {
-
+				se:function(){}
 			};
 		},
 		methods: {
@@ -28,12 +28,13 @@
 
 		},
 		mounted() {
+			var that = this;
 			var str = document.getElementById('pp').innerHTML.toString();
 			var i = 0;
 			document.getElementById('pp').innerHTML = "";
 
 			setTimeout(function() {
-				var se = setInterval(function() {
+				that.se = setInterval(function() {
 					i++;
 					document.getElementById('pp').innerHTML = str.slice(0, i) + "|";
 					if(i == str.length) {
@@ -42,6 +43,9 @@
 					}
 				}, 10);
 			}, 0);
+		},
+		beforeDestroy(){
+			clearInterval(this.se)
 		}
 	};
 </script>

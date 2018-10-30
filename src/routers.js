@@ -20,6 +20,8 @@ var Doinvoice_apply = r => require.ensure([], () => r(require('./profile/finance
 var Invoice_record = r => require.ensure([], () => r(require('./profile/finance/invoice_record.vue')), 'invoice_record');
 var Info = r => require.ensure([], () => r(require('./profile/info/index.vue')), 'info');
 var Process = r => require.ensure([], () => r(require('./profile/process/index.vue')), 'process');
+var Recharge = r => require.ensure([], () => r(require('./profile/finance/recharge/index.vue')), 'recharge');
+var Pay = r => require.ensure([], () => r(require('./profile/finance/recharge/pay.vue')), 'pay');
 
 //管理员
 var admin_template = r => require.ensure([], () => r(require('./admin/template/index.vue')), 'admin_template');
@@ -136,6 +138,21 @@ const router = new VueRouter({
 						//redirect: 'site',
 						meta: {
 							title: '未完成订单'
+						},
+					},{
+						path: 'recharge',
+						component: Recharge,
+						//redirect: 'site',
+						meta: {
+							title: '充值'
+						},
+					},{
+						path: '/pay/:id',
+     					name: 'Pay',
+						component: Pay,
+						//redirect: 'site',
+						meta: {
+							title: '支付'
 						},
 					}, {
 						path: 'doinvoice_apply',

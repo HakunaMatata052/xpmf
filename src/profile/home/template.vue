@@ -1,7 +1,7 @@
 <template>
 	<div id="template">
 		<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list">
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list" :key="item.id">
 						<div class="template-list">
 							<div class="img">
 								<img src="../../assets/images/hamburger.png" alt="" />

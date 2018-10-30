@@ -7,7 +7,7 @@
 			</div>
 
 			<el-row :gutter="20">
-				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list">
+				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list" :key="item.id">
 					<div class="template-list">
 						<div class="img">
 							<img :src="item.fullpathPicture" alt="" />
@@ -48,7 +48,7 @@
 					<el-col :span="16">
 						<el-form-item label="模板分类" label-width="120px" prop="categoryId">
 							<el-select v-model="form.categoryId" placeholder="请选择模板类别">
-								<el-option :label="x.name" :value="x.id" v-for="x in categories" v-loading="cateloading"></el-option>
+								<el-option :label="x.name" :value="x.id" v-for="x in categories" :key="x.id" v-loading="cateloading"></el-option>
 							</el-select>
 						</el-form-item>
 						<el-form-item label="模板编号" label-width="120px">

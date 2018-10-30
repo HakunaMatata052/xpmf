@@ -50,7 +50,7 @@
 							<el-col :span="12">
 								<el-form-item label="栏目" prop="newsCategoryId">
 									<el-select v-model="form.newsCategoryId" placeholder="请选择活动区域">
-										<el-option :label="x.name" :value="x.id" v-for="x in categories"></el-option>
+										<el-option :label="x.name" :value="x.id" v-for="x in categories" :key="x.id"></el-option>
 									</el-select>
 								</el-form-item>
 							</el-col>

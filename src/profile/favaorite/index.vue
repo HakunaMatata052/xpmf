@@ -6,7 +6,7 @@
 				<span>模板收藏夹</span>
 			</div>
 				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in TemplateList">
+					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in TemplateList" :key="item.id">
 						<div class="template-list">
 							<div class="img">
 								<img src="../../assets/images/hamburger.png" alt="" />

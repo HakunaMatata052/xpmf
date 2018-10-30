@@ -27,7 +27,7 @@
 		<el-button type="primary">去购买</el-button>
 				<el-dialog title="FTP信息" :visible.sync="dialogFtp">
 			<el-form label-position="left" inline class="table-expand">
-				<el-form-item :label="key" v-for="(value, key)  in ftplist">
+				<el-form-item :label="key" v-for="(value, key)  in ftplist" :key="key">
 					<span>{{value}}</span>
 				</el-form-item>
 			</el-form>

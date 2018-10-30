@@ -1,7 +1,7 @@
 <template>
 	<div class="tabs">
 		<el-tabs v-model="path" @tab-click="handleClick">
-			<el-tab-pane :label="item.name" v-for="item in tabs" :name="item.url"></el-tab-pane>
+			<el-tab-pane :label="item.name" v-for="item in tabs" :name="item.url" :key="item.id"></el-tab-pane>
 		</el-tabs>
 		<div class="tab-content">
 			<router-view></router-view>

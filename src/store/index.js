@@ -13,6 +13,9 @@ export default new vuex.Store({
 			role:'',
 			expires:''
 		},
+		pay:{
+			amount:''
+		},
 		refresh_token:'http://192.168.0.154:9001/api/token/refresh',   //刷新token
 		api:'http://192.168.0.154:9001/api/',
 		pic:'http://192.168.0.154:9009/',

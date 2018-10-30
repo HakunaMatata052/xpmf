@@ -1,11 +1,11 @@
 <template>
 	<div id="recharge">
 		<el-form :model="form" ref="form" label-width="100px">
-			<el-form-item label="金额" prop="amount" :rules="[
-      { required: true, message: '年龄不能为空'},
-      { type: 'number', message: '年龄必须为数字值'}
+			<el-form-item label="金额(元)" prop="amount" :rules="[
+      { required: true, message: '金额不能为空'},
+      { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额' }
     ]">
-				<el-input type="amount" v-model.number="form.amount" autocomplete="off"></el-input>
+				<el-input type="amount" v-model="form.amount" autocomplete="off" style="max-width: 300px;"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button type="primary" @click="submitForm('form',form.amount)">提交</el-button>
@@ -29,8 +29,13 @@
 				var that = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						this.$router.push({
-							path: `/pay/${amount}`,
+						//通过路由传参
+//						this.$router.push({
+//							path: `/pay/${amount}`,
+//						})
+						that.$store.state.pay.amount = amount;
+						that.$router.push({
+							path: 'pay'
 						})
 					} else {
 						console.log('error submit!!');

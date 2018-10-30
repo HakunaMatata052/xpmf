@@ -154,7 +154,14 @@ const router = new VueRouter({
 						meta: {
 							title: '支付'
 						},
-					}, {
+					},{
+						path: 'pay',
+						component: Pay,
+						//redirect: 'site',
+						meta: {
+							title: '支付'
+						},
+					},{
 						path: 'doinvoice_apply',
 						component: Doinvoice_apply,
 						//redirect: 'site',

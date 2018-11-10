@@ -1,11 +1,11 @@
 <template>
 	<div id="template">
 		<el-table :data="list" stripe style="width: 100%">
-			<el-table-column prop="ftpName" label="FTP名称" max-width="200" show-overflow-tooltip>
+			<el-table-column prop="id" label="ID" width="80" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="domain" label="绑定域名" max-width="300" show-overflow-tooltip>
+			<el-table-column prop="domain" label="绑定域名" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="capacity" label="容量" max-width="150" show-overflow-tooltip>
+			<el-table-column prop="authorizeDate" label="授权时间" min-width="100" show-overflow-tooltip>
 			</el-table-column>
 			<el-table-column label="到期时间" min-width="160" show-overflow-tooltip>
 				<template slot-scope="scope">
@@ -14,10 +14,9 @@
 				</template>
 			</el-table-column>
 
-			<el-table-column label="操作" width="100">
+			<el-table-column label="操作" width="100"  v-if="bind">
 				<template slot-scope="scope">
-					<el-button size="mini" @click="bindFn(scope.row.id)" type="success" v-if="bind">绑定</el-button>
-					<el-button size="mini" @click="ftpFn(scope.row.id)" type="success" v-else>查看FTP</el-button>
+					<el-button size="mini" @click="bindFn(scope.row.id)" type="success">绑定</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -26,17 +25,6 @@
 		</el-pagination>
 		<br />
 		<el-button type="primary">去购买</el-button>
-		<el-dialog title="FTP信息" :visible.sync="dialogFtp">
-			<el-form label-position="left" inline class="table-expand">
-				<el-form-item :label="key" v-for="(value, key)  in ftplist" :key="key">
-					<span>{{value}}</span>
-				</el-form-item>
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button @click="dialogFtp = false">取 消</el-button>
-				<el-button type="primary" @click="dialogFtp = false">确 定</el-button>
-			</div>
-		</el-dialog>
 	</div>
 </template>
 
@@ -45,19 +33,18 @@
 		data() {
 			return {
 				bind: false,
-				apiUrl: 'userspace/page/',
+				apiUrl: 'UserPermission/page/',
 				list: [],
 				page: 0,
 				size: 0,
 				total: 0,
-				ftplist: {},
 				dialogFtp: false
 			};
 		},
 		created() {
 			if(this.$route.params.id) {
 				this.bind = true;
-				this.apiUrl = 'UserSpace/unused/page/'
+				this.apiUrl = 'UserPermission/unused/page/'
 			}
 			this.getList(1)
 		},
@@ -74,18 +61,11 @@
 			pageFn(val) {
 				this.getList(val)
 			},
-			ftpFn(id) {
-				var that = this;
-				that.get_json(that.$store.state.api + 'usersite/' + id + '/ftp', function(data) {
-					that.ftplist = data;
-					that.dialogFtp = true;
-				})
-			},
 			bindFn(id) {
 				var that = this;
-				that.post_json(that.$store.state.api + 'UserSite/bind/space', {
+				that.post_json(that.$store.state.api + 'UserSite/bind/permission', {
 					UserSiteId: that.$route.params.id,
-					userSpaceId: id
+					userPermissionId: id
 				}, function(data) {
 					that.$message({
 						type: 'success',

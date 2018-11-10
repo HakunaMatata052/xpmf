@@ -5,10 +5,10 @@
 				<img src="./assets/images/header-logo.png" alt="" />
 			</div>
 			<div class="nav">
-				<a href="">首页</a>
-				<a href="">导航</a>
-				<a href="">导航</a>
-				<a href="">导航</a>
+				<a href="/">首页</a>
+				<a href="/quick">快速建站</a>
+				<a href="/template">模板</a>
+				<a href="/case">案例</a>
 			</div>
 			<a href="javascript:;" class="logout" @click="logout"><i class="iconfont icon-tuichu"></i>退出</a>
 		</el-header>

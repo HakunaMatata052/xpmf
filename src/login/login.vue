@@ -2,16 +2,19 @@
 	<div id="login">
 		<div class="login-box" v-loading="interdiction">
 			<div class="logo"><img src="../assets/images/LOGO.png" alt="" /></div>
-
-			<el-input placeholder="用户名" v-model="login.username">
+			<el-input placeholder="用户名" v-model="login.username" class="login-input">
 				<i slot="suffix" class="el-input__icon el-icon-edit"></i>
 			</el-input>
 			<div class="em"></div>
-			<el-input placeholder="密码" v-model="login.password" type="password">
+			<el-input placeholder="密码" v-model="login.password" type="password" class="login-input">
 				<i slot="suffix" class="el-input__icon el-icon-view"></i>
 			</el-input>
 			<div class="em"></div>
 			<el-button type="primary" class="submit" @click="loginFn">登陆</el-button>
+			<div class="em"></div>
+			<p>没有账号? 去
+				<router-link to="/register">注册</router-link>
+				<router-link to="/register">忘记密码</router-link>?</p>
 			<div id="bg">
 				<canvas></canvas>
 				<canvas></canvas>
@@ -29,7 +32,7 @@
 					username: '',
 					password: ''
 				},
-				interdiction:false
+				interdiction: false
 			}
 		},
 		methods: {
@@ -48,7 +51,7 @@
 						type: 'success',
 						message: '登陆成功！'
 					});
-					if(res.data.role=="Admin") {
+					if(res.data.role == "Admin") {
 						that.$router.push({
 							path: '/admin/config'
 						})
@@ -57,7 +60,7 @@
 						that.$router.push({
 							path: '/'
 						})
-					};					
+					};
 					that.interdiction = false;
 				}, error => {
 					that.$message({
@@ -355,6 +358,11 @@
 		padding: 10px;
 	}
 	
+	.logo {
+		text-align: center;
+		margin-bottom: 20px;
+	}
+	
 	.login-box {
 		width: 440px;
 		padding: 40px;
@@ -362,13 +370,20 @@
 		border-radius: 5px;
 	}
 	
-	.logo {
+	.login-box p {
 		text-align: center;
-		margin-bottom: 20px;
 	}
 	
-	.em {
-		height: 30px;
+	.login-box a {
+		color: #ee3231;
+	}
+	
+	.login-box .em {
+		height: 20px;
+	}
+	
+	.login-box .login-input * {
+		
 	}
 	
 	.submit {

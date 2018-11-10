@@ -207,6 +207,13 @@ exports.install = function(Vue, options) {
 
 	};
 	//跳转页面 
+	Vue.prototype.jump_router = function(url) {
+		this.$router.push({
+			path: url
+		})
+
+	};
+	//跳转路由 
 	Vue.prototype.jump_href = function(url, target) {
 		if(target == '_blank') {
 			window.open(url);
@@ -217,38 +224,47 @@ exports.install = function(Vue, options) {
 	};
 	//Ajax请求错误执行的函数
 	Vue.prototype.ajax_error = function(status) {
-		if(status == 401 || status == 403) {
+		var that = this;
+		if(status == 401) {
 			this.$router.push({
 				path: '/login'
 			})
 		} else {
-			this.$message(this.$store.state.status[status]);
-			this.$router.push({
-				path: '/login'
-			})
+			this.$message(that.$store.state.status[status]);
 			//console.info(error)
 		}
 	};
 	//刷新Token请求
 	Vue.prototype.refresh_token = function(fn) {
-		this.$http.post(this.$store.state.refresh_token, {
-			'Token': localStorage.getItem('token')
-		}).then(res => {
-			localStorage.setItem('token', res.data.token);
-			localStorage.setItem('expires', res.data.expires);
-			if(fn != undefined) {
-				fn();
-			}
-		}, error => {
-			if(error.data.length != 0) {
-				this.$message({
-					type: 'error',
-					message: error.data
-				});
-			} else {
-				this.ajax_error(error.status)
-			}
-		})
+		if(localStorage.getItem('token') && localStorage.getItem('token').length > 0) {
+			this.$http.post(this.$store.state.refresh_token, {
+				'Token': localStorage.getItem('token')
+			}).then(res => {
+				localStorage.setItem('token', res.data.token);
+				localStorage.setItem('expires', res.data.expires);
+				if(fn != undefined) {
+					fn();
+				}
+			}, error => {
+				if(error.data.length != 0) {
+					this.$message({
+						type: 'error',
+						message: error.data
+					});
+				} else {
+					localStorage.clear();
+					this.$router.push({
+						path: '/login'
+					})
+
+				}
+			})
+		} else {
+			this.$router.push({
+				path: '/login'
+			})
+		}
+
 	};
 
 	//计算时间差

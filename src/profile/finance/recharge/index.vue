@@ -1,8 +1,9 @@
 <template>
 	<div id="recharge">
-		<el-form :model="form" ref="form" label-width="100px">
+		<el-form :model="form" ref="form" label-width="100px"> 
 			<el-form-item label="金额(元)" prop="amount" :rules="[
       { required: true, message: '金额不能为空'},
+       { max:10, message: '金额过大'},
       { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额' }
     ]">
 				<el-input type="amount" v-model="form.amount" autocomplete="off" style="max-width: 300px;"></el-input>
@@ -29,10 +30,6 @@
 				var that = this;
 				this.$refs[formName].validate((valid) => {
 					if(valid) {
-						//通过路由传参
-//						this.$router.push({
-//							path: `/pay/${amount}`,
-//						})
 						that.$store.state.pay.amount = amount;
 						that.$router.push({
 							path: 'pay'

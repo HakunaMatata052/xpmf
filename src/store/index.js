@@ -5,8 +5,11 @@ Vue.use(vuex);
 export default new vuex.Store({
 	state: {
 		status:{
-			403:'密码错误！',
-			401:'没有权限操作！'
+			0:'程序发生错误！',
+			440:'账号或密码错误！',
+			401:'没有权限！',
+			403:'拒绝访问！',
+			500:'程序发生错误！'
 		},
 		login:{
 			token:'',
@@ -16,9 +19,9 @@ export default new vuex.Store({
 		pay:{
 			amount:''
 		},
-		refresh_token:'http://192.168.0.154:9001/api/token/refresh',   //刷新token
-		api:'http://192.168.0.154:9001/api/',
-		pic:'http://192.168.0.154:9009/',
+		refresh_token:'http://192.168.0.115:9001/api/token/refresh',   //刷新token
+		api:'http://192.168.0.115:9001/api/',
+		pic:'http://192.168.0.115:9009/',
 		domain: "阿斯达",
 		notice: true,
 	},

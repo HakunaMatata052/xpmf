@@ -8,6 +8,7 @@ var Home = r => require.ensure([], () => r(require('./profile/home/home.vue')), 
 var Site = r => require.ensure([], () => r(require('./profile/home/site.vue')), 'site');
 var Template = r => require.ensure([], () => r(require('./profile/home/template.vue')), 'template');
 var Host = r => require.ensure([], () => r(require('./profile/home/host.vue')), 'host');
+var Business = r => require.ensure([], () => r(require('./profile/home/business.vue')), 'business');
 var Domain = r => require.ensure([], () => r(require('./profile/home/domain.vue')), 'domain');
 var Wuyou = r => require.ensure([], () => r(require('./profile/home/wuyou.vue')), 'wuyou');
 var Service = r => require.ensure([], () => r(require('./profile/home/service.vue')), 'service');
@@ -70,12 +71,64 @@ const router = new VueRouter({
 						meta: {
 							title: '站点'
 						},
+						children: [{
+								path: '/bind/template/:id',
+								name: "Template",
+								component: Template,
+								meta: {
+									title: '模板'
+								}
+							},{
+								path: '/bind/business/:id',
+								name: "Business",
+								component: Business,
+								meta: {
+									title: '授权'
+								}
+							},{
+								path: '/bind/host/:id',
+								name: "Host",
+								component: Host,
+								meta: {
+									title: '空间'
+								}
+							},{
+								path: '/bind/domain/:id',
+								name: "Domain",
+								component: Domain,
+								meta: {
+									title: '域名'
+								}
+							},{
+								path: '/bind/wuyou/:id',
+								name: "Wuyou",
+								component: Wuyou,
+								meta: {
+									title: '无忧'
+								}
+							},{
+								path: '/bind/service/:id',
+								name: "Service",
+								component: Service,
+								meta: {
+									title: '服务'
+								}
+							},
+
+						]
 					}, {
 						path: 'template',
 						component: Template,
 						//redirect: 'template',
 						meta: {
 							title: '模板'
+						},
+					}, {
+						path: 'business',
+						component: Business,
+						//redirect: 'template',
+						meta: {
+							title: '授权'
 						},
 					}, {
 						path: 'host',
@@ -139,29 +192,29 @@ const router = new VueRouter({
 						meta: {
 							title: '未完成订单'
 						},
-					},{
+					}, {
 						path: 'recharge',
 						component: Recharge,
 						//redirect: 'site',
 						meta: {
 							title: '充值'
 						},
-					},{
+					}, {
 						path: '/pay/:id',
-     					name: 'Pay',
+						name: 'Pay',
 						component: Pay,
 						//redirect: 'site',
 						meta: {
 							title: '支付'
 						},
-					},{
+					}, {
 						path: 'pay',
 						component: Pay,
 						//redirect: 'site',
 						meta: {
 							title: '支付'
 						},
-					},{
+					}, {
 						path: 'doinvoice_apply',
 						component: Doinvoice_apply,
 						//redirect: 'site',
@@ -273,10 +326,10 @@ const router = new VueRouter({
 			path: '/register',
 			component: Register,
 			meta: {
-				title: '登陆'
+				title: '注册'
 			}
 		},
-		
+
 		{
 			path: '/404',
 			component: page404,
@@ -306,5 +359,5 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach(route => {
 
-})
+});
 export default router;

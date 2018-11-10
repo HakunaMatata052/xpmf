@@ -21,7 +21,7 @@
 					url: "/home/template"
 				}, {
 					name: '授权',
-					url: "/home/template"
+					url: "/home/business"
 				}, {
 					name: '空间',
 					url: "/home/host"

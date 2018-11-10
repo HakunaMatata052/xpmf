@@ -246,7 +246,7 @@
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					inputPattern: /(^(?=.*[a-zA-Z])|(?=.*\d)|(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,.\/])).{4,16}$/,
-					inputErrorMessage: '密码必须在4-16位以字母开头'
+					inputErrorMessage: '密码必须在4-16位！'
 				}).then(({
 					value
 				}) => {

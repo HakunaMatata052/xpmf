@@ -37,7 +37,8 @@
 				that.loading = true;
 				that.post_json(that.$store.state.api + 'recharge/', {
 					rechargeWay: type,
-					amount: that.$store.state.pay.amount
+					amount: that.$store.state.pay.amount,
+					attach:'recharge'
 				}, function(data) {
 					if(type == 20) {
 						that.$alert('<iframe style="width:100%;height:200px;margin:auto" scrolling="no" src="http://192.168.0.154:9006/example/NativePayPage.aspx?no=' + data.no + '&price=' + data.price + '&description=' + data.description + '" frameborder="0"></iframe>', '扫码支付', {

@@ -33,6 +33,7 @@ var category = r => require.ensure([], () => r(require('./admin/category/index.v
 var config = r => require.ensure([], () => r(require('./admin/config/index.vue')), 'config');
 var user = r => require.ensure([], () => r(require('./admin/user/index.vue')), 'user');
 var admin_process = r => require.ensure([], () => r(require('./admin/process/index.vue')), 'admin_process');
+var admin_host = r => require.ensure([], () => r(require('./admin/host/index.vue')), 'admin_host');
 var links = r => require.ensure([], () => r(require('./admin/links/index.vue')), 'links');
 var admin_finance = r => require.ensure([], () => r(require('./admin/finance/index.vue')), 'admin_finance');
 
@@ -78,35 +79,35 @@ const router = new VueRouter({
 								meta: {
 									title: '模板'
 								}
-							},{
+							}, {
 								path: '/bind/business/:id',
 								name: "Business",
 								component: Business,
 								meta: {
 									title: '授权'
 								}
-							},{
+							}, {
 								path: '/bind/host/:id',
 								name: "Host",
 								component: Host,
 								meta: {
 									title: '空间'
 								}
-							},{
+							}, {
 								path: '/bind/domain/:id',
 								name: "Domain",
 								component: Domain,
 								meta: {
 									title: '域名'
 								}
-							},{
+							}, {
 								path: '/bind/wuyou/:id',
 								name: "Wuyou",
 								component: Wuyou,
 								meta: {
 									title: '无忧'
 								}
-							},{
+							}, {
 								path: '/bind/service/:id',
 								name: "Service",
 								component: Service,
@@ -306,7 +307,15 @@ const router = new VueRouter({
 					meta: {
 						title: '友情链接'
 					},
+				}, {
+					path: '/admin/host',
+					component: admin_host,
+					//redirect: 'site',
+					meta: {
+						title: '空间管理'
+					},
 				},
+
 				{
 					path: '/admin/finance',
 					component: admin_finance,
@@ -314,7 +323,7 @@ const router = new VueRouter({
 					meta: {
 						title: '财务管理'
 					},
-				}
+				},
 			]
 		}, {
 			path: '/login',

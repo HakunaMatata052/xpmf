@@ -1,6 +1,8 @@
 <template>
 	<div id="template">
 		<el-table :data="list" stripe style="width: 100%">
+			<el-table-column prop="id" label="ID" width="80" show-overflow-tooltip>
+			</el-table-column>
 			<el-table-column prop="ftpName" label="FTP名称" max-width="200" show-overflow-tooltip>
 			</el-table-column>
 			<el-table-column prop="domain" label="绑定域名" max-width="300" show-overflow-tooltip>
@@ -28,8 +30,26 @@
 		<el-button type="primary">去购买</el-button>
 		<el-dialog title="FTP信息" :visible.sync="dialogFtp">
 			<el-form label-position="left" inline class="table-expand">
-				<el-form-item :label="key" v-for="(value, key)  in ftplist" :key="key">
-					<span>{{value}}</span>
+				<el-form-item label="网站名称">
+					<span>{{ftplist.spaceName}}</span>
+				</el-form-item>
+				<el-form-item label="空间大小">
+					<span>{{ftplist.capacity}}</span>
+				</el-form-item>
+				<el-form-item label="绑定域名">
+					<span>{{ftplist.ftpAddress}}</span>
+				</el-form-item>
+				<el-form-item label="FTPIP">
+					<span>{{ftplist.id}}</span>
+				</el-form-item>
+				<el-form-item label="FTP用户名">
+					<span>{{ftplist.ftpAddress}}</span>
+				</el-form-item>
+				<el-form-item label="FTP密码">
+					<span>{{ftplist.ftpAccount}}</span>
+				</el-form-item>
+				<el-form-item label="创建时间">
+					<span>{{ftplist.creatime}}</span>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -107,5 +127,19 @@
 		border-radius: 30px;
 		display: inline-block;
 		margin-left: 10px;
+	}
+	.table-expand {
+		font-size: 0;
+	}
+	
+	.table-expand label {
+		width: 90px;
+		color: #99a9bf;
+	}
+	
+	.table-expand .el-form-item {
+		margin-right: 0;
+		margin-bottom: 0;
+		width: 50%;
 	}
 </style>

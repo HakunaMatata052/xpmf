@@ -10,11 +10,11 @@
 				<div class="btn-group">
 					<el-button size="small" type="primary" @click="jump_href('http://'+item.domain,'_blank')">访问网站</el-button>
 					<el-button size="small" type="success" @click="bindDomainFn(item.siteId)">绑定域名</el-button>
-					<el-button size="small" type="success" @click="bindFn('template',item.siteId)">选择模板</el-button>
-					<el-button size="small" type="success" @click="bindFn('business',item.siteId)">授权</el-button>
-					<el-button size="small" type="success" @click="bindFn('host',item.siteId)">空间</el-button>
-					<el-button size="small" type="success" @click="bindFn('wuyou',item.siteId)">无忧</el-button>
-					<el-button size="small" type="success" @click="bindFn('service',item.siteId)">服务</el-button>
+					<el-button size="small" type="primary" @click="bindFn('template',item.siteId)">选择模板</el-button>
+					<el-button size="small" type="warning" @click="bindFn('business',item.siteId)">绑定授权</el-button>
+					<el-button size="small" type="warning" @click="bindFn('host',item.siteId)">绑定空间</el-button>
+					<el-button size="small" type="warning" @click="bindFn('wuyou',item.siteId)">绑定无忧</el-button>
+					<el-button size="small" type="warning" @click="bindFn('service',item.siteId)">绑定服务</el-button>
 				</div>
 			</div>
 			<div class="site-list-right">
@@ -45,25 +45,9 @@
 		</el-dialog>
 		
 		
-		<el-dialog title="新建站点" :visible.sync="dialogbind" @closed="closeddialogbind">
+		<el-dialog title="绑定" :visible.sync="dialogbind" @closed="closeddialogbind">
 			<router-view></router-view>
-		</el-dialog>	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
+		</el-dialog>
 		<el-dialog title="绑定域名" :visible.sync="dialogBindDomain">
 			<el-form :model="bindDomainForm">
 				<el-row :gutter="20">
@@ -89,7 +73,7 @@
 
 				<el-table-column label="操作" width="50">
 					<template slot-scope="scope">
-						<el-button type="danger" icon="el-icon-delete" circle></el-button>
+						<el-button type="danger" icon="el-icon-delete" @click="delBindDomain(scope.row.id)" circle></el-button>
 					</template>
 				</el-table-column>
 
@@ -98,8 +82,26 @@
 
 		<el-dialog title="FTP信息" :visible.sync="dialogFtp">
 			<el-form label-position="left" inline class="table-expand">
-				<el-form-item :label="key" v-for="(value, key)  in ftplist" :key="key">
-					<span>{{value}}</span>
+				<el-form-item label="网站名称">
+					<span>{{ftplist.spaceName}}</span>
+				</el-form-item>
+				<el-form-item label="空间大小">
+					<span>{{ftplist.capacity}}</span>
+				</el-form-item>
+				<el-form-item label="绑定域名">
+					<span>{{ftplist.ftpAddress}}</span>
+				</el-form-item>
+				<el-form-item label="FTPIP">
+					<span>{{ftplist.id}}</span>
+				</el-form-item>
+				<el-form-item label="FTP用户名">
+					<span>{{ftplist.ftpAddress}}</span>
+				</el-form-item>
+				<el-form-item label="FTP密码">
+					<span>{{ftplist.ftpAccount}}</span>
+				</el-form-item>
+				<el-form-item label="创建时间">
+					<span>{{ftplist.creatime}}</span>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -181,6 +183,17 @@
 
 				})
 			},
+			delBindDomain(id){
+				var that = this;
+				that.del_json(that.$store.state.api + 'UserSite/domain/'+id, function(data) {
+					that.$message({
+						type: 'success',
+						message: '删除成功！'
+					});
+					that.bindDomainFn(that.bindDomainForm.id)
+
+				})
+			},
 			delSiteFn(id) {
 				var that = this;
 				that.del_json(that.$store.state.api + 'usersite/' + id, function(data) {
@@ -237,7 +250,7 @@
 	.site-list {
 		display: flex;
 		justify-content: space-between;
-		padding: 30px 0;
+		padding: 10px 0;
 		border-bottom: 1px solid #eee;
 	}
 	

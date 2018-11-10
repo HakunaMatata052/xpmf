@@ -1,5 +1,6 @@
 <template>
 	<div id="login">
+		<el-form ref="login" :model="login" label-width="80px">
 		<div class="login-box" v-loading="interdiction">
 			<div class="logo"><img src="../assets/images/LOGO.png" alt="" /></div>
 			<el-input placeholder="用户名" v-model="login.username" class="login-input">
@@ -10,7 +11,7 @@
 				<i slot="suffix" class="el-input__icon el-icon-view"></i>
 			</el-input>
 			<div class="em"></div>
-			<el-button type="primary" class="submit" @click="loginFn">登陆</el-button>
+			<el-button type="primary" native-type="submit"  class="submit" @click="loginFn">登陆</el-button>
 			<div class="em"></div>
 			<p>没有账号? 去
 				<router-link to="/register">注册</router-link>
@@ -21,6 +22,7 @@
 				<canvas></canvas>
 			</div>
 		</div>
+		</el-form>
 	</div>
 </template>
 

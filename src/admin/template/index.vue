@@ -216,7 +216,7 @@
 				this.dialogFormVisible = false;
 			},
 			sourceSuccess(res) {
-				this.$set(this.form, 'source', res);
+				this.$set(this.form, 'source', res.fileName);
 				this.sourceState = true;
 				//this.form.source = res;
 			},

@@ -1,5 +1,5 @@
 <template>
-	<div id="template">
+	<div id="service">
 		<el-table :data="list" stripe style="width: 100%">
 			<el-table-column prop="id" label="ID" width="80" show-overflow-tooltip>
 			</el-table-column>
@@ -11,7 +11,7 @@
 			</el-table-column>
 			<el-table-column label="到期时间" min-width="160" show-overflow-tooltip>
 				<template slot-scope="scope">
-					<span class="capacity">{{scope.row.creatime}}</span>
+					<span class="capacity">{{scope.row.expiresDate}}</span>
 					<span class="remainDays">剩余{{scope.row.remainDays}}天</span>
 				</template>
 			</el-table-column>
@@ -81,9 +81,7 @@
 </script>
 
 <style scoped>
-	#template .capacity {}
-	
-	#template .remainDays {
+	.remainDays {
 		background: #ee3231;
 		color: #fff;
 		padding: 2px 15px;

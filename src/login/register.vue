@@ -3,20 +3,20 @@
 		<div class="login-box" v-loading="interdiction">
 			<div class="logo"><img src="../assets/images/LOGO.png" alt="" /></div>
 
-			<el-input placeholder="用户名" v-model="reg.username" class="login-input">
+			<el-input placeholder="用户名" v-model="reg.username" class="login-input" @keyup.enter.native="regFn">
 				<i slot="suffix" class="el-input__icon el-icon-edit"></i>
 			</el-input>
 			<div class="em"></div>
 
-			<el-input placeholder="公司名称" v-model="reg.companyName" class="login-input">
+			<el-input placeholder="公司名称" v-model="reg.companyName" class="login-input" @keyup.enter.native="regFn">
 				<i slot="suffix" class="el-input__icon el-icon-edit"></i>
 			</el-input>
 			<div class="em"></div>
-			<el-input placeholder="密码" v-model="reg.password" type="password" class="login-input">
+			<el-input placeholder="密码" v-model="reg.password" type="password" class="login-input" @keyup.enter.native="regFn">
 				<i slot="suffix" class="el-input__icon el-icon-view"></i>
 			</el-input>
 			<div class="em"></div>
-			<el-input placeholder="密码" v-model="reg.confirmPassword" type="password" class="login-input">
+			<el-input placeholder="密码" v-model="reg.confirmPassword" type="password" class="login-input" @keyup.enter.native="regFn">
 				<i slot="suffix" class="el-input__icon el-icon-view"></i>
 			</el-input>
 			<div class="em"></div>

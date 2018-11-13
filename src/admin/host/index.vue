@@ -1,39 +1,49 @@
 <template>
-	<div id="template">
+	<div id="host">
 
 		<el-card class="box-card" shadow="never">
 			<div slot="header" class="clearfix">
-				<span>模板类别</span>
-				<el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">创建类别</el-button>
+				<span>空间管理</span>
+
 			</div>
 			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
-				<el-table-column prop="name" label="类别名称">
+				<el-table-column prop="id" label="ID" width="80" show-overflow-tooltip>
+				</el-table-column>
+
+				<el-table-column prop="ftpName" label="FTP用户名" min-width="100" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column prop="owner" label="所属会员" min-width="100" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column prop="capacity" label="空间大小" min-width="100" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column prop="creatime" label="开始时间" min-width="100" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column label="到期时间" min-width="160" show-overflow-tooltip>
+					<template slot-scope="scope">
+						<span class="capacity">{{scope.row.expiresDate}}</span>
+						<span class="remainDays">剩余{{scope.row.remainDays}}天</span>
+					</template>
 				</el-table-column>
 				<el-table-column label="操作" width="200">
 					<template slot-scope="scope">
-						<el-button size="mini" @click="editDialog(scope.row.id)" type="success">修改</el-button>
-						<el-button size="mini" @click="del(scope.row.id)" type="danger">删除</el-button>
+						<el-button size="mini" @click="editDialog(scope.row.id)" type="success">修改FTP信息</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
+			<br>
+			<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn">
+			</el-pagination>
 		</el-card>
-		<el-dialog title="模板内容" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
+		<el-dialog title="修改FTP信息" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
 			<el-form :model="form" :rules="rules" ref="form" v-loading="dialogloading">
-				<el-form-item label="模板名称" label-width="120px" prop="name">
-					<el-input v-model="form.name" autocomplete="off"></el-input>
+				<el-form-item label="FTP IP" label-width="120px" prop="ftpAddress">
+					<el-input v-model="form.ftpAddress" autocomplete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="排序" label-width="120px">
-					<el-input v-model="form.ordering" autocomplete="off"></el-input>
+				<el-form-item label="FTP用户名" label-width="120px" prop="ftpAccount">
+					<el-input v-model="form.ftpAccount" autocomplete="off"></el-input>
 				</el-form-item>
-				<hr />
-				<el-form-item label="SEO标题" label-width="120px">
-					<el-input v-model="form.SeoTitle" autocomplete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="SEO关键词" label-width="120px">
-					<el-input v-model="form.Seokeywords" autocomplete="off"></el-input>
-				</el-form-item>
-				<el-form-item label="SEO描述" label-width="120px">
-					<el-input v-model="form.Seo" type="textarea" autocomplete="off"></el-input>
+				<el-form-item label="FTP密码" label-width="120px" prop="ftpPassword">
+					<el-input v-model="form.ftpPassword" autocomplete="off"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
@@ -50,72 +60,69 @@
 		data() {
 			return {
 				list: [],
+				page: 0,
+				size: 0,
+				total: 0,
 				dialogFormVisible: false,
 				form: {},
 				rules: {
-					name: [{
-							required: true,
-							message: '请输入名称',
-							trigger: 'blur'
-						},
-						{
-							min: 2,
-							max: 20,
-							message: '长度在 2 到 20 个字符',
-							trigger: 'blur'
-						}
-					]
+					ftpAddress: [{
+						required: true,
+						message: '请输入FTP IP',
+						trigger: 'blur'
+					}],
+					ftpAccount: [{
+						required: true,
+						message: '请输入FTP用户名',
+						trigger: 'blur'
+					}],
+					ftpPassword: [{
+						required: true,
+						message: '请输入FTP密码',
+						trigger: 'blur'
+					}],
 				},
 				loading: true,
 				dialogloading: true
 			};
 		},
 		created() {
-			this.getList()
+			this.getList(1)
 		},
 		methods: {
-			getList() {
+			getList(val) {
 				var that = this;
-				that.get_json(that.$store.state.api + 'template/categories/', function(data) {
-					that.list = data;
+				that.get_json(that.$store.state.api + 'admin/UserSpace/page/' + val, function(data) {
+					that.list = data.data;
+					that.page = data.page;
+					that.size = data.size;
+					that.total = data.total;
 					that.loading = false;
 				})
+			},
+			pageFn(val) {
+				this.getList(val)
 			},
 			editDialog(id) {
 				var that = this;
 				that.dialogFormVisible = true;
-				if(id.length != 0) {
-					that.get_json(that.$store.state.api + 'templatecategory/' + id, function(data) {
+				that.get_json(that.$store.state.api + 'admin/UserSpace/' + id + '/ftp', function(data) {
 						that.form = data;
 						that.dialogloading = false;
-					})
-				}else{
-					that.dialogloading = false;
-				}
+				})
 			},
 			edit(formName, val) {
-				var that = this;
+				var that = this;				
+				that.form.id=val;
 				that.$refs[formName].validate((valid) => {
 					if(valid) {
-						if(val != undefined) {
-							that.put_json(that.$store.state.api + 'templatecategory/' + val, that.form, function(data) {
-								that.$message({
-									type: 'success',
-									message: '提交成功！'
-								});
-								that.getList();
-								that.dialogFormVisible = false;
-							})
-						} else {
-							that.post_json(that.$store.state.api + 'templatecategory/', that.form, function(data) {
-								that.$message({
-									type: 'success',
-									message: '提交成功！'
-								});
-								that.getList();
-								that.dialogFormVisible = false;
-							})
-						}
+						that.post_json(that.$store.state.api + 'admin/UserSpace/editftp', that.form, function(data) {
+							that.$message({
+								type: 'success',
+								message: '提交成功！'
+							});
+							that.dialogFormVisible = false;
+						})
 					} else {
 						that.$message({
 							type: 'error',
@@ -126,16 +133,6 @@
 				});
 
 			},
-			del(val) {
-				var that = this;
-				that.del_json(that.$store.state.api + 'templatecategory/' + val, function(data) {
-					that.$message({
-						type: 'success',
-						message: '删除成功!!'
-					});
-					that.getList();
-				})
-			},
 			close() {
 				this.form = {};
 				this.dialogFormVisible = false;
@@ -145,70 +142,11 @@
 </script>
 
 <style scoped>
-	.template-list {
-		background: #fff;
-		border-radius: 5px;
-		-webkit-transition: all .3s ease-out;
-		transition: all .3s ease-out;
-		overflow: hidden;
-		position: relative;
-	}
-	
-	.template-list:hover {
-		box-shadow: 0 0 15px rgba(0, 0, 0, .3);
-		-webkit-transform: translate(-5px, -5px);
-		transform: translate(-5px, -5px);
-	}
-	
-	.template-list .img {
-		width: 100%;
-		height: 0;
-		padding-top: 60%;
-		overflow: hidden;
-		position: relative;
-	}
-	
-	.template-list .img img {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: auto;
-	}
-	
-	.template-list .info {
-		padding: 20px;
-		background: #fbfbfb;
-	}
-	
-	.template-list .info p {
-		margin: 10px 0;
-		line-height: 25px;
-		color: #999;
-	}
-	
-	.template-list .info h3 {
-		margin: 0;
-		font-size: 20px;
-	}
-	
-	.template-list .btn-group {
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-	}
-	
-	.template-list .btn-group button {
-		flex-grow: 1;
-		margin: 0 5px 5px;
-	}
-	
-	.template-list .del {
-		float: right;
-		display: none;
-	}
-	
-	.template-list:hover .del {
-		display: block;
+	.remainDays {
+		background: #ee3231;
+		color: #fff;
+		padding: 2px 15px;
+		border-radius: 30px;
+		display: inline-block;
 	}
 </style>

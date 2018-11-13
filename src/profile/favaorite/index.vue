@@ -5,32 +5,31 @@
 			<div slot="header" class="clearfix">
 				<span>模板收藏夹</span>
 			</div>
-				<el-row :gutter="20">
-					<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in TemplateList" :key="item.id">
-						<div class="template-list">
-							<div class="img">
-								<img src="../../assets/images/hamburger.png" alt="" />
-							</div>
-							<div class="info">
-
-								<div class="del">
-									<el-button icon="el-icon-delete" circle></el-button>
-								</div>
-								<h3>{{item.templateName}}</h3>
-								<p>编号 : {{item.templateId}}</p>
-								<div class="btn-group">
-									<el-button size="mini"  type="danger">立即购买</el-button>
-									<el-button size="mini"  type="primary" @click="jump_href('http://'+item.showcase,'_blank')">网站演示</el-button>
-									<el-button size="mini"  type="success">查看案例</el-button>
-								</div>
-							</div>
-							<div class="btn-group"></div>
+			<el-row :gutter="20">
+				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in TemplateList" :key="item.id">
+					<div class="template-list">
+						<div class="img">
+							<img :src="item.template.fullpathThumbnail" alt="" />
 						</div>
-					</el-col>
-				</el-row>
-				<br>
-				<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn">
-				</el-pagination>
+						<div class="info">
+							<div class="del">
+								<el-button icon="el-icon-delete" circle @click="del(item.id)"></el-button>
+							</div>
+							<h3>{{item.templateName}}</h3>
+							<p>编号 : {{item.templateCode}}</p>
+							<div class="btn-group">
+								<el-button size="mini" type="danger" @click="jump_href('/order/preview/'+item.id,'_blank')">立即购买</el-button>
+								<el-button size="mini" type="primary" @click="jump_href('http://'+item.showcase,'_blank')">网站演示</el-button>
+								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.id,'_blank')">查看案例</el-button>
+							</div>
+						</div>
+						<div class="btn-group"></div>
+					</div>
+				</el-col>
+			</el-row>
+			<br>
+			<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn">
+			</el-pagination>
 		</el-card>
 
 	</div>
@@ -47,10 +46,10 @@
 			};
 		},
 		created() {
-			this.getTemplateList(1)
+			this.getList(1)
 		},
 		methods: {
-			getTemplateList(val) {
+			getList(val) {
 				var that = this;
 				that.get_json(that.$store.state.api + '/templatecollection/page/' + val, function(data) {
 					that.TemplateList = data.data;
@@ -61,6 +60,12 @@
 			},
 			pageFn(val) {
 				this.getList(val)
+			},
+			del(id) {
+				var that = this;
+				that.del_json(that.$store.state.api + '/templatecollection/' + id, function(data) {
+					that.getList(that.page)
+				})
 			}
 		}
 	}
@@ -117,13 +122,14 @@
 	.template-list .btn-group {
 		display: flex;
 		justify-content: space-between;
-		flex-wrap:wrap;
+		flex-wrap: wrap;
 	}
+	
 	.template-list .btn-group button {
-
-		flex-grow:1;
+		flex-grow: 1;
 		margin: 0 5px 5px;
 	}
+	
 	.template-list .del {
 		float: right;
 		display: none;

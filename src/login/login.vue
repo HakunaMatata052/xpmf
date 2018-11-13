@@ -1,13 +1,12 @@
 <template>
 	<div id="login">
-		<el-form ref="login" :model="login" label-width="80px">
 		<div class="login-box" v-loading="interdiction">
 			<div class="logo"><img src="../assets/images/LOGO.png" alt="" /></div>
-			<el-input placeholder="用户名" v-model="login.username" class="login-input">
+			<el-input placeholder="用户名" v-model="login.username" class="login-input"  @keyup.enter.native="loginFn">
 				<i slot="suffix" class="el-input__icon el-icon-edit"></i>
 			</el-input>
 			<div class="em"></div>
-			<el-input placeholder="密码" v-model="login.password" type="password" class="login-input">
+			<el-input placeholder="密码" v-model="login.password" type="password" class="login-input" @keyup.enter.native="loginFn">
 				<i slot="suffix" class="el-input__icon el-icon-view"></i>
 			</el-input>
 			<div class="em"></div>
@@ -22,7 +21,6 @@
 				<canvas></canvas>
 			</div>
 		</div>
-		</el-form>
 	</div>
 </template>
 
@@ -65,10 +63,7 @@
 					};
 					that.interdiction = false;
 				}, error => {
-					that.$message({
-						type: 'error',
-						message: '密码错误！'
-					});
+					this.ajax_error(error.status)
 					that.interdiction = false;
 				})
 

@@ -1,6 +1,5 @@
 <template>
 	<div id="caseapply">
-
 		<el-card class="box-card" shadow="never">
 			<div slot="header" class="clearfix">
 				<span>案例申请</span>

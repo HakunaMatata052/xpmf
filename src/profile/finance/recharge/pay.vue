@@ -41,7 +41,7 @@
 					attach:'recharge'
 				}, function(data) {
 					if(type == 20) {
-						that.$alert('<iframe style="width:100%;height:200px;margin:auto" scrolling="no" src="http://192.168.0.154:9006/example/NativePayPage.aspx?no=' + data.no + '&price=' + data.price + '&description=' + data.description + '" frameborder="0"></iframe>', '扫码支付', {
+						that.$alert('<iframe style="width:100%;height:200px;margin:auto" scrolling="no" src="'+that.$store.state.wxpay+'/example/NativePayPage.aspx?no=' + data.no + '&price=' + data.price + '&description=' + data.description + '&attach=recharge" frameborder="0"></iframe>', '扫码支付', {
 							dangerouslyUseHTMLString: true,
 							callback: function() {
 								that.$router.push({

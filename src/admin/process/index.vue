@@ -191,7 +191,7 @@
 						['Bold', 'Italic', 'Underline','Link','Unlink','Image']
 					],
 					height: 150,
-					filebrowserImageUploadUrl: 'http://192.168.0.199:9001/api/workorder/picture',
+					filebrowserImageUploadUrl: '',
 					fileTools_requestHeaders: {
 						Authorization: ''
 					},
@@ -228,7 +228,7 @@
 			openWorkorder(id) {
 				var that = this;
 				that.dialogTableVisible = true;
-				that.get_json(that.$store.state.api + 'workorder/' + id, function(data) {
+				that.get_json(that.$store.state.api + 'admin/workorder/' + id, function(data) {
 					that.workorder = data;
 					console.log(that.workorder)
 				});
@@ -237,7 +237,7 @@
 			},
 			getReplyList(id, page) {
 				var that = this;
-				that.get_json(that.$store.state.api + 'workorder/' + id + '/comments/page/' + page, function(data) {
+				that.get_json(that.$store.state.api + 'admin/workorder/' + id + '/comments/page/' + page, function(data) {
 					that.replyLoad = false;
 					that.replyList = data.data;
 					that.replypage = data.page;

@@ -4,19 +4,17 @@
 			<el-table-column prop="id" label="ID" width="80" show-overflow-tooltip>
 			</el-table-column>
 			<el-table-column prop="domain" label="绑定域名" show-overflow-tooltip>
-			</el-table-column>
-			<el-table-column prop="authorizeDate" label="授权时间" min-width="100" show-overflow-tooltip>
-			</el-table-column>
-			<el-table-column label="到期时间" min-width="160" show-overflow-tooltip>
 				<template slot-scope="scope">
-					<span class="capacity">{{scope.row.creatime}}</span>
-					<span class="remainDays">剩余{{scope.row.remainDays}}天</span>
+					<span  v-if="scope.row.domain.length==0">暂未授权</span>
+					{{scope.row.domain}}
 				</template>
 			</el-table-column>
-
-			<el-table-column label="操作" width="100"  v-if="bind">
+			<el-table-column prop="authorizeDate" label="购买时间" min-width="100" show-overflow-tooltip>
+			</el-table-column>
+			<el-table-column label="操作" width="100" >
 				<template slot-scope="scope">
-					<el-button size="mini" @click="bindFn(scope.row.id)" type="success">绑定</el-button>
+					<el-button size="mini" @click="bindFn(scope.row.id)" type="success" v-if="bind">绑定</el-button>
+					<el-button size="mini" @click="dialogBind(scope.row.id)" type="success" v-else-if="!bind&&scope.row.domain.length==0">绑定</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -25,6 +23,19 @@
 		</el-pagination>
 		<br />
 		<el-button type="primary">去购买</el-button>
+		<el-dialog title="绑定域名" :visible.sync="dialogBindDomain">
+				<el-row :gutter="20">
+					<el-col :span="21">
+						<el-input placeholder="请输入域名" v-model="domainForm.domain">
+							<template slot="prepend">Http://</template>
+						</el-input>
+					</el-col>
+					<el-col :span="3">
+						<el-button type="success" icon="el-icon-check" style="width: 100%;" @click="bindDomainFn"></el-button>
+					</el-col>
+				</el-row>
+		</el-dialog>
+
 	</div>
 </template>
 
@@ -38,7 +49,11 @@
 				page: 0,
 				size: 0,
 				total: 0,
-				dialogFtp: false
+				dialogBindDomain:false,
+				domainForm:{
+					domain:'',
+					id:{}
+				}
 			};
 		},
 		created() {
@@ -71,6 +86,21 @@
 						type: 'success',
 						message: '绑定成功！'
 					});
+				})
+			},
+			dialogBind(id){
+				this.dialogBindDomain = true;
+				this.domainForm = id;				
+			},
+			bindDomainFn(){
+				var that = this;
+				that.put_json(that.$store.state.api + 'permission/'+that.domainForm.id+'/bind/'+that.domainForm.domain, {}, function(data) {
+					that.$message({
+						type: 'success',
+						message: '绑定成功！'
+					});
+					this.getList(that.page);
+					this.dialogBindDomain = false;
 				})
 			}
 		}

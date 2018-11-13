@@ -27,13 +27,13 @@
 				</el-form-item>
 				<hr />
 				<el-form-item label="SEO标题" label-width="120px">
-					<el-input v-model="form.SeoTitle" autocomplete="off"></el-input>
+					<el-input v-model="form.seoTitle" autocomplete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="SEO关键词" label-width="120px">
-					<el-input v-model="form.Seokeywords" autocomplete="off"></el-input>
+					<el-input v-model="form.seoKeywords" autocomplete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="SEO描述" label-width="120px">
-					<el-input v-model="form.Seo" type="textarea" autocomplete="off"></el-input>
+					<el-input v-model="form.seoDescription" type="textarea" autocomplete="off"></el-input>
 				</el-form-item>
 			</el-form>
 			<div slot="footer" class="dialog-footer">

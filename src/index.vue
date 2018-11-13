@@ -78,7 +78,7 @@
 						<span slot="title">工单管理</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/host" v-if="admin">
-						<i class="iconfont icon-fapiao"></i>
+						<i class="iconfont icon-yun"></i>
 						<span slot="title">空间管理</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/finance" v-if="admin">

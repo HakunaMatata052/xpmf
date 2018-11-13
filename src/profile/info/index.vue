@@ -57,7 +57,7 @@
 					<h4>公司名称</h4>
 				</div>
 				<div class="item-right">
-					<el-input v-model="userCompany.userCompanyName"></el-input>
+					<el-input v-model="userCompany.companyName"></el-input>
 				</div>
 			</div>
 			<div class="item">

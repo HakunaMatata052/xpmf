@@ -24,6 +24,12 @@
 		<br />
 		<el-button type="primary">去购买</el-button>
 		<el-dialog title="绑定域名" :visible.sync="dialogBindDomain">
+			  <el-alert
+    title="授权只能绑定一次，请谨慎使用！"
+    type="warning"
+    show-icon>
+  </el-alert>
+  <br />
 				<el-row :gutter="20">
 					<el-col :span="21">
 						<el-input placeholder="请输入域名" v-model="domainForm.domain">
@@ -90,17 +96,17 @@
 			},
 			dialogBind(id){
 				this.dialogBindDomain = true;
-				this.domainForm = id;				
+				this.domainForm.id = id;				
 			},
 			bindDomainFn(){
 				var that = this;
-				that.put_json(that.$store.state.api + 'permission/'+that.domainForm.id+'/bind/'+that.domainForm.domain, {}, function(data) {
+				that.put_json(that.$store.state.api + 'UserPermission/'+that.domainForm.id+'/bind/'+that.domainForm.domain, {}, function(data) {
 					that.$message({
 						type: 'success',
 						message: '绑定成功！'
 					});
-					this.getList(that.page);
-					this.dialogBindDomain = false;
+					that.getList(that.page);
+					that.dialogBindDomain = false;
 				})
 			}
 		}

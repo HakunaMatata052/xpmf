@@ -340,6 +340,7 @@
 		},
 		destroyed() {
 			//document.body.classList.remove('login');
+			window.onresize = null
 		}
 	}
 </script>

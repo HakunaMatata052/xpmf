@@ -326,7 +326,6 @@
 						timer = requestAnimationFrame(animate);
 						drawBack();
 					};
-
 					setCanvasHeight();
 					createItem();
 					window.onresize = function() {
@@ -337,7 +336,7 @@
 			})();
 		},
 		destroyed() {
-			//document.body.classList.remove('login');
+			window.onresize = null
 		}
 	}
 </script>

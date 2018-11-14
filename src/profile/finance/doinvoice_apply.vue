@@ -17,7 +17,7 @@
 			</el-table-column>
 			<el-table-column prop="creatime" label="操作"  width="200">
 				<template slot-scope="scope">
-						<el-button size="mini"  @click="applyFn(scope.row.id)" type="success">申请开票</el-button>
+						<el-button size="small" @click="applyFn(scope.row.id)" type="primary">申请开票</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

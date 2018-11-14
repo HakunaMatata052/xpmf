@@ -32,7 +32,7 @@
 				</el-table-column>
 				<el-table-column label="操作" width="200px">
 					<template slot-scope="scope">
-						<el-button type="primary" @click="openWorkorder(scope.row.id)">查看详情</el-button>
+						<el-button type="primary" size="primary" @click="openWorkorder(scope.row.id)">查看详情</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

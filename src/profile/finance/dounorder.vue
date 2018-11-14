@@ -4,7 +4,7 @@
 			<el-table-column label="商品明细" min-width="200">
 				<template slot-scope="scope">
 					<p v-for="item in scope.row.orderDetails">
-						{{targetTypeString}}:{{item.goodsName}}
+						{{item.targetTypeString}}：{{item.goodsName}}
 					</p>
 				</template>
 			</el-table-column>
@@ -16,8 +16,7 @@
 			</el-table-column>
 			<el-table-column fixed="right" label="操作" width="200">
 				<template slot-scope="scope">
-					<el-button @click="jump_href('/order/index/'+scope.row.id,'_blank')" type="text" size="small">立即支付</el-button>
-					<el-button type="text" size="small">删除</el-button>
+					<el-button @click="jump_href('/order/index/'+scope.row.id,'_blank')" type="success" size="small">立即支付</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

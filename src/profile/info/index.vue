@@ -4,100 +4,65 @@
 			<div slot="header" class="clearfix">
 				<span>个人设置</span>
 			</div>
-			<div class="item">
-				<div class="item-left">
-					<el-upload class="avatar-uploader" name="upload" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
-						<img v-if="userinfo.fullpathAvatar" :src="userinfo.fullpathAvatar" class="avatar">
-						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-					</el-upload>
+			<el-form :model="formConfig" ref="formConfig" label-width="100px">
+				<div class="item">
+					<div class="item-left">
+						<el-upload class="avatar-uploader" name="upload" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
+							<img v-if="formConfig.userinfo.fullpathAvatar" :src="formConfig.userinfo.fullpathAvatar" class="avatar">
+							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+						</el-upload>
+					</div>
+					<div class="item-right">
+						<h4><i class="el-icon-upload2"></i>上传头像 </h4>
+						<p>支持上传 jpg、png、gif 格式图片，大小不超过「2Mb」。</p>
+					</div>
 				</div>
-				<div class="item-right">
-					<h4><i class="el-icon-upload2"></i>上传头像 </h4>
-					<p>支持上传 jpg、png、gif 格式图片，大小不超过「2Mb」。</p>
-				</div>
-			</div>
 
-			<div class="item">
-				<div class="item-left">
-					<h4>用户名</h4>
-				</div>
-				<div class="item-right">
-					{{userinfo.username}}
-				</div>
-			</div>
-			<div class="item">
-				<div class="item-left">
-					<h4>邮箱</h4>
-				</div>
-				<div class="item-right">
-					<el-input v-model="userinfo.email"></el-input>
-				</div>
-			</div>
-			<div class="item">
-				<div class="item-left">
-					<h4>手机</h4>
-				</div>
-				<div class="item-right">
-					<el-input v-model="userinfo.cellphone"></el-input>
-				</div>
-			</div>
+				<el-form-item label="用户名">
+					{{formConfig.userinfo.username}}
+				</el-form-item>
+				<el-form-item prop="userinfo.email" label="邮箱" :rules="[
+      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+    ]">
+					<el-input v-model="formConfig.userinfo.email"></el-input>
+				</el-form-item>
 
-			<div class="item">
-				<div class="item-left">
-					<h4>密码</h4>
-				</div>
-				<div class="item-right">
+				<el-form-item prop="userinfo.cellphone" label="手机" :rules="[
+      { pattern: /^1[345789]\d{9}$/, message: '手机号格式不对',trigger: ['blur', 'change']}
+      
+    ]">
+					<el-input v-model.number="formConfig.userinfo.cellphone"></el-input>
+				</el-form-item>
+
+				<el-form-item label="密码">
 					<el-button type="primary" @click="dialogFormVisible = true">修改密码</el-button>
-				</div>
-			</div>
-			<hr />
+				</el-form-item>
+				<hr />
 
-			<div class="item">
-				<div class="item-left">
-					<h4>公司名称</h4>
-				</div>
-				<div class="item-right">
-					<el-input v-model="userCompany.companyName"></el-input>
-				</div>
-			</div>
-			<div class="item">
-				<div class="item-left">
-					<h4>联系人</h4>
-				</div>
-				<div class="item-right">
-					<el-input v-model="userCompany.contactUserName"></el-input>
-				</div>
-			</div>
-			<div class="item">
-				<div class="item-left">
-					<h4>固定电话</h4>
-				</div>
-				<div class="item-right">
-					<el-input v-model="userCompany.contactPhone"></el-input>
-				</div>
-			</div>
-			<div class="item">
-				<div class="item-left">
-					<h4>选择城市</h4>
-				</div>
-				<div class="item-right" style="width: 40%;">
+				<el-form-item label="公司名称">
+					<el-input v-model="formConfig.userinfo.userCompany.companyName"></el-input>
+				</el-form-item>
+				<el-form-item label="联系人">
+					<el-input v-model="formConfig.userinfo.userCompany.contactUserName"></el-input>
+				</el-form-item>
+
+				<el-form-item label="固定电话">
+					<el-input v-model="formConfig.userinfo.userCompany.contactPhone"></el-input>
+				</el-form-item>
+
+				<el-form-item label="选择城市">
 					<el-cascader placeholder="试试搜索：西安" size="large" :options="options" v-model="selectedOptions" filterable change-on-select @change='cityFn' style="width: 100%;"></el-cascader>
-				</div>
-			</div>
-			<div class="item">
-				<div class="item-left">
-					<h4>详细地址</h4>
-				</div>
-				<div class="item-right" style="width: 40%;">
-					<el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10}" placeholder="请输入内容" v-model="userCompany.address">
+				</el-form-item>
+				<el-form-item label="详细地址">
+					<el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10}" placeholder="请输入内容" v-model="formConfig.userinfo.userCompany.address">
 					</el-input>
+				</el-form-item>
+				<div class="item">
+					<div class="item-left">
+						<el-button type="primary" @click="submit('formConfig')">提交</el-button>
+					</div>
 				</div>
-			</div>
-			<div class="item">
-				<div class="item-left">
-					<el-button type="primary" @click="submit">提交</el-button>
-				</div>
-			</div>
+			</el-form>
 
 		</el-card>
 		<el-dialog title="修改密码" :visible.sync="dialogFormVisible" width="500px">
@@ -121,7 +86,7 @@
 </template>
 
 <script>
-	import { provinceAndCityData,CodeToText,TextToCode   } from 'element-china-area-data'
+	import { provinceAndCityData, CodeToText, TextToCode } from 'element-china-area-data'
 	export default {
 		data() {
 			var validatePass = (rule, value, callback) => {
@@ -135,8 +100,6 @@
 			};
 			return {
 				avatar: '',
-				userinfo: {},
-				userCompany: {},
 				options: provinceAndCityData,
 				selectedOptions: [],
 				headers: {},
@@ -167,7 +130,7 @@
 						{
 							min: 4,
 							max: 16,
-							message: '长度在 3 到 5 个字符',
+							message: '长度在 4 到 16 个字符',
 							trigger: 'blur'
 						}
 					],
@@ -179,6 +142,15 @@
 						validator: validatePass,
 						trigger: 'blur'
 					}]
+				},
+				formConfig: {
+					userinfo: {
+						userCompany: {},
+					},
+
+				},
+				ConfigRules: {
+
 				}
 			};
 		},
@@ -188,19 +160,19 @@
 		},
 		methods: {
 			handleAvatarSuccess(res, file) {
-				this.userinfo.avatar = res.fileName;
-				this.userinfo.fullpathAvatar = URL.createObjectURL(file.raw);
+				this.formConfig.userinfo.avatar = res.fileName;
+				this.formConfig.userinfo.fullpathAvatar = URL.createObjectURL(file.raw);
 			},
 			getinfo() {
 				var that = this;
 				that.get_json(that.$store.state.api + 'user/mine', function(data) {
-					that.userinfo = data;
-					that.userCompany = data.userCompany;
+					that.formConfig.userinfo = data;
+					that.formConfig.userinfo.userCompany = data.userCompany;
 					var city = [];
-					if(data.userCompany.province!=null&&data.userCompany.province.length!=0){
+					if(data.userCompany.province != null && data.userCompany.province.length != 0) {
 						city[0] = TextToCode[data.userCompany.province].code;
 					}
-					if(data.userCompany.province!=null&&data.userCompany.province.length!=0){
+					if(data.userCompany.province != null && data.userCompany.province.length != 0) {
 						city[1] = TextToCode[data.userCompany.province][data.userCompany.city].code;
 					}
 					that.selectedOptions = city;
@@ -210,12 +182,12 @@
 				var that = this;
 				var province = CodeToText[val[0]];
 				var city = CodeToText[val[1]];
-				that.userCompany.province = province;
-				that.userCompany.city = city;
+				that.formConfig.userinfo.userCompany.province = province;
+				that.formConfig.userinfo.userCompany.city = city;
 			},
 			changePassword(formName) {
 				var that = this;
-				this.$refs[formName].validate((valid) => {
+				that.$refs[formName].validate((valid) => {
 					if(valid) {
 						that.dialogFormVisible = false;
 						that.post_json(that.$store.state.api + 'user/changepassword', that.form, function(data) {
@@ -235,15 +207,24 @@
 				});
 
 			},
-			submit() {
+			submit(formName) {
 				var that = this;
-				that.put_json(that.$store.state.api + 'user', that.userinfo, function(data) {
-					that.$message({
-						type: 'success',
-						message: '资料修改成功！'
-					});
-					//console.log(that.userinfo)
-				})
+				that.$refs[formName].validate((valid) => {
+					if(valid) {
+						that.put_json(that.$store.state.api + 'user', that.formConfig.userinfo, function(data) {
+							that.$message({
+								type: 'success',
+								message: '资料修改成功！'
+							});
+							//console.log(that.userinfo)
+						})
+					} else {
+						that.$message({
+							type: 'error',
+							message: '内容填写有误！'
+						});
+					}
+				});
 			}
 		}
 	}

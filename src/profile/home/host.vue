@@ -18,8 +18,8 @@
 
 			<el-table-column label="操作" width="100">
 				<template slot-scope="scope">
-					<el-button size="mini" @click="bindFn(scope.row.id)" type="success" v-if="bind">绑定</el-button>
-					<el-button size="mini" @click="ftpFn(scope.row.id)" type="success" v-else>查看FTP</el-button>
+					<el-button size="small" @click="bindFn(scope.row.id)" type="success" v-if="bind">绑定</el-button>
+					<el-button size="small" @click="ftpFn(scope.row.id)" type="primary" v-else>查看FTP</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

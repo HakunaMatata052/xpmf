@@ -26,8 +26,8 @@
 				</el-table-column>
 				<el-table-column label="操作" width="200px" v-if="path==30">
 					<template slot-scope="scope">
-						<el-button type="primary" @click="handle(scope.row.id,'audit')">通过</el-button>
-						<el-button type="danger" @click="handle(scope.row.id,'refuse')">拒绝</el-button>
+						<el-button type="success" size="small" @click="handle(scope.row.id,'audit')">通过</el-button>
+						<el-button type="danger" size="small" @click="handle(scope.row.id,'refuse')">拒绝</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

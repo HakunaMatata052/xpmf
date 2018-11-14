@@ -14,7 +14,8 @@
 			<div class="em"></div>
 			<p>没有账号? 去
 				<router-link to="/register">注册</router-link>
-				<router-link to="/register">忘记密码</router-link>?</p>
+				<!--<router-link to="/register">忘记密码</router-link>?-->
+			</p>
 			<div id="bg">
 				<canvas></canvas>
 				<canvas></canvas>

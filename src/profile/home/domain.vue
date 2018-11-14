@@ -17,7 +17,7 @@
 			</el-table-column>
 			<el-table-column label="操作" width="100"  v-if="bind">
 				<template slot-scope="scope">
-					<el-button size="mini" @click="bindFn(scope.row.id)" type="success">绑定</el-button>
+					<el-button size="small" @click="bindFn(scope.row.id)" type="success">绑定</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

@@ -10,7 +10,12 @@
 				<a href="/template">模板</a>
 				<a href="/case">案例</a>
 			</div>
-			<a href="javascript:;" class="logout" @click="logout"><i class="iconfont icon-tuichu"></i>退出</a>
+			<div class="nav-right">
+				<a href="javascript:;" @click="jump_router('/info')">{{$store.state.userinfo.username}}</a>
+				<a href="javascript:;" @click="jump_router('/process')">工单</a>
+				<a href="javascript:;" class="logout" @click="logout"><i class="iconfont icon-tuichu"></i>退出</a>
+			</div>
+			
 		</el-header>
 		<el-container class="container">
 			<!--<el-header>Header</el-header>-->
@@ -105,7 +110,7 @@
 						<ul class="foot-h-l clearfix">
 							<li>
 								<h4>产品相关</h4>
-								<a href="" target="_blank">全部产品</a>
+								<a href="" target="_blank">全部模板</a>
 								<a href="" target="_blank">推荐用户</a>
 							</li>
 							<li>
@@ -147,6 +152,7 @@
 		data() {
 			return {
 				active: '/home/site',
+				username:'',
 				admin: false,
 				consumer: false,
 				agent: false
@@ -166,7 +172,10 @@
 			that.$router.afterEach(route => {
 				that.active = that.$route.path;
 			});
+			
+			
 			var role = localStorage.getItem('role');
+			that.username = localStorage.getItem('username');
 			if(role == 'Admin') {
 				that.admin = true;
 			} else if(role == 'Consumer') {
@@ -204,24 +213,27 @@
 		display: flex;
 	}
 	
-	.header .nav a {
+	.header a {
 		color: #fff;
 		padding: 0 30px;
 		line-height: 66px;
 		font-size: 16px;
 	}
 	
-	.header .nav a:hover {
+	.header a:hover {
 		background: #f6aa26;
 	}
-	
+	.nav-right {
+		display: flex;
+		height: 66px;
+		line-height: 66px;
+	}
 	.header .logout {
 		height: 66px;
 		line-height: 66px;
 		background: #f6aa26;
 		padding: 0 20px;
 		color: #fff;
-		align-self: flex-end
 	}
 	
 	.header .logout i {

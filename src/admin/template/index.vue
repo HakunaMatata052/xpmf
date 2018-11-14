@@ -16,7 +16,7 @@
 							<h3>{{item.name}}</h3>
 							<p>编号 : {{item.code}}</p>
 							<div class="btn-group">
-								<el-button size="mini" type="success" @click="editDialog(item.id)">编辑模板</el-button>
+								<el-button size="mini" type="primary" @click="editDialog(item.id)">编辑模板</el-button>
 								<el-button size="mini" type="danger" @click="del(item.id)">删除模板</el-button>
 							</div>
 						</div>

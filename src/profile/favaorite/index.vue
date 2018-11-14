@@ -16,11 +16,11 @@
 								<el-button icon="el-icon-delete" circle @click="del(item.id)"></el-button>
 							</div>
 							<h3>{{item.templateName}}</h3>
-							<p>编号 : {{item.templateCode}}</p>
+							<p>编号 : {{item.template.code}}</p>
 							<div class="btn-group">
-								<el-button size="mini" type="danger" @click="jump_href('/order/preview/'+item.id,'_blank')">立即购买</el-button>
-								<el-button size="mini" type="primary" @click="jump_href('http://'+item.showcase,'_blank')">网站演示</el-button>
-								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.id,'_blank')">查看案例</el-button>
+								<el-button size="mini" type="danger" @click="jump_href('/order/preview/'+item.templateId,'_blank')">立即购买</el-button>
+								<el-button size="mini" type="primary" @click="jump_href('http://'+item.template.showcase,'_blank')">网站演示</el-button>
+								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.templateId,'_blank')">查看案例</el-button>
 							</div>
 						</div>
 						<div class="btn-group"></div>

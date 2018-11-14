@@ -10,18 +10,20 @@
 				<el-tab-pane label="待审核" name="case/admin/page/"></el-tab-pane>
 			</el-tabs>
 			<el-table :data="list" stripe style="width: 100%" v-show="path=='case/cases/page/'" v-loading="loading">
-				<el-table-column prop="id" label="ID" width="80px">
+				<el-table-column prop="id" label="ID" width="80px" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="siteName" label="网站名称">
+				<el-table-column prop="siteName" max-width="160px" label="网站名称" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="domain" label="域名">
+				<el-table-column prop="domain" label="域名" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="remark" label="备注" width="500px">
+				<el-table-column prop="templateCode" width="120px" label="模板编号" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column prop="remark" label="备注" max-width="300px" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column label="操作" width="200px">
 					<template slot-scope="scope">
-						<el-button type="primary" @click="editDialog(scope.row.id)">编辑</el-button>
-						<el-button type="danger" @click="del(scope.row.id)">删除</el-button>
+						<el-button type="primary" size="small" @click="editDialog(scope.row.id)">编辑</el-button>
+						<el-button type="danger" size="small" @click="del(scope.row.id)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -38,8 +40,8 @@
 				</el-table-column>
 				<el-table-column label="操作" width="200px">
 					<template slot-scope="scope">
-						<el-button type="success" @click="auditFn(scope.row.siteId)">通过</el-button>
-						<el-button type="danger" @click="refuse(scope.row.siteId)">拒绝</el-button>
+						<el-button type="success" size="small" @click="auditFn(scope.row.siteId)">通过</el-button>
+						<el-button type="danger" size="small" @click="refuse(scope.row.siteId)">拒绝</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -49,21 +51,29 @@
 		</el-card>
 		<el-dialog title="编辑案例" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
 			<el-form :model="form" :rules="rules" ref="form" v-loading="dialogloading">
-				<el-form-item label="名称" label-width="120px" prop="siteName">
-					<el-input v-model="form.siteName"></el-input>
-				</el-form-item>
-				<el-form-item label="域名" label-width="120px" prop="domain">
-					<el-input v-model="form.domain"></el-input>
-				</el-form-item>
-				<el-form-item label="缩略图" label-width="120px" prop="picture">
-					<el-upload class="img-uploader" name="upload" :action="$store.state.api+'case/picture'" :headers="headers" :show-file-list="false" :on-success="picSuccess">
-						<img v-if="form.picture" :src="form.fullpathPicture" class="img">
-						<i v-else class="el-icon-plus img-uploader-icon"></i>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="备注" label-width="120px">
-					<el-input v-model="form.templateCode" type="textarea"></el-input>
-				</el-form-item>
+				<el-row :gutter="20">
+					<el-col :span="8">
+						<el-form-item label="缩略图" label-width="120px" prop="picture">
+							<el-upload class="img-uploader" name="upload" :action="$store.state.api+'case/picture'" :headers="headers" :show-file-list="false" :on-success="picSuccess">
+								<img v-if="form.picture" :src="form.fullpathPicture" class="img">
+								<i v-else class="el-icon-plus img-uploader-icon"></i>
+							</el-upload>
+						</el-form-item>
+					</el-col>
+					<el-col :span="16">
+						<el-form-item label="名称" label-width="120px" prop="siteName">
+							<el-input v-model="form.siteName"></el-input>
+						</el-form-item>
+						<el-form-item label="域名" label-width="120px" prop="domain">
+							<el-input v-model="form.domain"></el-input>
+						</el-form-item>
+
+						<el-form-item label="模板编号" label-width="120px" prop="templateCode">
+							<el-input v-model="form.templateCode" @blur="validAjax(form.templateCode)" ref="templateCode"></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+
 				<el-form-item label="备注" label-width="120px">
 					<el-input v-model="form.remark" type="textarea"></el-input>
 				</el-form-item>
@@ -73,7 +83,7 @@
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="dialogFormVisible = false">取 消</el-button>
-				<el-button type="primary" @click="edit('form',form.id)">确 定</el-button>
+				<el-button type="primary" @click="edit('form',form.id,form.templateCode)">确 定</el-button>
 			</div>
 		</el-dialog>
 		<el-dialog title="通过审核" :visible.sync="auditDialog" :fullscreen="false" @closed="close">
@@ -127,7 +137,7 @@
 						message: '请上传缩略图',
 						trigger: 'blur'
 					},
-					templateCode:{
+					templateCode: {
 						required: true,
 						message: '请填写模板编号',
 						trigger: 'blur'
@@ -145,7 +155,8 @@
 					picture: ''
 				},
 				loading: true,
-				dialogloading: true
+				dialogloading: true,
+				templateValid: false
 			};
 		},
 		created() {
@@ -174,6 +185,7 @@
 			editDialog(val) {
 				var that = this;
 				that.dialogFormVisible = true;
+				that.templateValid = false;
 				if(val.length != 0) {
 					that.get_json(that.$store.state.api + 'case/' + val, function(data) {
 						that.form = data;
@@ -184,28 +196,26 @@
 				}
 
 			},
-			edit(formName, val) {
+			edit(formName, val, id) {
 				var that = this;
 				that.$refs[formName].validate((valid) => {
 					if(valid) {
 						if(val != undefined) {
-							that.put_json(that.$store.state.api + 'case/' + val + '/edit/', that.form, function(data) {
-								that.$message({
-									type: 'success',
-									message: '提交成功！'
+							if(that.templateValid == false) {
+								that.validAjax(id, function() {
+									that.editAjax(val);
 								});
-								that.getList(that.path, that.page);
-								that.dialogFormVisible = false;
-							})
+							} else {
+								that.editAjax(val);
+							}
 						} else {
-							that.post_json(that.$store.state.api + 'case/', that.form, function(data) {
-								that.$message({
-									type: 'success',
-									message: '提交成功！'
+							if(that.templateValid == false) {
+								that.validAjax(id, function() {
+									that.addAjax(val);
 								});
-								that.getList(that.path, that.page);
-								that.dialogFormVisible = false;
-							})
+							} else {
+								that.addAjax(val);
+							}
 						}
 					} else {
 						that.$message({
@@ -215,6 +225,37 @@
 						return false;
 					}
 				});
+			},
+			editAjax(val) {
+				var that = this;
+				that.put_json(that.$store.state.api + 'case/' + val + '/edit/', that.form, function(data) {
+					that.$message({
+						type: 'success',
+						message: '提交成功！'
+					});
+					that.getList(that.path, that.page);
+					that.dialogFormVisible = false;
+				})
+			},
+			addAjax(val) {
+				var that = this;
+				that.post_json(that.$store.state.api + 'case/', that.form, function(data) {
+					that.$message({
+						type: 'success',
+						message: '提交成功！'
+					});
+					that.getList(that.path, that.page);
+					that.dialogFormVisible = false;
+				})
+			},
+			validAjax(id, fn) {
+				var that = this;
+				that.get_json(that.$store.state.api + 'template/valid/' + id, function(data) {
+					that.templateValid = true;
+					if(fn != null) {
+						fn();
+					}
+				})
 			},
 			picSuccess(res, file) {
 				this.form.picture = res.fileName;
@@ -246,7 +287,6 @@
 						type: 'success',
 						message: '操作成功！'
 					});
-
 					that.auditDialog = false;
 					that.getList(that.path, that.page)
 				})
@@ -261,7 +301,6 @@
 					that.getList(that.path, that.page)
 				})
 			},
-
 			close() {
 				this.form = {
 					ordering: 99

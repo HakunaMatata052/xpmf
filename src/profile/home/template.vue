@@ -14,7 +14,7 @@
 						<h3>{{item.template.name}}</h3>
 						<p>编号 : {{item.template.code}}</p>
 						<div class="btn-group" v-if="bind">
-							<el-button size="mini" type="danger" @click="bindFn(item.template.id)">绑定</el-button>
+							<el-button size="small" type="success" @click="bindFn(item.template.id)">绑定</el-button>
 						</div>
 					</div>
 					<div class="btn-group"></div>

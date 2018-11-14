@@ -230,7 +230,10 @@ exports.install = function(Vue, options) {
 				path: '/login'
 			})
 		} else {
-			this.$message(that.$store.state.status[status]);
+			this.$message({
+						type: 'error',
+						message: that.$store.state.status[status]
+			});
 			//console.info(error)
 		}
 	};

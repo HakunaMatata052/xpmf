@@ -44,7 +44,7 @@
 				</el-table-column>
 			</el-table>
 			<br />
-			<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn">
+			<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 			</el-pagination>
 		</el-card>
 		<el-dialog title="编辑案例" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
@@ -61,7 +61,9 @@
 						<i v-else class="el-icon-plus img-uploader-icon"></i>
 					</el-upload>
 				</el-form-item>
-
+				<el-form-item label="备注" label-width="120px">
+					<el-input v-model="form.templateCode" type="textarea"></el-input>
+				</el-form-item>
 				<el-form-item label="备注" label-width="120px">
 					<el-input v-model="form.remark" type="textarea"></el-input>
 				</el-form-item>
@@ -123,6 +125,11 @@
 					picture: {
 						required: true,
 						message: '请上传缩略图',
+						trigger: 'blur'
+					},
+					templateCode:{
+						required: true,
+						message: '请填写模板编号',
 						trigger: 'blur'
 					},
 					ordering: {

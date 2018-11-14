@@ -88,10 +88,7 @@
 						})
 						that.interdiction = false;
 					}, error => {
-						that.$message({
-							type: 'error',
-							message: '注册失败！'
-						});
+						this.ajax_error(error.status)
 						that.interdiction = false;
 					})
 				}

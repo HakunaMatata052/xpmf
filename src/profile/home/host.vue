@@ -24,7 +24,7 @@
 			</el-table-column>
 		</el-table>
 		<br />
-		<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn">
+		<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 		</el-pagination>
 		<br />
 		<el-button type="primary">去购买</el-button>

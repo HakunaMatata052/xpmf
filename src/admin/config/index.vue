@@ -26,8 +26,11 @@
 				<el-form-item label="ICP备案号">
 					<el-input v-model="form.provider"></el-input>
 				</el-form-item>
+				<el-form-item label="版权信息">
+					<el-input v-model="form.copyRight"></el-input>
+				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="submit('form')">立即创建</el-button>
+					<el-button type="primary" @click="submit('form')">提交</el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>

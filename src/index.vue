@@ -2,7 +2,7 @@
 	<div id="home">
 		<el-header class="header" height="66px">
 			<div class="logo">
-				<img src="./assets/images/header-logo.png" alt="" />
+				<img src="./assets/images/header-logo.png" :alt="$store.state.siteinfo.seoTitle" />
 			</div>
 			<div class="nav">
 				<a href="/">首页</a>
@@ -133,15 +133,15 @@
 							</li>
 						</ul>
 						<div class="foot-h-r">
-							<p class="title">400-0599-360</p>
+							<p class="title">{{$store.state.siteinfo.phone}}</p>
 							<p class="subtitle">周一至周五：9:00-18:00</p>
-							<a href="#" class="service">24小时在线客服</a>
+							<a :href="'http://wpa.qq.com/msgrd?V=1&uin='+$store.state.siteinfo.qq+'&Site=xpmof.com&Menu=no'" target="_blank" class="service">24小时在线客服</a>
 						</div>
 						<div class="clearfix"></div>
 					</div>
 				</div>
 				<div class="foot-bot">
-					<p>OPYRIGHT (C) 2018 BTOE. ALL RIGHTS RESERVED 陕ICP备05010374号</p>
+					<p>{{$store.state.siteinfo.copyRight}} {{$store.state.siteinfo.provider}}</p>
 				</div>
 			</div>
 		</el-footer>

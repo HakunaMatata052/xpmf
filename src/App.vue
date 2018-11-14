@@ -12,18 +12,17 @@
 		mounted: function() {
 
 		},
-		created() {
+		beforeCreate() {
 			var that = this;
-			if(that.$store.state.userinfo==null){
+			if(that.$store.state.userinfo.username==null){
 				that.get_json(that.$store.state.api+'/user/mine',function(data){
 					that.$store.state.userinfo = data;
 					console.log(that.$store.state.userinfo)
 				})
 			};
-			if(that.$store.state.siteinfo==null){
+			if(that.$store.state.siteinfo.seoTitle==null){
 				that.get_json(that.$store.state.api+'/SiteSetting',function(data){
-					that.$store.state.siteinfo = data;
-					
+					that.$store.state.siteinfo = data;					
 					console.log(that.$store.state.siteinfo)
 				})
 			};

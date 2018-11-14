@@ -4,8 +4,8 @@ Vue.use(vuex);
 
 export default new vuex.Store({
 	state: {
-		userinfo: null,
-		siteinfo: null,
+		userinfo: {},
+		siteinfo: {},
 		status: {
 			0: '程序发生错误！',
 			440: '账号或密码错误！',

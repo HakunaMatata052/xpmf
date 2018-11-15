@@ -29,7 +29,7 @@
 				<canvas></canvas>
 				<canvas></canvas>
 				<canvas></canvas>
-			</div>
+			     </div>
 		</div>
 	</div>
 </template>
@@ -378,8 +378,6 @@
 	.login-box .em {
 		height: 20px;
 	}
-	
-	.login-box .login-input * {}
 	
 	.submit {
 		width: 100%;

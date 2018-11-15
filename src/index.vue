@@ -148,247 +148,244 @@
 	</div>
 </template>
 <script>
-	export default {
-		data() {
-			return {
-				active: '/home/site',
-				username:'',
-				admin: false,
-				consumer: false,
-				agent: false
-			};
-		},
-		methods :{
-			logout() {
-				localStorage.clear();
-				this.$router.push({
-					path: '/login'
-				})
-			}
-		},
-		created() {
-			var that = this;
-			that.active = that.$route.path;
-			that.$router.afterEach(route => {
-				that.active = that.$route.path;
-			});
-			
-			
-			var role = localStorage.getItem('role');
-			that.username = localStorage.getItem('username');
-			if(role == 'Admin') {
-				that.admin = true;
-			} else if(role == 'Consumer') {
-				that.consumer = true;
-			} else if(role == 'Agent') {
-				that.consumer = true;
-				that.agent = true;
-			}
+export default {
+  data() {
+    return {
+      active: "/home/site",
+      username: "",
+      admin: false,
+      consumer: false,
+      agent: false
+    };
+  },
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$router.push({
+        path: "/login"
+      });
+    }
+  },
+  created() {
+    var that = this;
+    that.active = that.$route.path;
+    that.$router.afterEach(route => {
+      that.active = that.$route.path;
+    });
 
-		}
-	};
+    var role = localStorage.getItem("role");
+    that.username = localStorage.getItem("username");
+    if (role == "Admin") {
+      that.admin = true;
+    } else if (role == "Consumer") {
+      that.consumer = true;
+    } else if (role == "Agent") {
+      that.consumer = true;
+      that.agent = true;
+    }
+  }
+};
 </script>
 <style scoped>
-	#home {
-		height: 100%;
-	}
-	
-	.header {
-		height: 66px;
-		padding: 0;
-		display: flex;
-		align-content: center;
-		/*background: -webkit-linear-gradient(left, #ee3231, #f6aa26);
+#home {
+  height: 100%;
+}
+.header {
+  height: 66px;
+  padding: 0;
+  display: flex;
+  align-content: center;
+  /*background: -webkit-linear-gradient(left, #ee3231, #f6aa26);
 		background: linear-gradient(left, #ee3231, #f6aa26);*/
-		background: #ee3231;
-	}
-	
-	.header .logo img {
-		height: 66px;
-		width: auto;
-	}
-	
-	.header .nav {
-		flex-grow: 1;
-		display: flex;
-	}
-	
-	.header a {
-		color: #fff;
-		padding: 0 30px;
-		line-height: 66px;
-		font-size: 16px;
-	}
-	
-	.header a:hover {
-		background: #f6aa26;
-	}
-	.nav-right {
-		display: flex;
-		height: 66px;
-		line-height: 66px;
-	}
-	.header .logout {
-		height: 66px;
-		line-height: 66px;
-		background: #f6aa26;
-		padding: 0 20px;
-		color: #fff;
-	}
-	
-	.header .logout i {
-		margin-right: 5px;
-	}
-	
-	.container {
-		margin: 0 auto;
-		padding: 50px 5%;
-	}
-	
-	.sideleft {
-		width: 240px;
-		height: auto;
-		float: left;
-		background-color: #fff;
-		padding: 20px 14px;
-		-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-		box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-		border-radius: 3px;
-		border: 0;
-	}
-	
-	.sideleft span {
-		font-size: 16px;
-	}
-	
-	.sideleft .el-menu-item {
-		margin-bottom: 10px;
-	}
-	
-	.sideleft .el-menu-item:focus,
-	.sideleft .el-menu-item:hover {
-		background: #fff9f1;
-	}
-	
-	.sideleft .iconfont {
-		margin-right: 10px;
-		font-size: 20px;
-	}
-	
-	.el-main {
-		padding-top: 0;
-	}
-	
-	.footer {
-		padding: 0;
-	}
-	
-	.foot-header {
-		background-color: #fff;
-		border-bottom: 1px solid #f1f1f1
-	}
-	
-	.foot-header .center {
-		margin: 0 auto;
-		padding: 68px 5% 70px;
-		border: hidden;
-		-webkit-box-shadow: none;
-		box-shadow: none;
-		background-color: transparent;
-	}
-	
-	.foot-h-l {
-		width: 75%;
-		float: left;
-	}
-	
-	.foot-h-l li {
-		border-right: 1px solid #e8e8e9;
-		width: 12%;
-		min-width: 150px;
-		height: 100px;
-		float: left;
-		margin-right: 6%;
-		padding-right: 6%;
-	}
-	
-	.foot-h-l li:last-child {
-		border-color: transparent;
-	}
-	
-	.foot-h-l h4 {
-		font-size: 16px;
-		color: #3b3b3b;
-		margin-bottom: 30px;
-	}
-	
-	.foot-h-l li>a {
-		font-size: 13px;
-		color: #999;
-		line-height: 26px;
-		display: block;
-	}
-	
-	.foot-h-l div a {
-		text-align: center;
-		padding-top: 8px;
-		line-height: 30px;
-		margin-right: 4%;
-		border-radius: 20px;
-		transition: all 0.3s ease 0s;
-	}
-	
-	.foot-h-l div i {
-		font-size: 20px;
-		color: #acadae;
-	}
-	
-	.foot-h-l div i:hover {
-		color: #ee3231;
-	}
-	
-	.foot-h-r {
-		width: 25%;
-		float: right;
-		text-align: right;
-	}
-	
-	.foot-h-r .title {
-		font-size: 26px;
-		font-weight: bold;
-		color: #ee3231;
-		text-align: right;
-	}
-	
-	.foot-h-r .subtitle {
-		font-size: 12px;
-		color: #999;
-		text-align: right
-	}
-	
-	.foot-h-r .service {
-		display: inline-block;
-		padding: 0 10%;
-		height: 40px;
-		line-height: 40px;
-		color: #fff;
-		text-align: center;
-		font-size: 13px;
-		background-color: #606265;
-		margin-top: 20px;
-	}
-	
-	.foot-bot {
-		background: #fff;
-	}
-	
-	.foot-bot p {
-		width: 74%;
-		margin: 0 auto;
-		height: 56px;
-		line-height: 56px;
-		color: #6f6f6f;
-		font-size: 12px;
-		color: #999;
-	}
+  background: #ee3231;
+}
+
+.header .logo img {
+  height: 66px;
+  width: auto;
+}
+
+.header .nav {
+  flex-grow: 1;
+  display: flex;
+}
+
+.header a {
+  color: #fff;
+  padding: 0 30px;
+  line-height: 66px;
+  font-size: 16px;
+}
+
+.header a:hover {
+  background: #f6aa26;
+}
+.nav-right {
+  display: flex;
+  height: 66px;
+  line-height: 66px;
+}
+.header .logout {
+  height: 66px;
+  line-height: 66px;
+  background: #f6aa26;
+  padding: 0 20px;
+  color: #fff;
+}
+
+.header .logout i {
+  margin-right: 5px;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 50px 5%;
+}
+
+.sideleft {
+  width: 240px;
+  height: auto;
+  float: left;
+  background-color: #fff;
+  padding: 20px 14px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  border: 0;
+}
+
+.sideleft span {
+  font-size: 16px;
+}
+
+.sideleft .el-menu-item {
+  margin-bottom: 10px;
+}
+
+.sideleft .el-menu-item:focus,
+.sideleft .el-menu-item:hover {
+  background: #fff9f1;
+}
+
+.sideleft .iconfont {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.el-main {
+  padding-top: 0;
+}
+
+.footer {
+  padding: 0;
+}
+
+.foot-header {
+  background-color: #fff;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.foot-header .center {
+  margin: 0 auto;
+  padding: 68px 5% 70px;
+  border: hidden;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+.foot-h-l {
+  width: 75%;
+  float: left;
+}
+
+.foot-h-l li {
+  border-right: 1px solid #e8e8e9;
+  width: 12%;
+  min-width: 150px;
+  height: 100px;
+  float: left;
+  margin-right: 6%;
+  padding-right: 6%;
+}
+
+.foot-h-l li:last-child {
+  border-color: transparent;
+}
+
+.foot-h-l h4 {
+  font-size: 16px;
+  color: #3b3b3b;
+  margin-bottom: 30px;
+}
+
+.foot-h-l li > a {
+  font-size: 13px;
+  color: #999;
+  line-height: 26px;
+  display: block;
+}
+
+.foot-h-l div a {
+  text-align: center;
+  padding-top: 8px;
+  line-height: 30px;
+  margin-right: 4%;
+  border-radius: 20px;
+  transition: all 0.3s ease 0s;
+}
+
+.foot-h-l div i {
+  font-size: 20px;
+  color: #acadae;
+}
+
+.foot-h-l div i:hover {
+  color: #ee3231;
+}
+
+.foot-h-r {
+  width: 25%;
+  float: right;
+  text-align: right;
+}
+
+.foot-h-r .title {
+  font-size: 26px;
+  font-weight: bold;
+  color: #ee3231;
+  text-align: right;
+}
+
+.foot-h-r .subtitle {
+  font-size: 12px;
+  color: #999;
+  text-align: right;
+}
+
+.foot-h-r .service {
+  display: inline-block;
+  padding: 0 10%;
+  height: 40px;
+  line-height: 40px;
+  color: #fff;
+  text-align: center;
+  font-size: 13px;
+  background-color: #606265;
+  margin-top: 20px;
+}
+
+.foot-bot {
+  background: #fff;
+}
+
+.foot-bot p {
+  width: 74%;
+  margin: 0 auto;
+  height: 56px;
+  line-height: 56px;
+  color: #6f6f6f;
+  font-size: 12px;
+  color: #999;
+}
 </style>

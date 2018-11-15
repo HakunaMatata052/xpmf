@@ -79,7 +79,7 @@
 			<div class="reply" v-loading="replyLoad" v-if="replyList.length!=0">
 				<h2>回复交流区</h2>
 				<div class="reply-list">
-					<dl v-for="x in replyList">
+					<dl v-for="x in replyList" :key="x.id">
 						<dt><img :src="x.fullReplyerAvatar" /></dt>
 						<dd>
 							<span>{{x.replyer}}</span>
@@ -218,7 +218,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(this.active, val)
+				this.getList(this.active, val);
+				this.gotop();
 			},
 			handleClick(tab, event) {
 				this.active = tab.name;
@@ -341,8 +342,6 @@
 		color: #a6a6a6;
 		width: 130px;
 	}
-	
-	.detail dd {}
 	
 	.el-dialog {
 		max-height: 80%;

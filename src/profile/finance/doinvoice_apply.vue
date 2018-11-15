@@ -54,7 +54,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(val)
+				this.getList(val);
+				this.gotop();
 			},
 			handleSelectionChange(val) {
 				this.applyId = [];

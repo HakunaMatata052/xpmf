@@ -80,7 +80,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(val)
+				this.getList(val);
+				this.gotop();
 			},
 			bindFn(id) {
 				var that = this;
@@ -114,7 +115,6 @@
 </script>
 
 <style scoped>
-	#template .capacity {}
 	
 	#template .remainDays {
 		background: #ee3231;

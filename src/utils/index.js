@@ -269,12 +269,16 @@ exports.install = function(Vue, options) {
 		}
 
 	};
-
 	//计算时间差
-	Vue.prototype.timex = function(fn) {
+	Vue.prototype.timex = function() {
 		var startTime = new Date();
 		var endTime = localStorage.getItem('expires');
 		console.log(new Date(endTime).getTime() - startTime.getTime());
 		return new Date(endTime).getTime() - startTime.getTime();
 	};
+
+	// 返回顶部
+	Vue.prototype.gotop = function () {
+		window.scrollTo(0, 0);
+	}
 };

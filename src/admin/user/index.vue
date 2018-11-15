@@ -21,7 +21,7 @@
 				<el-table-column prop="using" label="是否可用" width="100">
 					<template slot-scope="scope">
 						<el-tag v-if="scope.row.using==true">是</el-tag>
-						<el-tag type="danger" v-else="scope.row.using==false">否</el-tag>
+						<el-tag type="danger" v-else-if="scope.row.using==false">否</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" width="300">
@@ -164,7 +164,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(this.role, val)
+				this.getList(this.role, val);
+				this.gotop();
 			},
 			roleFn(val) {
 				this.loading = true;

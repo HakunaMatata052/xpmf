@@ -178,7 +178,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(val)
+				this.getList(val);
+				this.gotop();
 			},
 			editDialog(id) {
 				var that = this;

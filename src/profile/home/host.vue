@@ -92,7 +92,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(val)
+				this.getList(val);
+				this.gotop();
 			},
 			ftpFn(id) {
 				var that = this;
@@ -118,7 +119,6 @@
 </script>
 
 <style scoped>
-	#template .capacity {}
 	
 	#template .remainDays {
 		background: #ee3231;

@@ -11,11 +11,11 @@
 				<a href="/case">案例</a>
 			</div>
 			<div class="nav-right">
-				<a href="javascript:;" @click="jump_router('/info')"><img :src="$store.state.userinfo.fullpathAvatar" width="60" height="60">{{$store.state.userinfo.username}}</a>
+				<a href="javascript:;" @click="jump_router('/info')"><img :src="$store.state.userinfo.fullpathAvatar" width="30" height="30" class="avatar">{{$store.state.userinfo.username}}</a>
 				<a href="javascript:;" @click="jump_router('/process')">工单</a>
 				<a href="javascript:;" class="logout" @click="logout"><i class="iconfont icon-tuichu"></i>退出</a>
 			</div>
-			
+
 		</el-header>
 		<el-container class="container">
 			<!--<el-header>Header</el-header>-->
@@ -149,41 +149,41 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      active: "/home/site",
-      username: "",
-      admin: false,
-      consumer: false,
-      agent: false
-    };
-  },
-  methods: {
-    logout() {
-      localStorage.clear();
-      this.$router.push({
-        path: "/login"
-      });
-    }
-  },
-  created() {
-    var that = this;
-    that.active = that.$route.path;
-    that.$router.afterEach(route => {
-      that.active = that.$route.path;
-    });
+	data() {
+		return {
+			active: "/home/site",
+			username: "",
+			admin: false,
+			consumer: false,
+			agent: false
+		};
+	},
+	methods: {
+		logout() {
+			localStorage.clear();
+			this.$router.push({
+				path: "/login"
+			});
+		}
+	},
+	created() {
+		var that = this;
+		that.active = that.$route.path;
+		that.$router.afterEach(route => {
+			that.active = that.$route.path;
+		});
 
-    var role = localStorage.getItem("role");
-    that.username = localStorage.getItem("username");
-    if (role == "Admin") {
-      that.admin = true;
-    } else if (role == "Consumer") {
-      that.consumer = true;
-    } else if (role == "Agent") {
-      that.consumer = true;
-      that.agent = true;
-    }
-  }
+		var role = localStorage.getItem("role");
+		that.username = localStorage.getItem("username");
+		if (role == "Admin") {
+			that.admin = true;
+		} else if (role == "Consumer") {
+			that.consumer = true;
+		} else if (role == "Agent") {
+			that.consumer = true;
+			that.agent = true;
+		}
+	}
 };
 </script>
 <style scoped>
@@ -215,8 +215,13 @@ export default {
   padding: 0 30px;
   line-height: 66px;
   font-size: 16px;
+  display: flex;
+  align-items: center;
 }
-
+.header .avatar{
+	margin-right: 10px;
+	border-radius: 50%;
+}
 .header a:hover {
   background: #f6aa26;
 }

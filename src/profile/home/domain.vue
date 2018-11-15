@@ -59,14 +59,14 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(val)
+				this.getList(val);
+				this.gotop();
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	#template .capacity {}
 	
 	#template .remainDays {
 		background: #ee3231;

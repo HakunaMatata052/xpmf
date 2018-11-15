@@ -205,7 +205,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(val)
+				this.getList(val);
+				this.gotop();
 			},
 			createSiteFn() {
 				var that = this;
@@ -253,11 +254,7 @@
 		padding: 10px 0;
 		border-bottom: 1px solid #eee;
 	}
-	
-	.site-list-left {}
-	
-	.site-list-left .site-name {}
-	
+		
 	.site-list-left .site-name h3 {
 		display: inline;
 		font-size: 20px;

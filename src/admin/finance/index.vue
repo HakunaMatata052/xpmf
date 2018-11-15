@@ -64,7 +64,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(this.path, val)
+				this.getList(this.path, val);
+				this.gotop();
 			},
 			handleClick(tab, event) {
 				this.path = tab.name;

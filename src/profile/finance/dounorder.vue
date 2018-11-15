@@ -3,7 +3,7 @@
 		<el-table :data="list" stripe style="width: 100%">
 			<el-table-column label="商品明细" min-width="200">
 				<template slot-scope="scope">
-					<p v-for="item in scope.row.orderDetails">
+					 <p v-for="item in scope.row.orderDetails" :key="item.id">
 						{{item.targetTypeString}}：{{item.goodsName}}
 					</p>
 				</template>
@@ -50,7 +50,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(val)
+				this.getList(val);
+				this.gotop();
 			}
 		}
 	}

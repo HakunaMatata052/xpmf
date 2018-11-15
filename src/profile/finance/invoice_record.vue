@@ -50,7 +50,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(this.active,val)
+				this.getList(this.active,val);
+				this.gotop();
 			},
 			handleClick(tab, event) {
 				this.active = tab.name;

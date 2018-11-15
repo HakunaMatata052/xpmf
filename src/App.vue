@@ -1,28 +1,26 @@
 <template>
-  <router-view></router-view>
+	<router-view></router-view>
 </template>
 <script>
 export default {
-  components: {},
-  data() {
-    return {};
-  },
-  mounted: function () { },
-  beforeCreate() {
-    var that = this;
-    if (that.$store.state.userinfo.username == null) {
-      that.get_json(that.$store.state.api + "/user/mine", function (data) {
-        that.$store.state.userinfo = data;
-        console.log(that.$store.state.userinfo);
-      });
-    }
-    if (that.$store.state.siteinfo.seoTitle == null) {
-      that.get_json(that.$store.state.api + "/SiteSetting", function (data) {
-        that.$store.state.siteinfo = data;
-        console.log(that.$store.state.siteinfo);
-      });
-    }
-  }
+	components: {},
+	data() {
+		return {};
+	},
+	mounted: function () { },
+	beforeCreate() {
+		var that = this;
+		if (that.$store.state.userinfo.username == null) {
+			that.get_json(that.$store.state.api + "/user/mine", function (data) {
+				that.$store.state.userinfo = data;
+			});
+		}
+		if (that.$store.state.siteinfo.seoTitle == null) {
+			that.get_json(that.$store.state.api + "/SiteSetting", function (data) {
+				that.$store.state.siteinfo = data;
+			});
+		}
+	}
 };
 </script>
 <style>

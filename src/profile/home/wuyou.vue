@@ -60,7 +60,8 @@
 				})
 			},
 			pageFn(val) {
-				this.getList(val)
+				this.getList(val);
+				this.gotop();
 			},
 			bindFn(id) {
 				var that = this;

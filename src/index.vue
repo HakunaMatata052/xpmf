@@ -11,7 +11,7 @@
 				<a href="/case">案例</a>
 			</div>
 			<div class="nav-right">
-				<a href="javascript:;" @click="jump_router('/info')">{{$store.state.userinfo.username}}</a>
+				<a href="javascript:;" @click="jump_router('/info')"><img :src="$store.state.userinfo.fullpathAvatar" width="60" height="60">{{$store.state.userinfo.username}}</a>
 				<a href="javascript:;" @click="jump_router('/process')">工单</a>
 				<a href="javascript:;" class="logout" @click="logout"><i class="iconfont icon-tuichu"></i>退出</a>
 			</div>

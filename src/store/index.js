@@ -23,10 +23,10 @@ export default new vuex.Store({
 		pay: {
 			amount: ''
 		},
-		//refresh_token:'http://ceshi.xpmof.com/api/api/token/refresh',   //刷新token
-		//api:'http://ceshi.xpmof.com/api/api/',
-		refresh_token: 'http://192.168.0.179:9001/api/token/refresh', //刷新token
-		api: 'http://192.168.0.179:9001/api/',
+		refresh_token:'http://ceshi.xpmof.com/api/api/token/refresh',   //刷新token
+		api:'http://ceshi.xpmof.com/api/api/',
+//		refresh_token: 'http://192.168.0.179:9001/api/token/refresh', //刷新token
+//		api: 'http://192.168.0.179:9001/api/',
 		pic: 'http://117.34.112.244:9009/',
 		wxpay: 'http://117.34.112.244:9006/',
 		alipay: '',

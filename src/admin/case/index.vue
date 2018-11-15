@@ -1,6 +1,7 @@
 <template>
 	<div class="tabs">
-		<el-card class="box-card" shadow="never">
+
+			<el-card class="box-card" shadow="never">
 			<div slot="header" class="clearfix">
 				<span>模板类别</span>
 				<el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新增案例</el-button>
@@ -101,403 +102,420 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				list: [],
-				path: 'case/cases/page/',
-				page: 0,
-				size: 0,
-				total: 0,
-				form: {
-					ordering: 99
-				},
-				dialogFormVisible: false,
-				headers: {},
-				rules: {
-					siteName: [{
-							required: true,
-							message: '请填写名称',
-							trigger: 'blur'
-						},
-						{
-							min: 2,
-							max: 20,
-							message: '长度在 2 到 20 个字符',
-							trigger: 'blur'
-						}
-					],
-					domain: {
-						required: true,
-						message: '请填写域名',
-						trigger: 'blur'
-					},
-					picture: {
-						required: true,
-						message: '请上传缩略图',
-						trigger: 'blur'
-					},
-					templateCode: {
-						required: true,
-						message: '请填写模板编号',
-						trigger: 'blur'
-					},
-					ordering: {
-						required: true,
-						type: 'number',
-						trigger: 'blur',
-						message: '排序必须为数字值'
-					}
-				},
-				auditDialog: false,
-				audit: {
-					id: '',
-					picture: ''
-				},
-				loading: true,
-				dialogloading: true,
-				templateValid: false
-			};
-		},
-		created() {
-			this.getList('case/cases/page/', 1);
-			this.headers.Authorization = 'Bearer ' + localStorage.getItem('token');
-		},
-		methods: {
-			getList(type, val) {
-				var that = this;
-				that.get_json(that.$store.state.api + type + val, function(data) {
-					that.list = data.data;
-					that.page = data.page;
-					that.size = data.size;
-					that.total = data.total;
-					that.loading = false;
-				})
-			},
-			pageFn(val) {
-				this.getList(this.path, val)
-			},
-			handleClick(tab, event) {
-				this.path = tab.name;
-				this.getList(tab.name, 1);
-				this.loading = true;
-			},
-			editDialog(val) {
-				var that = this;
-				that.dialogFormVisible = true;
-				that.templateValid = false;
-				if(val.length != 0) {
-					that.get_json(that.$store.state.api + 'case/' + val, function(data) {
-						that.form = data;
-						that.dialogloading = false;
-					})
-				} else {
-					that.dialogloading = false;
-				}
-
-			},
-			edit(formName, val, id) {
-				var that = this;
-				that.$refs[formName].validate((valid) => {
-					if(valid) {
-						if(val != undefined) {
-							if(that.templateValid == false) {
-								that.validAjax(id, function() {
-									that.editAjax(val);
-								});
-							} else {
-								that.editAjax(val);
-							}
-						} else {
-							if(that.templateValid == false) {
-								that.validAjax(id, function() {
-									that.addAjax(val);
-								});
-							} else {
-								that.addAjax(val);
-							}
-						}
-					} else {
-						that.$message({
-							type: 'error',
-							message: '请填写完整内容！'
-						});
-						return false;
-					}
-				});
-			},
-			editAjax(val) {
-				var that = this;
-				that.put_json(that.$store.state.api + 'case/' + val + '/edit/', that.form, function(data) {
-					that.$message({
-						type: 'success',
-						message: '提交成功！'
-					});
-					that.getList(that.path, that.page);
-					that.dialogFormVisible = false;
-				})
-			},
-			addAjax(val) {
-				var that = this;
-				that.post_json(that.$store.state.api + 'case/', that.form, function(data) {
-					that.$message({
-						type: 'success',
-						message: '提交成功！'
-					});
-					that.getList(that.path, that.page);
-					that.dialogFormVisible = false;
-				})
-			},
-			validAjax(id, fn) {
-				var that = this;
-				that.get_json(that.$store.state.api + 'template/valid/' + id, function(data) {
-					that.templateValid = true;
-					if(fn != null) {
-						fn();
-					}
-				})
-			},
-			picSuccess(res, file) {
-				this.form.picture = res.fileName;
-				this.$set(this.form, 'fullpathPicture', URL.createObjectURL(file.raw));
-			},
-			del(val) {
-				var that = this;
-				that.del_json(that.$store.state.api + 'case/' + val, function(data) {
-					that.$message({
-						type: 'success',
-						message: '删除成功！'
-					});
-					that.getList(that.path, that.page)
-				})
-			},
-			auditFn(id) {
-				var that = this;
-				that.audit.id = id;
-				that.auditDialog = true;
-			},
-			auditpic(res, file) {
-				this.form.picture = res.fileName;
-				this.$set(this.form, 'fullpathPicture', URL.createObjectURL(file.raw));
-			},
-			adopt() {
-				var that = this;
-				that.put_json(that.$store.state.api + 'case/' + that.audit.id + '/audit/picture/' + that.audit.picture, {}, function(data) {
-					that.$message({
-						type: 'success',
-						message: '操作成功！'
-					});
-					that.auditDialog = false;
-					that.getList(that.path, that.page)
-				})
-			},
-			refuse(val) {
-				var that = this;
-				that.put_json(that.$store.state.api + 'case/' + val + '/refuse', {}, function(data) {
-					that.$message({
-						type: 'success',
-						message: '操作成功！'
-					});
-					that.getList(that.path, that.page)
-				})
-			},
-			close() {
-				this.form = {
-					ordering: 99
-				};
-				this.dialogFormVisible = false;
-				this.dialogloading = true;
-			}
-		}
-	}
+export default {
+  data() {
+    return {
+      list: [],
+      path: "case/cases/page/",
+      page: 0,
+      size: 0,
+      total: 0,
+      form: {
+        ordering: 99
+      },
+      dialogFormVisible: false,
+      headers: {},
+      rules: {
+        siteName: [
+          {
+            required: true,
+            message: "请填写名称",
+            trigger: "blur"
+          },
+          {
+            min: 2,
+            max: 20,
+            message: "长度在 2 到 20 个字符",
+            trigger: "blur"
+          }
+        ],
+        domain: {
+          required: true,
+          message: "请填写域名",
+          trigger: "blur"
+        },
+        picture: {
+          required: true,
+          message: "请上传缩略图",
+          trigger: "blur"
+        },
+        templateCode: {
+          required: true,
+          message: "请填写模板编号",
+          trigger: "blur"
+        },
+        ordering: {
+          required: true,
+          type: "number",
+          trigger: "blur",
+          message: "排序必须为数字值"
+        }
+      },
+      auditDialog: false,
+      audit: {
+        id: "",
+        picture: ""
+      },
+      loading: true,
+      dialogloading: true,
+      templateValid: false
+    };
+  },
+  created() {
+    this.getList("case/cases/page/", 1);
+    this.headers.Authorization = "Bearer " + localStorage.getItem("token");
+  },
+  methods: {
+    getList(type, val) {
+      var that = this;
+      that.get_json(that.$store.state.api + type + val, function(data) {
+        that.list = data.data;
+        that.page = data.page;
+        that.size = data.size;
+        that.total = data.total;
+        that.loading = false;
+      });
+    },
+    pageFn(val) {
+      this.getList(this.path, val);
+    },
+    handleClick(tab, event) {
+      this.path = tab.name;
+      this.getList(tab.name, 1);
+      this.loading = true;
+    },
+    editDialog(val) {
+      var that = this;
+      that.dialogFormVisible = true;
+      that.templateValid = false;
+      if (val.length != 0) {
+        that.get_json(that.$store.state.api + "case/" + val, function(data) {
+          that.form = data;
+          that.dialogloading = false;
+        });
+      } else {
+        that.dialogloading = false;
+      }
+    },
+    edit(formName, val, id) {
+      var that = this;
+      that.$refs[formName].validate(valid => {
+        if (valid) {
+          if (val != undefined) {
+            if (that.templateValid == false) {
+              that.validAjax(id, function() {
+                that.editAjax(val);
+              });
+            } else {
+              that.editAjax(val);
+            }
+          } else {
+            if (that.templateValid == false) {
+              that.validAjax(id, function() {
+                that.addAjax(val);
+              });
+            } else {
+              that.addAjax(val);
+            }
+          }
+        } else {
+          that.$message({
+            type: "error",
+            message: "请填写完整内容！"
+          });
+          return false;
+        }
+      });
+    },
+    editAjax(val) {
+      var that = this;
+      that.put_json(
+        that.$store.state.api + "case/" + val + "/edit/",
+        that.form,
+        function(data) {
+          that.$message({
+            type: "success",
+            message: "提交成功！"
+          });
+          that.getList(that.path, that.page);
+          that.dialogFormVisible = false;
+        }
+      );
+    },
+    addAjax(val) {
+      var that = this;
+      that.post_json(that.$store.state.api + "case/", that.form, function(
+        data
+      ) {
+        that.$message({
+          type: "success",
+          message: "提交成功！"
+        });
+        that.getList(that.path, that.page);
+        that.dialogFormVisible = false;
+      });
+    },
+    validAjax(id, fn) {
+      var that = this;
+      that.get_json(that.$store.state.api + "template/valid/" + id, function(
+        data
+      ) {
+        that.templateValid = true;
+        if (fn != null) {
+          fn();
+        }
+      });
+    },
+    picSuccess(res, file) {
+      this.form.picture = res.fileName;
+      this.$set(this.form, "fullpathPicture", URL.createObjectURL(file.raw));
+    },
+    del(val) {
+      var that = this;
+      that.del_json(that.$store.state.api + "case/" + val, function(data) {
+        that.$message({
+          type: "success",
+          message: "删除成功！"
+        });
+        that.getList(that.path, that.page);
+      });
+    },
+    auditFn(id) {
+      var that = this;
+      that.audit.id = id;
+      that.auditDialog = true;
+    },
+    auditpic(res, file) {
+      this.form.picture = res.fileName;
+      this.$set(this.form, "fullpathPicture", URL.createObjectURL(file.raw));
+    },
+    adopt() {
+      var that = this;
+      that.put_json(
+        that.$store.state.api +
+          "case/" +
+          that.audit.id +
+          "/audit/picture/" +
+          that.audit.picture,
+        {},
+        function(data) {
+          that.$message({
+            type: "success",
+            message: "操作成功！"
+          });
+          that.auditDialog = false;
+          that.getList(that.path, that.page);
+        }
+      );
+    },
+    refuse(val) {
+      var that = this;
+      that.put_json(
+        that.$store.state.api + "case/" + val + "/refuse",
+        {},
+        function(data) {
+          that.$message({
+            type: "success",
+            message: "操作成功！"
+          });
+          that.getList(that.path, that.page);
+        }
+      );
+    },
+    close() {
+      this.form = {
+        ordering: 99
+      };
+      this.dialogFormVisible = false;
+      this.dialogloading = true;
+    }
+  }
+};
 </script>
 
 <style>
-	.tabs {
-		background-color: #fff;
-		border-radius: 3px;
-		-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-		box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-	}
-	
-	.tabs .el-tabs__item {
-		height: 61px;
-		line-height: 61px;
-		width: 120px;
-		text-align: center;
-		font-size: 16px;
-	}
-	
-	.tabs .el-tabs__nav-next,
-	.tabs .el-tabs__nav-prev {
-		line-height: 70px;
-		padding: 0 10px;
-	}
-	
-	.tabs .el-tabs__nav-wrap::after {
-		height: 1px;
-		background: #eee;
-	}
-	
-	.tabs .el-tabs__header {
-		margin-bottom: 0;
-	}
-	
-	.tabs .tab-content {
-		padding: 20px;
-	}
-	
-	.detail {
-		padding: 20px 0;
-		display: flex;
-		flex-wrap: wrap;
-	}
-	
-	.detail dl {
-		display: flex;
-		width: 50%;
-		padding: 10px 30px 10px 0;
-		border-bottom: 1px solid #ccc;
-		align-items: center;
-	}
-	
-	.detail dt {
-		color: #a6a6a6;
-		width: 130px;
-	}
-	
-	.detail dd {}
-	
-	.el-dialog {
-		max-height: 80%;
-		overflow: auto;
-	}
-	
-	.el-dialog__body {
-		padding: 20px;
-	}
-	
-	.el-dialog__footer {
-		text-align: left;
-	}
-	
-	.el-dialog__footer .submit {
-		width: 100%;
-		margin-top: 10px;
-	}
-	
-	.quill-editor {
-		height: 135px;
-	}
-	
-	.quill-editor .ql-container {
-		height: 90px;
-	}
-	
-	.content {
-		padding: 10px;
-		border: 1px dashed #ccc;
-	}
-	
-	.reply {
-		background: #eee;
-		margin: 10px 0;
-		padding: 10px;
-	}
-	
-	.reply h2 {
-		text-align: center;
-	}
-	
-	.reply .tip {
-		text-align: center;
-		padding: 10px 0;
-		color: #ccc;
-	}
-	
-	.reply-list dl {
-		display: flex;
-		align-items: center;
-		margin-bottom: 10px;
-		padding: 10px 0;
-	}
-	
-	.reply-list dt {
-		width: 50px;
-		margin-right: 20px;
-	}
-	
-	.reply-list dt img {
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		overflow: hidden;
-	}
-	
-	.reply-list dd {
-		display: flex;
-		justify-content: space-between;
-		flex-flow: wrap;
-		flex-grow: 1;
-	}
-	
-	.reply-list dd span {
-		font-size: 14px;
-		color: #999;
-	}
-	
-	.reply-list .reply-con {
-		width: 100%;
-		margin-top: 10px;
-	}
-	
-	.reply-list .reply-con img {
-		max-width: 80%;
-	}
-	
-	.reply-con strong {
-		font-weight: bold!important;
-	}
-	
-	.reply-con em {
-		font-style: italic!important;
-		;
-	}
-	
-	.avatar-uploader .el-upload {
-		border: 1px dashed #d9d9d9;
-		border-radius: 6px;
-		cursor: pointer;
-		position: relative;
-		overflow: hidden;
-	}
-	
-	.img-uploader .el-upload:hover {
-		border-color: #409EFF;
-	}
-	
-	.img-uploader-icon {
-		font-size: 28px;
-		color: #8c939d;
-		width: 178px;
-		height: 178px;
-		line-height: 178px;
-		text-align: center;
-		border: 1px dashed #ccc;
-	}
-	
-	.img {
-		width: 178px;
-		height: 178px;
-		display: block;
-	}
-	
-	.upload {
-		display: inline-block;
-	}
-	
-	.uploadInput {
-		width: 300px;
-		margin-right: 20px;
-	}
+.tabs {
+  background-color: #fff;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.tabs .el-tabs__item {
+  height: 61px;
+  line-height: 61px;
+  width: 120px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.tabs .el-tabs__nav-next,
+.tabs .el-tabs__nav-prev {
+  line-height: 70px;
+  padding: 0 10px;
+}
+
+.tabs .el-tabs__nav-wrap::after {
+  height: 1px;
+  background: #eee;
+}
+
+.tabs .el-tabs__header {
+  margin-bottom: 0;
+}
+
+.tabs .tab-content {
+  padding: 20px;
+}
+
+.detail {
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.detail dl {
+  display: flex;
+  width: 50%;
+  padding: 10px 30px 10px 0;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.detail dt {
+  color: #a6a6a6;
+  width: 130px;
+}
+
+.el-dialog {
+  max-height: 80%;
+  overflow: auto;
+}
+
+.el-dialog__body {
+  padding: 20px;
+}
+
+.el-dialog__footer {
+  text-align: left;
+}
+
+.el-dialog__footer .submit {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.quill-editor {
+  height: 135px;
+}
+
+.quill-editor .ql-container {
+  height: 90px;
+}
+
+.content {
+  padding: 10px;
+  border: 1px dashed #ccc;
+}
+
+.reply {
+  background: #eee;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.reply h2 {
+  text-align: center;
+}
+
+.reply .tip {
+  text-align: center;
+  padding: 10px 0;
+  color: #ccc;
+}
+
+.reply-list dl {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px 0;
+}
+
+.reply-list dt {
+  width: 50px;
+  margin-right: 20px;
+}
+
+.reply-list dt img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.reply-list dd {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: wrap;
+  flex-grow: 1;
+}
+
+.reply-list dd span {
+  font-size: 14px;
+  color: #999;
+}
+
+.reply-list .reply-con {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.reply-list .reply-con img {
+  max-width: 80%;
+}
+
+.reply-con strong {
+  font-weight: bold !important;
+}
+
+.reply-con em {
+  font-style: italic !important;
+}
+
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+
+.img-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+  border: 1px dashed #ccc;
+}
+
+.img {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
+.upload {
+  display: inline-block;
+}
+
+.uploadInput {
+  width: 300px;
+  margin-right: 20px;
+}
 </style>

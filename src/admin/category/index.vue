@@ -43,104 +43,116 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				list:[],
-				dialogFormVisible:false,
-				form:{},				
-				rules: {
-					name: [{
-							required: true,
-							message: '请输入名称',
-							trigger: 'blur'
-						},
-						{
-							min: 2,
-							max: 20,
-							message: '长度在 2 到 20 个字符',
-							trigger: 'blur'
-						}
-					]
-				},
-				loading:true,
-				dialogloading:true
-			};
-		},
-		created() {
-			this.getList();
-		},
-		methods: {
-			getList(val) {
-				var that = this;
-				that.get_json(that.$store.state.api + 'NewsCategory/', function(data) {
-					that.list = data;
-					that.loading = false;
-				})
-			},
-			editDialog(id){
-				var that = this;
-				that.dialogFormVisible = true;
-				if(id.length != 0) {
-					that.get_json(that.$store.state.api + 'newscategory/' + id, function(data) {
-						that.form = data;
-						that.dialogloading = false;
-					})
-				}else{
-					that.dialogloading = false;
-				}
-			},
-			edit(formName,val){				
-				var that = this;
-				that.$refs[formName].validate((valid) => {
-					if(valid) {
-						if(val != undefined) {
-							that.put_json(that.$store.state.api + 'newscategory/' + val, that.form, function(data) {
-								that.$message({
-									type: 'success',
-									message: '提交成功！'
-								});
-								that.getList();
-								that.dialogFormVisible = false;
-							})
-						} else {
-							that.post_json(that.$store.state.api + 'newscategory/', that.form, function(data) {
-								that.$message({
-									type: 'success',
-									message: '提交成功！'
-								});
-								that.getList();
-								that.dialogFormVisible = false;
-							})
-						}
-					} else {
-						that.$message({
-							type: 'error',
-							message: '请填写完整内容！'
-						});
-						return false;
-					}
-				});
-			},
-			del(val) {
-				var that = this;
-				that.del_json(that.$store.state.api + 'newscategory/' + val, function(data) {
-					that.$message({
-						type: 'success',
-						message: '删除成功!!'
-					});
-					that.getList();
-				})
-			},
-			close(){
-				this.form = {};
-				this.dialogFormVisible = false;
-				this.dialogloading = true;
-			},
-		}
-	}
+export default {
+  data() {
+    return {
+      list: [],
+      dialogFormVisible: false,
+      form: {},
+      rules: {
+        name: [
+          {
+            required: true,
+            message: "请输入名称",
+            trigger: "blur"
+          },
+          {
+            min: 2,
+            max: 20,
+            message: "长度在 2 到 20 个字符",
+            trigger: "blur"
+          }
+        ]
+      },
+      loading: true,
+      dialogloading: true
+    };
+  },
+  created() {
+    this.getList();
+  },
+  methods: {
+    getList(val) {
+      var that = this;
+      that.get_json(that.$store.state.api + "NewsCategory/", function(data) {
+        that.list = data;
+        that.loading = false;
+      });
+    },
+    editDialog(id) {
+      var that = this;
+      that.dialogFormVisible = true;
+      if (id.length != 0) {
+        that.get_json(that.$store.state.api + "newscategory/" + id, function(
+          data
+        ) {
+          that.form = data;
+          that.dialogloading = false;
+        });
+      } else {
+        that.dialogloading = false;
+      }
+    },
+    edit(formName, val) {
+      var that = this;
+      that.$refs[formName].validate(valid => {
+        if (valid) {
+          if (val != undefined) {
+            that.put_json(
+              that.$store.state.api + "newscategory/" + val,
+              that.form,
+              function(data) {
+                that.$message({
+                  type: "success",
+                  message: "提交成功！"
+                });
+                that.getList();
+                that.dialogFormVisible = false;
+              }
+            );
+          } else {
+            that.post_json(
+              that.$store.state.api + "newscategory/",
+              that.form,
+              function(data) {
+                that.$message({
+                  type: "success",
+                  message: "提交成功！"
+                });
+                that.getList();
+                that.dialogFormVisible = false;
+              }
+            );
+          }
+        } else {
+          that.$message({
+            type: "error",
+            message: "请填写完整内容！"
+          });
+          return false;
+        }
+      });
+    },
+    del(val) {
+      var that = this;
+      that.del_json(that.$store.state.api + "newscategory/" + val, function(
+        data
+      ) {
+        that.$message({
+          type: "success",
+          message: "删除成功!!"
+        });
+        that.getList();
+      });
+    },
+    close() {
+      this.form = {};
+      this.dialogFormVisible = false;
+      this.dialogloading = true;
+    }
+  }
+};
 </script>
 
 <style scoped>
-
 </style>

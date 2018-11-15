@@ -45,7 +45,7 @@ var page403 = r => require.ensure([], () => r(require('./errorpage/403.vue')), '
 
 Vue.use(VueRouter);
 const router = new VueRouter({
-	mode: 'hash', //hash 打包需要使用hash 无#： history
+	mode: 'history', //hash 打包需要使用hash 无#： history
 	routes: [{
 			path: '*',
 			component: Index,

@@ -1,7 +1,6 @@
 <template>
 	<div class="tabs">
-
-			<el-card class="box-card" shadow="never">
+		<el-card class="box-card" shadow="never">
 			<div slot="header" class="clearfix">
 				<span>模板类别</span>
 				<el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新增案例</el-button>
@@ -103,233 +102,233 @@
 
 <script>
 export default {
-  data() {
-    return {
-      list: [],
-      path: "case/cases/page/",
-      page: 0,
-      size: 0,
-      total: 0,
-      form: {
-        ordering: 99
-      },
-      dialogFormVisible: false,
-      headers: {},
-      rules: {
-        siteName: [
-          {
-            required: true,
-            message: "请填写名称",
-            trigger: "blur"
-          },
-          {
-            min: 2,
-            max: 20,
-            message: "长度在 2 到 20 个字符",
-            trigger: "blur"
-          }
-        ],
-        domain: {
-          required: true,
-          message: "请填写域名",
-          trigger: "blur"
-        },
-        picture: {
-          required: true,
-          message: "请上传缩略图",
-          trigger: "blur"
-        },
-        templateCode: {
-          required: true,
-          message: "请填写模板编号",
-          trigger: "blur"
-        },
-        ordering: {
-          required: true,
-          type: "number",
-          trigger: "blur",
-          message: "排序必须为数字值"
-        }
-      },
-      auditDialog: false,
-      audit: {
-        id: "",
-        picture: ""
-      },
-      loading: true,
-      dialogloading: true,
-      templateValid: false
-    };
-  },
-  created() {
-    this.getList("case/cases/page/", 1);
-    this.headers.Authorization = "Bearer " + localStorage.getItem("token");
-  },
-  methods: {
-    getList(type, val) {
-      var that = this;
-      that.get_json(that.$store.state.api + type + val, function(data) {
-        that.list = data.data;
-        that.page = data.page;
-        that.size = data.size;
-        that.total = data.total;
-        that.loading = false;
-      });
-    },
-    pageFn(val) {
-      this.getList(this.path, val);
-    },
-    handleClick(tab, event) {
-      this.path = tab.name;
-      this.getList(tab.name, 1);
-      this.loading = true;
-    },
-    editDialog(val) {
-      var that = this;
-      that.dialogFormVisible = true;
-      that.templateValid = false;
-      if (val.length != 0) {
-        that.get_json(that.$store.state.api + "case/" + val, function(data) {
-          that.form = data;
-          that.dialogloading = false;
-        });
-      } else {
-        that.dialogloading = false;
-      }
-    },
-    edit(formName, val, id) {
-      var that = this;
-      that.$refs[formName].validate(valid => {
-        if (valid) {
-          if (val != undefined) {
-            if (that.templateValid == false) {
-              that.validAjax(id, function() {
-                that.editAjax(val);
-              });
-            } else {
-              that.editAjax(val);
-            }
-          } else {
-            if (that.templateValid == false) {
-              that.validAjax(id, function() {
-                that.addAjax(val);
-              });
-            } else {
-              that.addAjax(val);
-            }
-          }
-        } else {
-          that.$message({
-            type: "error",
-            message: "请填写完整内容！"
-          });
-          return false;
-        }
-      });
-    },
-    editAjax(val) {
-      var that = this;
-      that.put_json(
-        that.$store.state.api + "case/" + val + "/edit/",
-        that.form,
-        function(data) {
-          that.$message({
-            type: "success",
-            message: "提交成功！"
-          });
-          that.getList(that.path, that.page);
-          that.dialogFormVisible = false;
-        }
-      );
-    },
-    addAjax(val) {
-      var that = this;
-      that.post_json(that.$store.state.api + "case/", that.form, function(
-        data
-      ) {
-        that.$message({
-          type: "success",
-          message: "提交成功！"
-        });
-        that.getList(that.path, that.page);
-        that.dialogFormVisible = false;
-      });
-    },
-    validAjax(id, fn) {
-      var that = this;
-      that.get_json(that.$store.state.api + "template/valid/" + id, function(
-        data
-      ) {
-        that.templateValid = true;
-        if (fn != null) {
-          fn();
-        }
-      });
-    },
-    picSuccess(res, file) {
-      this.form.picture = res.fileName;
-      this.$set(this.form, "fullpathPicture", URL.createObjectURL(file.raw));
-    },
-    del(val) {
-      var that = this;
-      that.del_json(that.$store.state.api + "case/" + val, function(data) {
-        that.$message({
-          type: "success",
-          message: "删除成功！"
-        });
-        that.getList(that.path, that.page);
-      });
-    },
-    auditFn(id) {
-      var that = this;
-      that.audit.id = id;
-      that.auditDialog = true;
-    },
-    auditpic(res, file) {
-      this.form.picture = res.fileName;
-      this.$set(this.form, "fullpathPicture", URL.createObjectURL(file.raw));
-    },
-    adopt() {
-      var that = this;
-      that.put_json(
-        that.$store.state.api +
-          "case/" +
-          that.audit.id +
-          "/audit/picture/" +
-          that.audit.picture,
-        {},
-        function(data) {
-          that.$message({
-            type: "success",
-            message: "操作成功！"
-          });
-          that.auditDialog = false;
-          that.getList(that.path, that.page);
-        }
-      );
-    },
-    refuse(val) {
-      var that = this;
-      that.put_json(
-        that.$store.state.api + "case/" + val + "/refuse",
-        {},
-        function(data) {
-          that.$message({
-            type: "success",
-            message: "操作成功！"
-          });
-          that.getList(that.path, that.page);
-        }
-      );
-    },
-    close() {
-      this.form = {
-        ordering: 99
-      };
-      this.dialogFormVisible = false;
-      this.dialogloading = true;
-    }
-  }
+	data() {
+		return {
+			list: [],
+			path: "case/cases/page/",
+			page: 0,
+			size: 0,
+			total: 0,
+			form: {
+				ordering: 99
+			},
+			dialogFormVisible: false,
+			headers: {},
+			rules: {
+				siteName: [
+					{
+						required: true,
+						message: "请填写名称",
+						trigger: "blur"
+					},
+					{
+						min: 2,
+						max: 20,
+						message: "长度在 2 到 20 个字符",
+						trigger: "blur"
+					}
+				],
+				domain: {
+					required: true,
+					message: "请填写域名",
+					trigger: "blur"
+				},
+				picture: {
+					required: true,
+					message: "请上传缩略图",
+					trigger: "blur"
+				},
+				templateCode: {
+					required: true,
+					message: "请填写模板编号",
+					trigger: "blur"
+				},
+				ordering: {
+					required: true,
+					type: "number",
+					trigger: "blur",
+					message: "排序必须为数字值"
+				}
+			},
+			auditDialog: false,
+			audit: {
+				id: "",
+				picture: ""
+			},
+			loading: true,
+			dialogloading: true,
+			templateValid: false
+		};
+	},
+	created() {
+		this.getList("case/cases/page/", 1);
+		this.headers.Authorization = "Bearer " + localStorage.getItem("token");
+	},
+	methods: {
+		getList(type, val) {
+			var that = this;
+			that.get_json(that.$store.state.api + type + val, function (data) {
+				that.list = data.data;
+				that.page = data.page;
+				that.size = data.size;
+				that.total = data.total;
+				that.loading = false;
+			});
+		},
+		pageFn(val) {
+			this.getList(this.path, val);
+		},
+		handleClick(tab, event) {
+			this.path = tab.name;
+			this.getList(tab.name, 1);
+			this.loading = true;
+		},
+		editDialog(val) {
+			var that = this;
+			that.dialogFormVisible = true;
+			that.templateValid = false;
+			if (val.length != 0) {
+				that.get_json(that.$store.state.api + "case/" + val, function (data) {
+					that.form = data;
+					that.dialogloading = false;
+				});
+			} else {
+				that.dialogloading = false;
+			}
+		},
+		edit(formName, val, id) {
+			var that = this;
+			that.$refs[formName].validate(valid => {
+				if (valid) {
+					if (val != undefined) {
+						if (that.templateValid == false) {
+							that.validAjax(id, function () {
+								that.editAjax(val);
+							});
+						} else {
+							that.editAjax(val);
+						}
+					} else {
+						if (that.templateValid == false) {
+							that.validAjax(id, function () {
+								that.addAjax(val);
+							});
+						} else {
+							that.addAjax(val);
+						}
+					}
+				} else {
+					that.$message({
+						type: "error",
+						message: "请填写完整内容！"
+					});
+					return false;
+				}
+			});
+		},
+		editAjax(val) {
+			var that = this;
+			that.put_json(
+				that.$store.state.api + "case/" + val + "/edit/",
+				that.form,
+				function (data) {
+					that.$message({
+						type: "success",
+						message: "提交成功！"
+					});
+					that.getList(that.path, that.page);
+					that.dialogFormVisible = false;
+				}
+			);
+		},
+		addAjax(val) {
+			var that = this;
+			that.post_json(that.$store.state.api + "case/", that.form, function (
+				data
+			) {
+				that.$message({
+					type: "success",
+					message: "提交成功！"
+				});
+				that.getList(that.path, that.page);
+				that.dialogFormVisible = false;
+			});
+		},
+		validAjax(id, fn) {
+			var that = this;
+			that.get_json(that.$store.state.api + "template/valid/" + id, function (
+				data
+			) {
+				that.templateValid = true;
+				if (fn != null) {
+					fn();
+				}
+			});
+		},
+		picSuccess(res, file) {
+			this.form.picture = res.fileName;
+			this.$set(this.form, "fullpathPicture", URL.createObjectURL(file.raw));
+		},
+		del(val) {
+			var that = this;
+			that.del_json(that.$store.state.api + "case/" + val, function (data) {
+				that.$message({
+					type: "success",
+					message: "删除成功！"
+				});
+				that.getList(that.path, that.page);
+			});
+		},
+		auditFn(id) {
+			var that = this;
+			that.audit.id = id;
+			that.auditDialog = true;
+		},
+		auditpic(res, file) {
+			this.form.picture = res.fileName;
+			this.$set(this.form, "fullpathPicture", URL.createObjectURL(file.raw));
+		},
+		adopt() {
+			var that = this;
+			that.put_json(
+				that.$store.state.api +
+				"case/" +
+				that.audit.id +
+				"/audit/picture/" +
+				that.audit.picture,
+				{},
+				function (data) {
+					that.$message({
+						type: "success",
+						message: "操作成功！"
+					});
+					that.auditDialog = false;
+					that.getList(that.path, that.page);
+				}
+			);
+		},
+		refuse(val) {
+			var that = this;
+			that.put_json(
+				that.$store.state.api + "case/" + val + "/refuse",
+				{},
+				function (data) {
+					that.$message({
+						type: "success",
+						message: "操作成功！"
+					});
+					that.getList(that.path, that.page);
+				}
+			);
+		},
+		close() {
+			this.form = {
+				ordering: 99
+			};
+			this.dialogFormVisible = false;
+			this.dialogloading = true;
+		}
+	}
 };
 </script>
 

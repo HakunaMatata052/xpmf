@@ -1,5 +1,5 @@
 <template>
-	<router-view></router-view>
+  <router-view></router-view>
 </template>
 <script>
 export default {
@@ -7,17 +7,17 @@ export default {
   data() {
     return {};
   },
-  mounted: function() {},
+  mounted: function () { },
   beforeCreate() {
     var that = this;
     if (that.$store.state.userinfo.username == null) {
-      that.get_json(that.$store.state.api + "/user/mine", function(data) {
+      that.get_json(that.$store.state.api + "/user/mine", function (data) {
         that.$store.state.userinfo = data;
         console.log(that.$store.state.userinfo);
       });
     }
     if (that.$store.state.siteinfo.seoTitle == null) {
-      that.get_json(that.$store.state.api + "/SiteSetting", function(data) {
+      that.get_json(that.$store.state.api + "/SiteSetting", function (data) {
         that.$store.state.siteinfo = data;
         console.log(that.$store.state.siteinfo);
       });
@@ -40,6 +40,7 @@ export default {
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   background-color: #555;
 }
 

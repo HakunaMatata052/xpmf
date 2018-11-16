@@ -99,10 +99,10 @@
 				<h2>回复交流区</h2>
 				<p class="tip">暂无内容</p>
 			</div>
-			<span slot="footer" class="dialog-footer">				
-					<vue-ckeditor v-model="content" :config="config"/>
-			    <el-button type="primary" class="submit" @click="submitReply(workorder.id)">提交</el-button>
-			 </span>
+			<span slot="footer" class="dialog-footer">
+				<vue-ckeditor v-model="content" :config="config" />
+				<el-button type="primary" class="submit" @click="submitReply(workorder.id)">提交</el-button>
+			</span>
 		</el-dialog>
 		<el-dialog title="工单详情" :visible.sync="newWorkorderDialog">
 			<el-form ref="form" :model="form" :rules="rules" label-width="80px">
@@ -132,310 +132,300 @@
 </template>
 
 <script>
-	import VueCkeditor from 'vue-ckeditor2';
-	export default {
-		components: {
-			VueCkeditor
-		},
-		data() {
-			return {
-				list: [],
-				path: '100',
-				page: 0,
-				size: 0,
-				total: 0,
-				applyId: [],
-				active: '100',
-				dialogTableVisible: false,
-				replyLoad: true,
-				replyList: [],
-				replypage: 0,
-				replysize: 0,
-				replytotal: 0,
-				workorder: {},
-				content: '',
-				editorOption: {
-					modules: {
-						toolbar: [
-							['bold', 'italic', 'underline', 'strike', 'image', 'blockquote', 'code-block']
-						]
-					}
-				},
-				newWorkorderDialog: false,
-				form: {
-					title: '',
-					Description: '',
-					Type: ''
-				},
-				rules: {
-					title: [{
-							required: true,
-							message: '请输入活动名称',
-							trigger: 'blur'
-						},
-						{
-							min: 5,
-							max: 20,
-							message: '长度在 5 到 20 个字符',
-							trigger: 'blur'
-						}
-					],
-					Type: [{
-						required: true,
-						message: '请选择问题类型',
-						trigger: 'change'
-					}]
-				},
-				config: {
+import VueCkeditor from 'vue-ckeditor2';
+export default {
+	components: {
+		VueCkeditor
+	},
+	data() {
+		return {
+			list: [],
+			path: '100',
+			page: 0,
+			size: 0,
+			total: 0,
+			applyId: [],
+			active: '100',
+			dialogTableVisible: false,
+			replyLoad: true,
+			replyList: [],
+			replypage: 0,
+			replysize: 0,
+			replytotal: 0,
+			workorder: {},
+			content: '',
+			editorOption: {
+				modules: {
 					toolbar: [
-						['Bold', 'Italic', 'Underline','Link','Unlink','Image']
-					],
-					height: 150,
-					filebrowserImageUploadUrl: '',
-					fileTools_requestHeaders: {
-						Authorization: ''
-					},
-					fileTools_defaultFileName:'file',
-					language: 'zh-cn',
+						['bold', 'italic', 'underline', 'strike', 'image', 'blockquote', 'code-block']
+					]
+				}
+			},
+			newWorkorderDialog: false,
+			form: {
+				title: '',
+				Description: '',
+				Type: ''
+			},
+			rules: {
+				title: [{
+					required: true,
+					message: '请输入活动名称',
+					trigger: 'blur'
 				},
-				loading:true
-			};
+				{
+					min: 5,
+					max: 20,
+					message: '长度在 5 到 20 个字符',
+					trigger: 'blur'
+				}
+				],
+				Type: [{
+					required: true,
+					message: '请选择问题类型',
+					trigger: 'change'
+				}]
+			},
+			config: {
+				toolbar: [
+					['Bold', 'Italic', 'Underline', 'Link', 'Unlink', 'Image']
+				],
+				height: 150,
+				filebrowserImageUploadUrl: '',
+				fileTools_requestHeaders: {
+					Authorization: ''
+				},
+				fileTools_defaultFileName: 'file',
+				language: 'zh-cn',
+			},
+			loading: true
+		};
+	},
+	created() {
+		this.getList(100, 1);
+		this.config.fileTools_requestHeaders.Authorization = 'Bearer ' + localStorage.getItem('token');
+		this.config.filebrowserImageUploadUrl = this.$store.state.pic + 'api/workorder/picture'
+	},
+	methods: {
+		getList(type, val) {
+			var that = this;
+			that.get_json(that.$store.state.api + 'admin/workorder/status/' + type + '/page/' + val, function (data) {
+				that.list = data.data;
+				that.page = data.page;
+				that.size = data.size;
+				that.total = data.total;
+				that.loading = false;
+			})
 		},
-		created() {
-			this.getList(100, 1);
-			this.config.fileTools_requestHeaders.Authorization = 'Bearer ' + localStorage.getItem('token');
-			this.config.filebrowserImageUploadUrl = this.$store.state.pic +'api/workorder/picture'
+		pageFn(val) {
+			this.getList(this.active, val);
+			this.gotop();
 		},
-		methods: {
-			getList(type, val) {
-				var that = this;
-				that.get_json(that.$store.state.api + 'admin/workorder/status/' + type + '/page/' + val, function(data) {
-					that.list = data.data;
-					that.page = data.page;
-					that.size = data.size;
-					that.total = data.total;
-					that.loading = false;
-				})
-			},
-			pageFn(val) {
-				this.getList(this.active, val);
-				this.gotop();
-			},
-			handleClick(tab, event) {
-				this.active = tab.name;
-				this.getList(tab.name, 1);
-				this.loading = true;
-			},
-			openWorkorder(id) {
-				var that = this;
-				that.dialogTableVisible = true;
-				that.get_json(that.$store.state.api + 'admin/workorder/' + id, function(data) {
-					that.workorder = data;
-					console.log(that.workorder)
-				});
-				that.getReplyList(id, 1)
+		handleClick(tab, event) {
+			this.active = tab.name;
+			this.getList(tab.name, 1);
+			this.loading = true;
+		},
+		openWorkorder(id) {
+			var that = this;
+			that.dialogTableVisible = true;
+			that.get_json(that.$store.state.api + 'admin/workorder/' + id, function (data) {
+				that.workorder = data;
+				console.log(that.workorder)
+			});
+			that.getReplyList(id, 1)
 
-			},
-			getReplyList(id, page) {
-				var that = this;
-				that.get_json(that.$store.state.api + 'admin/workorder/' + id + '/comments/page/' + page, function(data) {
-					that.replyLoad = false;
-					that.replyList = data.data;
-					that.replypage = data.page;
-					that.replysize = data.size;
-					that.replytotal = data.total;
+		},
+		getReplyList(id, page) {
+			var that = this;
+			that.get_json(that.$store.state.api + 'admin/workorder/' + id + '/comments/page/' + page, function (data) {
+				that.replyLoad = false;
+				that.replyList = data.data;
+				that.replypage = data.page;
+				that.replysize = data.size;
+				that.replytotal = data.total;
+			});
+		},
+		submitReply(id) {
+			var that = this;
+			that.post_json(that.$store.state.api + 'workorder/' + id + '/reply', {
+				workeruserid: id,
+				body: that.content
+			}, function (data) {
+				that.content = '';
+				that.$message({
+					type: 'success',
+					message: '提交成功！'
 				});
-			},
-			submitReply(id) {
-				var that = this;
-				that.post_json(that.$store.state.api + 'workorder/' + id + '/reply', {
-					workeruserid: id,
-					body: that.content
-				}, function(data) {
-					that.content = '';
-					that.$message({
-						type: 'success',
-						message: '提交成功！'
-					});
-					that.getReplyList(id, that.replypage)
-				});
-			},
+				that.getReplyList(id, that.replypage)
+			});
+		},
 
-			replyPageFn(val) {
-				this.getReplyList(this.workorder.id, val)
-			},
-			submitWorkorder(formName) {
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
-						var that = this;
-						that.post_json(that.$store.state.api + 'workorder/', that.form, function(data) {
-							that.newWorkorderDialog = false;
-							that.$message({
-								type: 'success',
-								message: '提交成功！'
-							});
-							that.getList(that.path, that.page)
+		replyPageFn(val) {
+			this.getReplyList(this.workorder.id, val)
+		},
+		submitWorkorder(formName) {
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					var that = this;
+					that.post_json(that.$store.state.api + 'workorder/', that.form, function (data) {
+						that.newWorkorderDialog = false;
+						that.$message({
+							type: 'success',
+							message: '提交成功！'
 						});
-					} else {
-						console.log('error submit!!');
-						return false;
-					}
-				});
-			},
-			closeWorkorder() {
-				this.workorder = {}
-			}
+						that.getList(that.path, that.page)
+					});
+				} else {
+					console.log('error submit!!');
+					return false;
+				}
+			});
+		},
+		closeWorkorder() {
+			this.workorder = {}
 		}
 	}
+}
 </script>
 
 <style>
-	.tabs {
-		background-color: #fff;
-		border-radius: 3px;
-		-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-		box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
-	}
-	
-	.tabs .el-tabs__item {
-		height: 61px;
-		line-height: 61px;
-		width: 120px;
-		text-align: center;
-		font-size: 16px;
-	}
-	
-	.tabs .el-tabs__nav-next,
-	.tabs .el-tabs__nav-prev {
-		line-height: 70px;
-		padding: 0 10px;
-	}
-	
-	.tabs .el-tabs__nav-wrap::after {
-		height: 1px;
-		background: #eee;
-	}
-	
-	.tabs .el-tabs__header {
-		margin-bottom: 0;
-	}
-	
-	.tabs .tab-content {
-		padding: 20px;
-	}
-	
-	.detail {
-		padding: 20px 0;
-		display: flex;
-		flex-wrap: wrap;
-	}
-	
-	.detail dl {
-		display: flex;
-		width: 50%;
-		padding: 10px 30px 10px 0;
-		border-bottom: 1px solid #ccc;
-		align-items: center;
-	}
-	
-	.detail dt {
-		color: #a6a6a6;
-		width: 130px;
-	}
-	
-	.el-dialog {
-		max-height: 80%;
-		overflow: auto;
-	}
-	
-	.el-dialog__body {
-		padding: 20px;
-	}
-	
-	.el-dialog__footer {
-		text-align: left;
-	}
-	
-	.el-dialog__footer .submit {
-		width: 100%;
-		margin-top: 10px;
-	}
-	
-	.quill-editor {
-		height: 135px;
-	}
-	
-	.quill-editor .ql-container {
-		height: 90px;
-	}
-	
-	.content {
-		padding: 10px;
-		border: 1px dashed #ccc;
-	}
-	
-	.reply {
-		background: #eee;
-		margin: 10px 0;
-		padding: 10px;
-	}
-	
-	.reply h2 {
-		text-align: center;
-	}
-	
-	.reply .tip {
-		text-align: center;
-		padding: 10px 0;
-		color: #ccc;
-	}
-	
-	.reply-list dl {
-		display: flex;
-		align-items: center;
-		margin-bottom: 10px;
-		padding: 10px 0;
-	}
-	
-	.reply-list dt {
-		width: 50px;
-		margin-right: 20px;
-	}
-	
-	.reply-list dt img {
-		width: 50px;
-		height: 50px;
-		border-radius: 50%;
-		overflow: hidden;
-	}
-	
-	.reply-list dd {
-		display: flex;
-		justify-content: space-between;
-		flex-flow: wrap;
-		flex-grow: 1;
-	}
-	
-	.reply-list dd span {
-		font-size: 14px;
-		color: #999;
-	}
-	
-	.reply-list .reply-con {
-		width: 100%;
-		margin-top: 10px;
-	}
-	
-	.reply-list .reply-con img {
-		max-width: 80%;
-	}
-	
-	.reply-con strong {
-		font-weight: bold!important;
-	}
-	
-	.reply-con em {
-		font-style: italic!important;
-		;
-	}
+.tabs {
+  background-color: #fff;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.tabs .el-tabs__item {
+  height: 61px;
+  line-height: 61px;
+  width: 120px;
+  text-align: center;
+  font-size: 16px;
+}
+.tabs .el-tabs__nav-next,
+.tabs .el-tabs__nav-prev {
+  line-height: 70px;
+  padding: 0 10px;
+}
+
+.tabs .el-tabs__nav-wrap::after {
+  height: 1px;
+  background: #eee;
+}
+
+.tabs .el-tabs__header {
+  margin-bottom: 0;
+}
+
+.tabs .tab-content {
+  padding: 20px;
+}
+
+.detail {
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.detail dl {
+  display: flex;
+  width: 50%;
+  padding: 10px 30px 10px 0;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.detail dt {
+  color: #a6a6a6;
+  width: 130px;
+}
+
+.el-dialog {
+  max-height: 80%;
+  overflow: auto;
+}
+
+.el-dialog__body {
+  padding: 20px;
+}
+
+.el-dialog__footer {
+  text-align: left;
+}
+
+.el-dialog__footer .submit {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.content {
+  padding: 10px;
+  border: 1px dashed #ccc;
+}
+
+.reply {
+  background: #eee;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.reply h2 {
+  text-align: center;
+}
+
+.reply .tip {
+  text-align: center;
+  padding: 10px 0;
+  color: #ccc;
+}
+
+.reply-list dl {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px 0;
+}
+
+.reply-list dt {
+  width: 50px;
+  margin-right: 20px;
+}
+
+.reply-list dt img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.reply-list dd {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: wrap;
+  flex-grow: 1;
+}
+
+.reply-list dd span {
+  font-size: 14px;
+  color: #999;
+}
+
+.reply-list .reply-con {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.reply-list .reply-con img {
+  max-width: 80%;
+}
+
+.reply-con strong {
+  font-weight: bold !important;
+}
+
+.reply-con em {
+  font-style: italic !important;
+}
 </style>

@@ -59,7 +59,7 @@ export default {
 		},
 		pageFn(val) {
 			this.getList(val);
-				this.gotop();
+			this.gotop();
 		},
 		bindFn(id) {
 			var that = this;
@@ -71,6 +71,7 @@ export default {
 					type: 'success',
 					message: '绑定成功！'
 				});
+				that.$store.state.dialogbind = false;
 			})
 		}
 	}

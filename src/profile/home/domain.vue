@@ -15,11 +15,6 @@
 					<span class="remainDays">剩余{{scope.row.remainDays}}天</span>
 				</template>
 			</el-table-column>
-			<el-table-column label="操作" width="100"  v-if="bind">
-				<template slot-scope="scope">
-					<el-button size="small" @click="bindFn(scope.row.id)" type="success">绑定</el-button>
-				</template>
-			</el-table-column>
 		</el-table>
 		<br />
 		<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">

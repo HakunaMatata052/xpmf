@@ -60,8 +60,8 @@
 								</el-form-item>
 							</el-col>
 						</el-row>
-						<el-form-item label="排序">
-							<el-input v-model="form.ordering"></el-input>
+						<el-form-item label="排序" prop="ordering">
+							<el-input v-model.number="form.ordering"></el-input>
 						</el-form-item>
 						<el-form-item label="作者" prop="author">
 							<el-input v-model="form.author"></el-input>
@@ -73,7 +73,7 @@
 					<el-input v-model="form.description" type="textarea"></el-input>
 				</el-form-item>
 				<el-form-item label="内容" prop="context">
-					<vue-ckeditor v-model="form.context" :config="config"  types="Basic" />
+					<vue-ckeditor v-model="form.context" :config="config" types="Basic" />
 				</el-form-item>
 				<br />
 				<hr />
@@ -96,198 +96,200 @@
 </template>
 
 <script>
-	import VueCkeditor from 'vue-ckeditor2';
-	export default {
-		components: {
-			VueCkeditor
-		},
-		data() {
-			return {
-				list: [],
-				page: 0,
-				size: 0,
-				total: 0,
-				dialogFormVisible: false,
-				headers: {},
-				form: {
-					author: '新派魔方',
-					ordering:99
-				},
-				rules: {
-					title: [{
-							required: true,
-							message: '请输入名称',
-							trigger: 'blur'
-						},
-						{
-							min: 2,
-							max: 20,
-							message: '长度在 2 到 20 个字符',
-							trigger: 'blur'
-						}
-					],
-					newsCategoryId: [{
-						required: true,
-						message: '请选择栏目',
-						trigger: 'change'
-					}],
-					author: [{
-						required: true,
-						message: '请输入名称',
-						trigger: 'blur'
-					}],
-					description: [{
-						required: true,
-						message: '请输入名称',
-						trigger: 'blur'
-					}],
-					context: [{
-						required: true,
-						message: '请输入内容',
-						trigger: 'blur'
-					}]
-				},
-				categories: [],
-				config: {
-					toolbar: 'full',
-					height: 300,
-					filebrowserImageUploadUrl : '', 
-					fileTools_requestHeaders :{
-						Authorization:''
-					},
-					language : 'zh-cn', 
-				},
-				loading:true,
-				dialogloading:true
-			};
-		},
-		created() {
-			this.getList(1);
-			this.headers.Authorization = 'Bearer ' + localStorage.getItem('token');			
-			this.config.fileTools_requestHeaders.Authorization = 'Bearer ' + localStorage.getItem('token');
-			this.config.filebrowserImageUploadUrl = this.$store.state.pic +'api/News/picture';
-		},
-		methods: {
-			getList(val) {
-				var that = this;
-				that.get_json(that.$store.state.api + 'news/page/' + val, function(data) {
-					that.list = data.data;
-					that.page = data.page;
-					that.size = data.size;
-					that.total = data.total;
-					that.loading = false;
-				})
+import VueCkeditor from 'vue-ckeditor2';
+export default {
+	components: {
+		VueCkeditor
+	},
+	data() {
+		return {
+			list: [],
+			page: 0,
+			size: 0,
+			total: 0,
+			dialogFormVisible: false,
+			headers: {},
+			form: {
+				author: '新派魔方'
 			},
-			pageFn(val) {
-				this.getList(val);
-				this.gotop();
-			},
-			editDialog(id) {
-				var that = this;
-				that.dialogFormVisible = true;
-				if(id.length != 0) {
-					that.get_json(that.$store.state.api + 'news/' + id, function(data) {
-						that.form = data;
-						that.dialogloading = false;
-					})
-				}else{
-					that.dialogloading= false;
+			rules: {
+				title: [{
+					required: true,
+					message: '请输入名称',
+					trigger: 'blur'
+				},
+				{
+					min: 2,
+					max: 20,
+					message: '长度在 2 到 20 个字符',
+					trigger: 'blur'
 				}
-
-				that.get_json(that.$store.state.api + 'NewsCategory/', function(data) {
-					that.categories = data;
-				});
+				],
+				newsCategoryId: [{
+					required: true,
+					message: '请选择栏目',
+					trigger: 'change'
+				}],
+				author: [{
+					required: true,
+					message: '请输入名称',
+					trigger: 'blur'
+				}],
+				description: [{
+					required: true,
+					message: '请输入名称',
+					trigger: 'blur'
+				}],
+				ordering: [{
+					type: 'number', message: '排序必须是数字', trigger: 'change'
+				}],
+				context: [{
+					required: true,
+					message: '请输入内容',
+					trigger: 'blur'
+				}]
 			},
-			edit(formName, val) {
-				var that = this;
-				that.$refs[formName].validate((valid) => {
-					if(valid) {
-						if(val != undefined) {
-							that.put_json(that.$store.state.api + 'news/' + val, that.form, function(data) {
-								that.$message({
-									type: 'success',
-									message: '提交成功！'
-								});
-								that.getList(that.page);
-								that.dialogFormVisible = false;
-							})
-						} else {
-							that.post_json(that.$store.state.api + 'news/', that.form, function(data) {
-								that.$message({
-									type: 'success',
-									message: '提交成功！'
-								});
-								that.getList(that.page);
-								that.dialogFormVisible = false;
-							})
-						}
-					} else {
-						that.$message({
-							type: 'error',
-							message: '请填写完整内容！'
-						});
-						return false;
-					}
-				});
+			categories: [],
+			config: {
+				toolbar: 'full',
+				height: 300,
+				filebrowserImageUploadUrl: '',
+				fileTools_requestHeaders: {
+					Authorization: ''
+				},
+				language: 'zh-cn',
 			},
-			del(val) {
-				var that = this;
-				that.del_json(that.$store.state.api + 'news/' + val, function(data) {
-					that.$message({
-						type: 'success',
-						message: '删除成功!!'
-					});
-					that.getList(that.page);
+			loading: true,
+			dialogloading: true
+		};
+	},
+	created() {
+		this.getList(1);
+		this.headers.Authorization = 'Bearer ' + localStorage.getItem('token');
+		this.config.fileTools_requestHeaders.Authorization = 'Bearer ' + localStorage.getItem('token');
+		this.config.filebrowserImageUploadUrl = this.$store.state.pic + 'api/News/picture';
+	},
+	methods: {
+		getList(val) {
+			var that = this;
+			that.get_json(that.$store.state.api + 'news/page/' + val, function (data) {
+				that.list = data.data;
+				that.page = data.page;
+				that.size = data.size;
+				that.total = data.total;
+				that.loading = false;
+			})
+		},
+		pageFn(val) {
+			this.getList(val);
+			this.gotop();
+		},
+		editDialog(id) {
+			var that = this;
+			that.dialogFormVisible = true;
+			if (id.length != 0) {
+				that.get_json(that.$store.state.api + 'news/' + id, function (data) {
+					that.form = data;
+					that.dialogloading = false;
 				})
-			},
-			close() {
-				this.form = {};
-				this.dialogFormVisible = false;
-				this.dialogloading = true;
-			},
-			picSuccess(res, file) {
-				this.form.thumbnail = res.fileName;
-				this.$set(this.form, 'fullpathThumbnail', URL.createObjectURL(file.raw));
+			} else {
+				that.dialogloading = false;
 			}
+
+			that.get_json(that.$store.state.api + 'NewsCategory/', function (data) {
+				that.categories = data;
+			});
+		},
+		edit(formName, val) {
+			var that = this;
+			that.$refs[formName].validate((valid) => {
+				if (valid) {
+					if (val != undefined) {
+						that.put_json(that.$store.state.api + 'news/' + val, that.form, function (data) {
+							that.$message({
+								type: 'success',
+								message: '提交成功！'
+							});
+							that.getList(that.page);
+							that.dialogFormVisible = false;
+						})
+					} else {
+						that.post_json(that.$store.state.api + 'news/', that.form, function (data) {
+							that.$message({
+								type: 'success',
+								message: '提交成功！'
+							});
+							that.getList(that.page);
+							that.dialogFormVisible = false;
+						})
+					}
+				} else {
+					that.$message({
+						type: 'error',
+						message: '请填写完整内容！'
+					});
+					return false;
+				}
+			});
+		},
+		del(val) {
+			var that = this;
+			that.del_json(that.$store.state.api + 'news/' + val, function (data) {
+				that.$message({
+					type: 'success',
+					message: '删除成功!!'
+				});
+				that.getList(that.page);
+			})
+		},
+		close() {
+			this.form = {};
+			this.dialogFormVisible = false;
+			this.dialogloading = true;
+		},
+		picSuccess(res, file) {
+			this.form.thumbnail = res.fileName;
+			this.$set(this.form, 'fullpathThumbnail', URL.createObjectURL(file.raw));
 		}
 	}
+}
 </script>
 
 <style scoped>
-	.img-uploader .el-upload {
-		border: 1px dashed #d9d9d9;
-		border-radius: 6px;
-		cursor: pointer;
-		position: relative;
-		overflow: hidden;
-	}
-	
-	.img-uploader .el-upload:hover {
-		border-color: #409EFF;
-	}
-	
-	.img-uploader-icon {
-		font-size: 28px;
-		color: #8c939d;
-		width: 178px;
-		height: 178px;
-		line-height: 178px;
-		text-align: center;
-		border: 1px dashed #ccc;
-	}
-	
-	.img {
-		width: 178px;
-		height: 178px;
-		display: block;
-	}
-	
-	.upload {
-		display: inline-block;
-	}
-	
-	.uploadInput {
-		width: 300px;
-		margin-right: 20px;
-	}
+.img-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.img-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+
+.img-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+  border: 1px dashed #ccc;
+}
+
+.img {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
+.upload {
+  display: inline-block;
+}
+
+.uploadInput {
+  width: 300px;
+  margin-right: 20px;
+}
 </style>

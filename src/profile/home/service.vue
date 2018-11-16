@@ -74,7 +74,8 @@
 					that.$message({
 						type: 'success',
 						message: '绑定成功！'
-					});
+					});					
+					that.$store.state.dialogbind = false;
 				})
 			}
 		}

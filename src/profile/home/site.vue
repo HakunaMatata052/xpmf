@@ -45,9 +45,10 @@
 		</el-dialog>
 		
 		
-		<el-dialog title="绑定" :visible.sync="dialogbind" @closed="closeddialogbind">
+		<el-dialog title="绑定" :visible.sync="$store.state.dialogbind" @closed="closeddialogbind">
 			<router-view></router-view>
 		</el-dialog>
+
 		<el-dialog title="绑定域名" :visible.sync="dialogBindDomain">
 			<el-form :model="bindDomainForm">
 				<el-row :gutter="20">
@@ -144,7 +145,6 @@
 						}
 					]
 				},
-				dialogbind:false,
 			}
 		},
 		methods: {
@@ -231,7 +231,7 @@
 				});
 			},
 			bindFn(type,id){
-				this.dialogbind=true;
+				this.$store.state.dialogbind=true;
 				this.$router.push({
 		          path: `/bind/${type}/${id}`,
 		       })

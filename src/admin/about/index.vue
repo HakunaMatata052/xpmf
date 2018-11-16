@@ -10,7 +10,7 @@
                 </el-table-column>
                 <el-table-column prop="title" label="标题" show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="ordering" label="排序" width="80">
+                <el-table-column prop="ordering" label="排序" max-width="80">
                 </el-table-column>
                 <el-table-column label="操作" width="200">
                     <template slot-scope="scope">
@@ -25,11 +25,11 @@
                 <el-form-item label="标题" prop="title">
                     <el-input v-model="form.title"></el-input>
                 </el-form-item>
-                <el-form-item label="内容" prop="context">
-                    <vue-ckeditor v-model="form.context" :config="config" types="Basic" />
+                <el-form-item label="内容" prop="content">
+                    <vue-ckeditor v-model="form.content" :config="config" types="Basic" />
                 </el-form-item>
-                <el-form-item label="排序">
-                    <el-input v-model="form.ordering"></el-input>
+                <el-form-item label="排序" prop="sorting">
+                    <el-input v-model="form.sorting"></el-input>
                 </el-form-item>
                 <br />
                 <hr />
@@ -63,8 +63,7 @@ export default {
             dialogFormVisible: false,
             headers: {},
             form: {
-                author: '新派魔方',
-                ordering:99
+                author: '新派魔方'
             },
             rules: {
                 title: [{
@@ -79,22 +78,10 @@ export default {
                     trigger: 'blur'
                 }
                 ],
-                newsCategoryId: [{
-                    required: true,
-                    message: '请选择栏目',
-                    trigger: 'change'
+                sorting: [{
+                    type: 'number', message: '排序必须是数字', trigger: 'change'
                 }],
-                author: [{
-                    required: true,
-                    message: '请输入名称',
-                    trigger: 'blur'
-                }],
-                description: [{
-                    required: true,
-                    message: '请输入名称',
-                    trigger: 'blur'
-                }],
-                context: [{
+                content: [{
                     required: true,
                     message: '请输入内容',
                     trigger: 'blur'
@@ -124,7 +111,7 @@ export default {
         getList() {
             var that = this;
             that.get_json(that.$store.state.api + 'admin/About', function (data) {
-                that.list = data.data;
+                that.list = data;
                 that.loading = false;
             })
         },

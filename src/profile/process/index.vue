@@ -2,7 +2,8 @@
 	<div class="tabs">
 		<el-tabs v-model="path" @tab-click="handleClick">
 			<el-tab-pane label="全部" name="100"></el-tab-pane>
-			<el-tab-pane label="待我处理" name="10"></el-tab-pane>
+			
+			<el-tab-pane label="待我处理" name="10"><span slot="label">待我处理</span></el-tab-pane>
 			<el-tab-pane label="未受理" name="20"></el-tab-pane>
 			<el-tab-pane label="处理中" name="30"></el-tab-pane>
 			<el-tab-pane label="已完成" name="40"></el-tab-pane>

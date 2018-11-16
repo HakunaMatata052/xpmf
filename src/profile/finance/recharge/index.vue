@@ -1,9 +1,9 @@
 <template>
 	<div id="recharge">
-		<el-form :model="form" ref="form" label-width="100px"> 
+		<el-form :model="form" ref="form" label-width="100px">
 			<el-form-item label="金额(元)" prop="amount" :rules="[
       { required: true, message: '金额不能为空'},
-       { max:10, message: '金额过大'},
+      { max:6, message: '金额过大'},
       { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额' }
     ]">
 				<el-input type="amount" v-model="form.amount" autocomplete="off" style="max-width: 300px;"></el-input>
@@ -17,36 +17,42 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				form: {
-					amount: ''
-				}
-			};
-		},
-		methods: {
-			submitForm(formName,amount) {
-				var that = this;
-				this.$refs[formName].validate((valid) => {
-					if(valid) {
+export default {
+	data() {
+		return {
+			form: {
+				amount: null
+			}
+		};
+	},
+	methods: {
+		submitForm(formName, amount) {
+			var that = this;
+			this.$refs[formName].validate((valid) => {
+				if (valid) {
+					if (that.form.amount != 0) {
+
 						that.$store.state.pay.amount = amount;
 						that.$router.push({
 							path: 'pay'
 						})
 					} else {
-						console.log('error submit!!');
-						return false;
+						that.$message({
+							type: 'error',
+							message: '排位可以5个0，金额却不能！'
+						});
 					}
-				});
-			},
-			resetForm(formName) {
-				this.$refs[formName].resetFields();
-			}
+				} else {
+					return false;
+				}
+			});
+		},
+		resetForm(formName) {
+			this.$refs[formName].resetFields();
 		}
 	}
+}
 </script>
 
 <style scoped>
-
 </style>

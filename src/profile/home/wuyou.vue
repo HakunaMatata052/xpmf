@@ -80,7 +80,6 @@
 </script>
 
 <style scoped>
-	
 	#template .remainDays {
 		background: #ee3231;
 		color: #fff;

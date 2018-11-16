@@ -9,7 +9,7 @@
 				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list" :key="item.id">
 					<div class="template-list">
 						<div class="img">
-							<img :src="item.fullpathPicture" alt="" />
+							<img :src="item.fullpathThumbnail" alt="" />
 						</div>
 						<div class="info">
 							<h3>{{item.name}}</h3>
@@ -32,7 +32,7 @@
 				<el-form-item label="模板名称" label-width="120px" prop="name">
 					<el-input v-model="form.name"></el-input>
 				</el-form-item>
-				<el-form-item label="案例地址" label-width="120px">
+				<el-form-item label="案例地址" label-width="120px" prop="showcase">
 					<el-input v-model="form.showcase"></el-input>
 				</el-form-item>
 				<el-row :gutter="20">
@@ -112,8 +112,12 @@ export default {
 					max: 20,
 					message: '长度在 2 到 20 个字符',
 					trigger: 'blur'
-				}
-				],
+				}],
+				showcase: {
+					required: true,
+					message: '请输入案例地址（以http://开头）',
+					trigger: 'blur'
+				},
 				source: {
 					required: true,
 					message: '请上传模板',

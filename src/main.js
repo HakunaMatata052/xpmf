@@ -20,6 +20,13 @@ Vue.use(vueResource);
 //Vue.http.options.headers = {
 //'Authorization':'Bearer '+ store.state.token
 //};
+// Vue.http.interceptors.push((request, next) => {
+// 	next((response) => {
+// 		return response
+// 	});
+// });
+
+
 
 const vue = new Vue({
 	router,

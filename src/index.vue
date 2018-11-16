@@ -50,30 +50,53 @@
 						<span slot="title">未完成订单</span>
 					</el-menu-item>
 
+					<!-- 管理员菜单 -->
 					<el-menu-item index="/admin/config" v-if="admin">
 						<i class="iconfont icon-setting"></i>
 						<span slot="title">网站设置</span>
 					</el-menu-item>
-					<el-menu-item index="/admin/template" v-if="admin">
-						<i class="iconfont icon-mobanguanli"></i>
-						<span slot="title">模板列表</span>
-					</el-menu-item>
-					<el-menu-item index="/admin/template_category" v-if="admin">
-						<i class="iconfont icon-leibieguanli"></i>
-						<span slot="title">模板类别</span>
-					</el-menu-item>
+
+					<el-submenu index="/admin/content" v-if="admin">
+						<template slot="title">
+							<i class="iconfont icon-content"></i>
+							<span slot="title">文章管理</span>
+						</template>
+						<el-menu-item-group>
+							<el-menu-item index="/admin/category">
+								<i class="iconfont icon-menu"></i>
+								<span slot="title">栏目管理</span>
+							</el-menu-item>
+							<el-menu-item index="/admin/content">
+								<i class="iconfont icon-content"></i>
+								<span slot="title">内容管理</span>
+							</el-menu-item>
+							<el-menu-item index="/admin/links">
+								<i class="iconfont icon-links"></i>
+								<span slot="title">友情链接</span>
+							</el-menu-item>
+						</el-menu-item-group>
+					</el-submenu>
+					<el-submenu index="/admin/template" v-if="admin">
+						<template slot="title">
+							<i class="iconfont icon-mobanguanli"></i>
+							<span slot="title">模板管理</span>
+						</template>
+						<el-menu-item-group>
+							<el-menu-item index="/admin/template">
+								<i class="iconfont icon-mobanguanli"></i>
+								<span slot="title">模板列表</span>
+							</el-menu-item>
+							<el-menu-item index="/admin/template_category">
+								<i class="iconfont icon-leibieguanli"></i>
+								<span slot="title">模板类别</span>
+							</el-menu-item>
+						</el-menu-item-group>
+					</el-submenu>
 					<el-menu-item index="/admin/case" v-if="admin">
 						<i class="iconfont icon-gongwenbao"></i>
 						<span slot="title">案例管理</span>
 					</el-menu-item>
-					<el-menu-item index="/admin/category" v-if="admin">
-						<i class="iconfont icon-menu"></i>
-						<span slot="title">栏目管理</span>
-					</el-menu-item>
-					<el-menu-item index="/admin/content" v-if="admin">
-						<i class="iconfont icon-content"></i>
-						<span slot="title">内容管理</span>
-					</el-menu-item>
+
 					<el-menu-item index="/admin/user" v-if="admin">
 						<i class="iconfont icon-z-user"></i>
 						<span slot="title">会员管理</span>
@@ -89,10 +112,6 @@
 					<el-menu-item index="/admin/finance" v-if="admin">
 						<i class="iconfont icon-fapiao"></i>
 						<span slot="title">发票管理</span>
-					</el-menu-item>
-					<el-menu-item index="/admin/links" v-if="admin">
-						<i class="iconfont icon-links"></i>
-						<span slot="title">友情链接</span>
 					</el-menu-item>
 				</el-menu>
 
@@ -161,6 +180,7 @@ export default {
 	methods: {
 		logout() {
 			localStorage.clear();
+			this.$store.state.userinfo = {};
 			this.$router.push({
 				path: "/login"
 			});
@@ -182,6 +202,19 @@ export default {
 		} else if (role == "Agent") {
 			that.consumer = true;
 			that.agent = true;
+		}
+	},
+	beforeCreate() {
+		var that = this;
+		if (that.$store.state.userinfo.username == null) {
+			that.get_json(that.$store.state.api + "/user/mine", function (data) {
+        that.$store.state.userinfo = data;
+			});
+		}
+		if (that.$store.state.siteinfo.seoTitle == null) {
+			that.get_json(that.$store.state.api + "/SiteSetting", function (data) {
+        that.$store.state.siteinfo = data;
+			});
 		}
 	}
 };
@@ -218,9 +251,9 @@ export default {
   display: flex;
   align-items: center;
 }
-.header .avatar{
-	margin-right: 10px;
-	border-radius: 50%;
+.header .avatar {
+  margin-right: 10px;
+  border-radius: 50%;
 }
 .header a:hover {
   background: #f6aa26;
@@ -261,10 +294,6 @@ export default {
 
 .sideleft span {
   font-size: 16px;
-}
-
-.sideleft .el-menu-item {
-  margin-bottom: 10px;
 }
 
 .sideleft .el-menu-item:focus,

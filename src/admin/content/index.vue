@@ -6,19 +6,19 @@
 				<el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新建文章</el-button>
 			</div>
 			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
-				<el-table-column prop="id" label="ID" width="180">
+				<el-table-column prop="id" label="ID" width="80">
 				</el-table-column>
-				<el-table-column prop="title" label="标题">
+				<el-table-column prop="title" label="标题" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="newsCategory.name" label="所属栏目">
+				<el-table-column prop="newsCategory.name" label="所属栏目" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="recommended" label="是否推荐" width="180">
+				<el-table-column prop="recommended" label="是否推荐" max-width="180">
 					<template slot-scope="scope">
 						<el-tag type="success" v-if="scope.row.recommended==true">是</el-tag>
 						<el-tag type="danger" v-else>否</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ordering" label="排序" width="180">
+				<el-table-column prop="ordering" label="排序" width="80">
 				</el-table-column>
 				<el-table-column label="操作" width="200">
 					<template slot-scope="scope">
@@ -110,7 +110,8 @@
 				dialogFormVisible: false,
 				headers: {},
 				form: {
-					author: '新派魔方'
+					author: '新派魔方',
+					ordering:99
 				},
 				rules: {
 					title: [{
@@ -288,14 +289,5 @@
 	.uploadInput {
 		width: 300px;
 		margin-right: 20px;
-	}
-	
-	.quill-editor {
-		height: 135px;
-		margin-bottom: 30px;
-	}
-	
-	.quill-editor .ql-container {
-		height: 90px;
 	}
 </style>

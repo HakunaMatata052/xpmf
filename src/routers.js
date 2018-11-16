@@ -31,6 +31,7 @@ var template_category = r => require.ensure([], () => r(require('./admin/templat
 var admin_case = r => require.ensure([], () => r(require('./admin/case/index.vue')), 'admin_case')
 var content = r => require.ensure([], () => r(require('./admin/content/index.vue')), 'content')
 var category = r => require.ensure([], () => r(require('./admin/category/index.vue')), 'category')
+var about = r => require.ensure([], () => r(require('./admin/about/index.vue')), 'about')
 var config = r => require.ensure([], () => r(require('./admin/config/index.vue')), 'config')
 var user = r => require.ensure([], () => r(require('./admin/user/index.vue')), 'user')
 var admin_process = r => require.ensure([], () => r(require('./admin/process/index.vue')), 'admin_process')
@@ -288,6 +289,12 @@ const router = new VueRouter({
         title: '栏目管理'
       }
     }, {
+      path: '/admin/about',
+      component: about,
+      meta: {
+        title: '关于我们'
+      }
+    }, {
       path: '/admin/user',
       component: user,
       // redirect: 'site',
@@ -363,11 +370,11 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title + '-新派魔方'
-	}
+  }
   next();
 })
 
 router.afterEach(route => {
-	window.scrollTo(0, 0);
+  window.scrollTo(0, 0);
 })
 export default router

@@ -64,11 +64,15 @@
 						<el-menu-item-group>
 							<el-menu-item index="/admin/category">
 								<i class="iconfont icon-menu"></i>
-								<span slot="title">栏目管理</span>
+								<span slot="title">新闻栏目</span>
 							</el-menu-item>
 							<el-menu-item index="/admin/content">
 								<i class="iconfont icon-content"></i>
-								<span slot="title">内容管理</span>
+								<span slot="title">新闻内容</span>
+							</el-menu-item>							
+							<el-menu-item index="/admin/about">
+								<i class="iconfont icon-content"></i>
+								<span slot="title">关于我们</span>
 							</el-menu-item>
 							<el-menu-item index="/admin/links">
 								<i class="iconfont icon-links"></i>

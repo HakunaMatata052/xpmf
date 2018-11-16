@@ -80,7 +80,6 @@
 </script>
 
 <style scoped>
-	#template .capacity {}
 	
 	#template .remainDays {
 		background: #ee3231;

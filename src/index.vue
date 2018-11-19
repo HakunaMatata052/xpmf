@@ -11,7 +11,7 @@
 				<a href="/case">案例</a>
 			</div>
 			<div class="nav-right">
-				<a href="javascript:;" @click="jump_router('/info')"><img :src="$store.state.userinfo.fullpathAvatar" width="30" height="30" class="avatar">{{$store.state.userinfo.username}}</a>
+				<a href="javascript:;" @click="jump_router('/info')"><img :src="$store.state.userinfo.fullpathAvatar||'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA+ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpIiB4bXA6Q3JlYXRlRGF0ZT0iMjAxOC0xMS0wN1QwOTozOToyNyswODowMCIgeG1wOk1vZGlmeURhdGU9IjIwMTgtMTEtMDdUMDk6Mzk6NTYrMDg6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMTgtMTEtMDdUMDk6Mzk6NTYrMDg6MDAiIGRjOmZvcm1hdD0iaW1hZ2UvcG5nIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjA4MTc0QkIxRTIyRTExRThCMzgwRDk5RDdEQjUzRENBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjA4MTc0QkIyRTIyRTExRThCMzgwRDk5RDdEQjUzRENBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDgxNzRCQUZFMjJFMTFFOEIzODBEOTlEN0RCNTNEQ0EiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDgxNzRCQjBFMjJFMTFFOEIzODBEOTlEN0RCNTNEQ0EiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5uut5+AAAAEElEQVR42mL8//8/A0CAAQAJAQL/abyQ8AAAAABJRU5ErkJggg=='" width="30" height="30" class="avatar">{{$store.state.userinfo.username}}</a>
 				<a href="javascript:;" @click="jump_router('/process')">工单</a>
 				<a href="javascript:;" class="logout" @click="logout"><i class="iconfont icon-tuichu"></i>退出</a>
 			</div>
@@ -19,8 +19,8 @@
 		</el-header>
 		<el-container class="container">
 			<!--<el-header>Header</el-header>-->
-			<el-aside width="240px">
-				<el-menu router :default-active="active" text-color="#333" active-text-color="#ee3231" class="sideleft">
+			<el-aside width="auto">
+				<el-menu router :default-active="active" text-color="#333" active-text-color="#ee3231" class="sideleft" :collapse="Iscollapse">
 					<el-menu-item index="/info" v-if="consumer||agent">
 						<i class="iconfont icon-z-user"></i>
 						<span slot="title">个人设置</span>
@@ -69,7 +69,7 @@
 							<el-menu-item index="/admin/content">
 								<i class="iconfont icon-content"></i>
 								<span slot="title">新闻内容</span>
-							</el-menu-item>							
+							</el-menu-item>
 							<el-menu-item index="/admin/about">
 								<i class="iconfont icon-content"></i>
 								<span slot="title">关于我们</span>
@@ -178,7 +178,8 @@ export default {
 			username: "",
 			admin: false,
 			consumer: false,
-			agent: false
+			agent: false,
+			Iscollapse: false
 		};
 	},
 	methods: {
@@ -212,14 +213,29 @@ export default {
 		var that = this;
 		if (that.$store.state.userinfo.username == null) {
 			that.get_json(that.$store.state.api + "/user/mine", function (data) {
-        that.$store.state.userinfo = data;
+				that.$store.state.userinfo = data;
 			});
 		}
 		if (that.$store.state.siteinfo.seoTitle == null) {
 			that.get_json(that.$store.state.api + "/SiteSetting", function (data) {
-        that.$store.state.siteinfo = data;
+				that.$store.state.siteinfo = data;
 			});
 		}
+	},
+	mounted() {
+		var that = this;
+		var width = window.innerWidth;
+		window.onresize = function () {
+			width = window.innerWidth;
+			console.log(width)
+			if (width < 1199) {
+				that.Iscollapse = true
+			} else {
+				that.Iscollapse = false
+			}
+		}
+	}, destroyed() {
+		window.onresize = null
 	}
 };
 </script>
@@ -308,6 +324,9 @@ export default {
 .sideleft .iconfont {
   margin-right: 10px;
   font-size: 20px;
+}
+.el-menu--collapse {
+  width: 90px !important;
 }
 
 .el-main {

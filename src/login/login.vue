@@ -379,10 +379,6 @@
 		height: 20px;
 	}
 	
-	.login-box .login-input * {
-		
-	}
-	
 	.submit {
 		width: 100%;
 	}

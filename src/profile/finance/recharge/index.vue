@@ -2,9 +2,9 @@
 	<div id="recharge">
 		<el-form :model="form" ref="form" label-width="100px">
 			<el-form-item label="金额(元)" prop="amount" :rules="[
-      { required: true, message: '金额不能为空'},
+      { required: true, message: '金额不能为空'},	  
+      { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额' },
       { max:6, message: '金额过大'},
-      { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额' }
     ]">
 				<el-input type="amount" v-model="form.amount" autocomplete="off" style="max-width: 300px;"></el-input>
 			</el-form-item>

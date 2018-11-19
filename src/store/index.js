@@ -7,14 +7,15 @@ export default new vuex.Store({
     userinfo: {},
     siteinfo: {},
     loading: true,
-    dialogbind:false,
+    dialogbind: false,
     status: {
       0: '程序发生错误！',
       440: '账号或密码错误！',
       401: '没有权限！',
       403: '拒绝访问！',
       404: '没有找到相关信息！',
-      409: '用户名已存在',
+      409: '用户名已存在！',
+      450: '旧密码不正确！',
       500: '程序发生错误！'
     },
     login: {
@@ -25,17 +26,17 @@ export default new vuex.Store({
     pay: {
       amount: ''
     },
-    refresh_token: process.env.API_ROOT+'/api/token/refresh', // 刷新token
-    api:  process.env.API_ROOT+'/api/',
-    pic: 'http://117.34.112.244:9009/',
-    wxpay: 'http://117.34.112.244:9006/',
+    refresh_token: process.env.API_ROOT + '/api/token/refresh', // 刷新token
+    api: process.env.API_ROOT + '/api/',
+    pic: process.env.API_ROOT + '/',
+    wxpay: '//wxpay.xpmof.com/',
     alipay: '',
     domain: '',
     notice: true
   },
   mutations: {
     domainURI (url) {
-	  var durl = /http:\/\/([^\/]+)\//i;
+      var durl = /http:\/\/([^\/]+)\//i;
       var domain = url.match(durl)
       return domain[1]
     }

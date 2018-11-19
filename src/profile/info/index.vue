@@ -195,7 +195,6 @@ export default {
 							type: 'success',
 							message: '密码修改成功！'
 						});
-						//console.log(that.userinfo)
 					})
 				} else {
 					that.$message({

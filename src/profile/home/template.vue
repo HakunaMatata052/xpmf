@@ -14,7 +14,7 @@
 						<h3>{{item.template.name}}</h3>
 						<p>编号 : {{item.template.code}}</p>
 						<div class="btn-group" v-if="bind">
-							<el-button size="small" type="success" @click="bindFn(item.template.id)">绑定</el-button>
+							<el-button size="small" type="success" @click="bindFn(item.id)">绑定</el-button>
 						</div>
 					</div>
 					<div class="btn-group"></div>
@@ -24,6 +24,8 @@
 		<br>
 		<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 		</el-pagination>
+		<br />
+		<el-button type="primary" @click="jump_href('/template','_blank')">去购买</el-button>
 	</div>
 </template>
 

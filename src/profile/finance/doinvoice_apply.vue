@@ -1,6 +1,6 @@
 <template>
 	<div id="record">
-		<el-alert title="购买或充值 60 天内的金额可以在此页面申请开票，如单次开票金额未满 800 元，需要支付 25 元的快递费。" type="warning">
+		<el-alert title="购买 60 天内的金额可以在此页面申请开票，如单次开票金额未满 800 元，需要支付 25 元的快递费。" type="warning">
 		</el-alert>
 		<el-table :data="list" stripe @selection-change="handleSelectionChange" style="width: 100%">
 			<el-table-column type="selection" width="55">

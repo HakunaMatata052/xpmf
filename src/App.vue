@@ -48,6 +48,7 @@ body {
   line-height: 1.5;
   height: 100%;
   background: #fff9f1;
+  min-width: 1000px;
 }
 
 :focus {

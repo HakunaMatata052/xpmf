@@ -11,7 +11,7 @@ exports.install = function (Vue, options) {
 					fn(res.data);
 				}
 			}, error => {
-				if (error.data.length != 0) {
+				if (that.$store.state.status[status] != null) {
 					this.$message({
 						type: 'error',
 						message: error.data
@@ -31,7 +31,7 @@ exports.install = function (Vue, options) {
 						fn(res.data);
 					}
 				}, error => {
-					if (error.data.length != 0) {
+					if (that.$store.state.status[status] != null) {
 						this.$message({
 							type: 'error',
 							message: error.data
@@ -61,7 +61,7 @@ exports.install = function (Vue, options) {
 					fn(res.data);
 				}
 			}, error => {
-				if (error.data.length != 0) {
+				if (that.$store.state.status[status] != null) {
 					this.$message({
 						type: 'error',
 						message: error.data
@@ -82,7 +82,7 @@ exports.install = function (Vue, options) {
 						fn(res.data);
 					}
 				}, error => {
-					if (error.data.length != 0) {
+					if (that.$store.state.status[status] != null) {
 						this.$message({
 							type: 'error',
 							message: error.data
@@ -117,7 +117,7 @@ exports.install = function (Vue, options) {
 						fn(res.data);
 					}
 				}, error => {
-					if (error.data.length != 0) {
+					if (that.$store.state.status[status] != null) {
 						this.$message({
 							type: 'error',
 							message: error.data
@@ -139,7 +139,7 @@ exports.install = function (Vue, options) {
 							fn(res.data);
 						}
 					}, error => {
-						if (error.data.length != 0) {
+						if (that.$store.state.status[status] != null) {
 							this.$message({
 								type: 'error',
 								message: error.data
@@ -188,7 +188,7 @@ exports.install = function (Vue, options) {
 						fn(res.data);
 					}
 				}, error => {
-					if (error.data.length != 0) {
+					if (that.$store.state.status[status] != null) {
 						this.$message({
 							type: 'error',
 							message: error.data
@@ -249,7 +249,7 @@ exports.install = function (Vue, options) {
 					fn();
 				}
 			}, error => {
-				if (error.data.length != 0) {
+				if (that.$store.state.status[status] != null) {
 					this.$message({
 						type: 'error',
 						message: error.data

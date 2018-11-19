@@ -7,7 +7,7 @@ export default new vuex.Store({
     userinfo: {},
     siteinfo: {},
     loading: true,
-    dialogbind:false,
+    dialogbind: false,
     status: {
       0: '程序发生错误！',
       440: '账号或密码错误！',
@@ -30,14 +30,14 @@ export default new vuex.Store({
     // refresh_token: 'http://192.168.0.179:9001/api/token/refresh',
     // api: 'http://192.168.0.179:9001/api/',
     pic: 'http://117.34.112.244:9009/',
-    wxpay: 'http://117.34.112.244:9006/',
+    wxpay: 'http://wxpay.xpmof.com/',
     alipay: '',
     domain: '',
     notice: true
   },
   mutations: {
-    domainURI (url) {
-	  var durl = /http:\/\/([^\/]+)\//i;
+    domainURI(url) {
+      var durl = /http:\/\/([^\/]+)\//i;
       var domain = url.match(durl)
       return domain[1]
     }

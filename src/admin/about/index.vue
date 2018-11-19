@@ -29,7 +29,7 @@
                     <vue-ckeditor v-model="form.content" :config="config" types="Basic" />
                 </el-form-item>
                 <el-form-item label="排序" prop="sorting">
-                    <el-input v-model="form.sorting"></el-input>
+                    <el-input type="number" v-model="form.sorting"></el-input>
                 </el-form-item>
                 <br />
                 <hr />
@@ -78,9 +78,8 @@ export default {
                     trigger: 'blur'
                 }
                 ],
-                sorting: [{
-                    type: 'number', message: '排序必须是数字', trigger: 'change'
-                }],
+                sorting: [{ required: true, message: '排序不能为空' }
+                ],
                 content: [{
                     required: true,
                     message: '请输入内容',

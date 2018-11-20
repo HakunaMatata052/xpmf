@@ -2,21 +2,14 @@
 	<div id="content">
 		<el-card class="box-card" shadow="never">
 			<div slot="header" class="clearfix">
-				<el-row>
-					<el-col :xs="24" :md="16" style="margin-bottom:10px">
-						<span>文章管理</span>
-						<el-select v-model="role" placeholder="请选择" @change='roleFn' style="margin-left: 30px;">
-							<el-option v-for="item in roleList" :key="item.value" :label="item.label" :value="item.value">
-							</el-option>
-						</el-select>
-					</el-col>
-					<el-col :xs="24" :md="8">
-						<el-input placeholder="请输入搜索关键词，如用户名，电话" v-model="search" style="float:right;margin-left: 30px;">
-							<el-button slot="append" icon="el-icon-search" @click="searchFn"></el-button>
-						</el-input>
-					</el-col>
-				</el-row>
-
+				<span>会员管理</span>
+				<el-select v-model="role" placeholder="请选择" @change='roleFn' style="margin-left: 30px;">
+					<el-option v-for="item in roleList" :key="item.value" :label="item.label" :value="item.value">
+					</el-option>
+				</el-select>
+				<el-input placeholder="请输入搜索关键词，如用户名，电话" v-model="search" style="float:right;max-width:500px;margin-left: 30px;">
+					<el-button slot="append" icon="el-icon-search" @click="searchFn"></el-button>
+				</el-input>
 			</div>
 			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
 				<el-table-column prop="id" label="ID" width="180">
@@ -43,10 +36,10 @@
 			<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 			</el-pagination>
 		</el-card>
-		<el-dialog title="文章编辑" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
+		<el-dialog title="会员编辑" :visible.sync="dialogFormVisible" :fullscreen="false" @closed="close">
 			<el-form :model="form" :rules="rules" ref="form" label-width="120px" v-loading="dialogloading">
 				<el-form-item label="头像" label-width="120px">
-					<el-upload class="avatar-uploader" name="upload" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
+					<el-upload class="avatar-uploader" name="upload" :action="$store.state.api+'admin/user/'+form.username+'/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
 						<img v-if="form.fullpathAvatar" :src="form.fullpathAvatar" class="avatar">
 						<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 					</el-upload>

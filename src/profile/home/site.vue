@@ -4,9 +4,9 @@
 		</el-alert>-->
 		<div class="site-list" v-for="(item,index) in list" :key="item.id">
 			<div class="site-list-left">
-				<div class="site-img" @mouseover="changeActive(index)" @mouseout="siteImgShowId=null">
-					<el-upload class="site-img-uploads" name="upload" :action="$store.state.api+'workorder/picture/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess(index)">
-						<img :src="item.fullpathAvatar">
+				<div class="site-img" @mouseover="changeActive(index)" @mouseout="siteImgShowId=null"  @click="setUploadId(index,item.siteId,item.siteName)">
+					<el-upload :ref="index" class="site-img-uploads" name="upload" :action="$store.state.api+'UserSite/thumbnail'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
+						<img :src="item.fullpathThumbnail||'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA+ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpIiB4bXA6Q3JlYXRlRGF0ZT0iMjAxOC0xMS0wN1QwOTozOToyNyswODowMCIgeG1wOk1vZGlmeURhdGU9IjIwMTgtMTEtMDdUMDk6Mzk6NTYrMDg6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMTgtMTEtMDdUMDk6Mzk6NTYrMDg6MDAiIGRjOmZvcm1hdD0iaW1hZ2UvcG5nIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjA4MTc0QkIxRTIyRTExRThCMzgwRDk5RDdEQjUzRENBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjA4MTc0QkIyRTIyRTExRThCMzgwRDk5RDdEQjUzRENBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDgxNzRCQUZFMjJFMTFFOEIzODBEOTlEN0RCNTNEQ0EiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDgxNzRCQjBFMjJFMTFFOEIzODBEOTlEN0RCNTNEQ0EiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5uut5+AAAAEElEQVR42mL8//8/A0CAAQAJAQL/abyQ8AAAAABJRU5ErkJggg=='">
 					</el-upload>
 					<transition name="el-zoom-in-bottom">
 						<div v-show="index==siteImgShowId" class="transition-box">上传图片</div>
@@ -34,7 +34,7 @@
 			</div>
 		</div>
 		<br />
-		<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
+		<el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 		</el-pagination>
 		<br>
 		<el-container>
@@ -125,7 +125,7 @@ export default {
 		return {
 			list: [],
 			siteImgShowId: null,
-			uploadId:null,
+			setUpload:{},
 			domainlist: [],
 			ftplist: {},
 			dialogBindDomain: false,
@@ -259,7 +259,20 @@ export default {
 			this.siteImgShowId = index;
 		},		
 		handleAvatarSuccess(res, file) {
-			//console.log(this)
+			var that= this;
+			var file = file;
+			that.put_json(that.$store.state.api + 'UserSite/'+that.setUpload.id,{
+				thumbnail:res.fileName,
+				name:that.setUpload.siteName
+			},function(){					
+				that.$set(that.list[that.setUpload.index],'fullpathAvatar',URL.createObjectURL(file.raw))
+			})
+			
+		},
+		setUploadId(index,id,siteName){
+			this.setUpload.index = index;			
+			this.setUpload.id = id;	
+			this.setUpload.siteName = siteName;
 		}
 	}
 }
@@ -280,6 +293,8 @@ export default {
   background: url(../../assets/images/defaultHeader.png) no-repeat center center;
   margin-right: 20px;
   position: relative;
+  border-radius: 5px;
+  overflow: hidden;
 }
 .site-list-left .site-img img {
   width: 100px;
@@ -292,7 +307,7 @@ export default {
   width: 100%;
   height: 20px;
   line-height: 20px;
-  background: #000;
+  background: #ee3231;
   color: #fff;
   text-align: center;
 }

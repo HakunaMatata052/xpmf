@@ -23,7 +23,7 @@
 			</el-col>
 		</el-row>
 		<br>
-		<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
+		<el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 		</el-pagination>
 		<br />
 		<el-button type="primary" @click="jump_href('/template','_blank')">去购买</el-button>

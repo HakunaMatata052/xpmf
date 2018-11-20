@@ -38,7 +38,7 @@
 				</el-table-column>
 			</el-table>
 			<br />
-			<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
+			<el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 			</el-pagination>
 			<br>
 			<el-button type="primary" @click="newWorkorderDialog=true">提交新工单</el-button>
@@ -92,7 +92,7 @@
 					</dl>
 
 					<br />
-					<el-pagination background layout="prev, pager, next" :current-page.sync="replypage" :page-size="replysize" :total="replytotal" @current-change="replyPageFn">
+					<el-pagination background layout="total,prev, pager, next" :current-page.sync="replypage" :page-size="replysize" :total="replytotal" @current-change="replyPageFn">
 					</el-pagination>
 				</div>
 			</div>

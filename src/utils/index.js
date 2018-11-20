@@ -226,11 +226,11 @@ exports.install = function (Vue, options) {
 	Vue.prototype.ajax_error = function (status) {
 		var that = this;
 		if (status == 401) {
-			this.$router.push({
+			that.$router.push({
 				path: '/login'
 			})
 		} else {
-			this.$message({
+			that.$message({
 				type: 'error',
 				message: that.$store.state.status[status]
 			});
@@ -239,6 +239,7 @@ exports.install = function (Vue, options) {
 	};
 	//刷新Token请求
 	Vue.prototype.refresh_token = function (fn) {
+		var that = this;
 		if (localStorage.getItem('token') && localStorage.getItem('token').length > 0) {
 			this.$http.post(this.$store.state.refresh_token, {
 				'Token': localStorage.getItem('token')
@@ -269,6 +270,7 @@ exports.install = function (Vue, options) {
 		}
 
 	};
+	
 	//计算时间差
 	Vue.prototype.timex = function () {
 		var startTime = new Date();

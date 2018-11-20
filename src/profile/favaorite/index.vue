@@ -28,7 +28,7 @@
 				</el-col>
 			</el-row>
 			<br v-if="total!=0">
-			<el-pagination background layout="prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
+			<el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 			</el-pagination>
 			<br />
 			<el-button type="primary">去看看</el-button>

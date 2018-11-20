@@ -13,8 +13,8 @@
 			</el-table-column>
 			<el-table-column label="操作" width="100">
 				<template slot-scope="scope">
-					<el-button size="small" @click="bindFn(scope.row.id)" type="success" v-if="bind">绑定</el-button>
-					<el-button size="small" @click="dialogBind(scope.row.id)" type="success" v-else-if="!bind&&scope.row.domain.length==0">绑定</el-button>
+					<el-button size="small" @click="dialogBind(scope.row.id)" type="success" v-if="!scope.row.currentUsed">绑定</el-button>
+					<el-tag type="success" v-else>已绑定</el-tag>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -62,7 +62,7 @@ export default {
 	created() {
 		if (this.$route.params.id) {
 			this.bind = true;
-			this.apiUrl = 'UserPermission/unused/page/'
+			this.apiUrl = 'UserPermission/unused/site/'+this.$route.params.id+'/page/'
 		}
 		this.getList(1)
 	},
@@ -79,19 +79,6 @@ export default {
 		pageFn(val) {
 			this.getList(val);
 			this.gotop();
-		},
-		bindFn(id) {
-			var that = this;
-			that.post_json(that.$store.state.api + 'UserSite/bind/permission', {
-				UserSiteId: that.$route.params.id,
-				userPermissionId: id
-			}, function (data) {
-				that.$message({
-					type: 'success',
-					message: '绑定成功！'
-				});
-				that.$store.state.dialogbind = false;
-			})
 		},
 		dialogBind(id) {
 			this.dialogBindDomain = true;

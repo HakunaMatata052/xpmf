@@ -5,7 +5,9 @@
 		<div class="site-list" v-for="(item,index) in list" :key="item.id">
 			<div class="site-list-left">
 				<div class="site-img" @mouseover="changeActive(index)" @mouseout="siteImgShowId=null">
-					<img src="" alt="">
+					<el-upload class="site-img-uploads" name="upload" :action="$store.state.api+'workorder/picture/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess(index)">
+						<img :src="item.fullpathAvatar">
+					</el-upload>
 					<transition name="el-zoom-in-bottom">
 						<div v-show="index==siteImgShowId" class="transition-box">上传图片</div>
 					</transition>
@@ -122,7 +124,8 @@ export default {
 	data() {
 		return {
 			list: [],
-			siteImgShowId:null,
+			siteImgShowId: null,
+			uploadId:null,
 			domainlist: [],
 			ftplist: {},
 			dialogBindDomain: false,
@@ -151,7 +154,12 @@ export default {
 				}
 				]
 			},
+			headers: {},
 		}
+	},
+	created() {
+		this.getList(1)
+		this.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
 	},
 	methods: {
 		getList(val) {
@@ -247,15 +255,12 @@ export default {
 				path: '/home/site',
 			})
 		},
-		changeActive(index){
-    		this.siteImgShowId = index;
-			
-			console.log(index)
-			console.log(this.siteImgShowId)
+		changeActive(index) {
+			this.siteImgShowId = index;
+		},		
+		handleAvatarSuccess(res, file) {
+			//console.log(this)
 		}
-	},
-	created() {
-		this.getList(1)
 	}
 }
 </script>
@@ -276,20 +281,29 @@ export default {
   margin-right: 20px;
   position: relative;
 }
+.site-list-left .site-img img {
+  width: 100px;
+  height: 100px;
+  border: 0;
+}
 .transition-box {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	height: 20px;
-	line-height: 20px;
-	background: #000;
-	color: #fff;
-	text-align: center;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  line-height: 20px;
+  background: #000;
+  color: #fff;
+  text-align: center;
 }
 .site-list-left .site-info h3 {
   display: inline;
   font-size: 20px;
   margin-right: 20px;
+}
+.site-img-uploads input{
+	width: 100%;
+	height: 100%;
 }
 
 .site-list-left .site-name small {
@@ -304,7 +318,7 @@ export default {
   margin-top: 36px;
 }
 .toggle {
-	display: block;
+  display: block;
 }
 .table-expand {
   font-size: 0;

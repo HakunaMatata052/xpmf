@@ -14,7 +14,8 @@
 						<h3>{{item.template.name}}</h3>
 						<p>编号 : {{item.template.code}}</p>
 						<div class="btn-group" v-if="bind">
-							<el-button size="small" type="success" @click="bindFn(item.id)">绑定</el-button>
+							<el-button size="small" type="success" @click="bindFn(item.id)" v-if="!item.currentUsed">绑定</el-button>
+							<el-tag type="success" v-else>已绑定</el-tag>
 						</div>
 					</div>
 					<div class="btn-group"></div>
@@ -44,7 +45,7 @@ export default {
 	created() {
 		if (this.$route.params.id) {
 			this.bind = true;
-			this.apiUrl = 'UserTemplate/unused/page/'
+			this.apiUrl = 'UserTemplate/unused/site/'+this.$route.params.id+'/page/'
 		}
 		this.getList(1);
 	},

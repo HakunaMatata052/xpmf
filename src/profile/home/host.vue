@@ -18,7 +18,8 @@
 
 			<el-table-column label="操作" width="100">
 				<template slot-scope="scope">
-					<el-button size="small" @click="bindFn(scope.row.id)" type="success" v-if="bind">绑定</el-button>
+					<el-button size="small" @click="bindFn(scope.row.id)" type="success" v-if="bind&&!scope.row.currentUsed">绑定</el-button>
+					<el-tag type="success" v-else-if="scope.row.currentUsed">已绑定</el-tag>
 					<el-button size="small" @click="ftpFn(scope.row.id)" type="primary" v-else>查看FTP</el-button>
 				</template>
 			</el-table-column>
@@ -77,7 +78,7 @@
 		created() {
 			if(this.$route.params.id) {
 				this.bind = true;
-				this.apiUrl = 'UserSpace/unused/page/'
+				this.apiUrl = 'UserSpace/unused/site/'+this.$route.params.id+'/page/'
 			}
 			this.getList(1)
 		},

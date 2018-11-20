@@ -18,7 +18,8 @@
 
 			<el-table-column label="操作" width="100"  v-if="bind">
 				<template slot-scope="scope">
-					<el-button size="small" @click="bindFn(scope.row.id)" type="success">绑定</el-button>
+					<el-button size="small" @click="bindFn(scope.row.id)" type="success" v-if="!scope.row.currentUsed">绑定</el-button>
+					<el-tag type="success" v-else>已绑定</el-tag>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -46,7 +47,7 @@
 		created() {
 			if(this.$route.params.id) {
 				this.bind = true;
-				this.apiUrl = 'userservice/unused/page/'
+				this.apiUrl = 'userservice/unused/site/'+this.$route.params.id+'/page/'
 			}
 			this.getList(1)
 			this.getList(1)

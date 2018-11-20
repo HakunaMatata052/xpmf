@@ -9,6 +9,9 @@
 				<a href="/quick">快速建站</a>
 				<a href="/template">模板</a>
 				<a href="/case">案例</a>
+				<a href="/download">下载</a>
+				<a href="//a.wxbtoe.com/">帮助</a>
+				<a href="/case">案例</a>
 			</div>
 			<div class="nav-right">
 				<a href="javascript:;" @click="jump_router('/info')"><img :src="$store.state.userinfo.fullpathAvatar||'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA+ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpIiB4bXA6Q3JlYXRlRGF0ZT0iMjAxOC0xMS0wN1QwOTozOToyNyswODowMCIgeG1wOk1vZGlmeURhdGU9IjIwMTgtMTEtMDdUMDk6Mzk6NTYrMDg6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMTgtMTEtMDdUMDk6Mzk6NTYrMDg6MDAiIGRjOmZvcm1hdD0iaW1hZ2UvcG5nIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjA4MTc0QkIxRTIyRTExRThCMzgwRDk5RDdEQjUzRENBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjA4MTc0QkIyRTIyRTExRThCMzgwRDk5RDdEQjUzRENBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDgxNzRCQUZFMjJFMTFFOEIzODBEOTlEN0RCNTNEQ0EiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDgxNzRCQjBFMjJFMTFFOEIzODBEOTlEN0RCNTNEQ0EiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5uut5+AAAAEElEQVR42mL8//8/A0CAAQAJAQL/abyQ8AAAAABJRU5ErkJggg=='" width="30" height="30" class="avatar">{{$store.state.userinfo.username}}</a>

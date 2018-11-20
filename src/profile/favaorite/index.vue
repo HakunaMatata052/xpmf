@@ -31,7 +31,7 @@
 			<el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 			</el-pagination>
 			<br />
-			<el-button type="primary">去看看</el-button>
+			<el-button type="primary" @click="jump_href('/template','_blank')">去看看</el-button>
 		</el-card>
 
 	</div>

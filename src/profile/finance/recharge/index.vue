@@ -39,7 +39,7 @@ export default {
 					} else {
 						that.$message({
 							type: 'error',
-							message: '排位可以5个0，金额却不能！'
+							message: '金额不能为0！'
 						});
 					}
 				} else {

@@ -270,7 +270,7 @@ exports.install = function (Vue, options) {
 		}
 
 	};
-	
+
 	//计算时间差
 	Vue.prototype.timex = function () {
 		var startTime = new Date();

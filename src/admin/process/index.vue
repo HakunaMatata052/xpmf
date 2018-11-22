@@ -5,7 +5,6 @@
 			<el-tab-pane label="待我处理" name="10"></el-tab-pane>
 			<el-tab-pane label="未受理" name="20"></el-tab-pane>
 			<el-tab-pane label="处理中" name="30"></el-tab-pane>
-			<el-tab-pane label="已完成" name="40"></el-tab-pane>
 			<el-tab-pane label="已关闭" name="50"></el-tab-pane>
 		</el-tabs>
 		<div class="tab-content">
@@ -39,10 +38,8 @@
 			<br />
 			<el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 			</el-pagination>
-			<br>
-			<el-button type="primary" @click="newWorkorderDialog=true">提交新工单</el-button>
 		</div>
-		<el-dialog title="工单详情" :visible.sync="dialogTableVisible" :close-on-click-modal="false" :center="true" @closed="closeWorkorder">
+		<el-dialog title="工单详情" :visible.sync="dialogTableVisible" :close-on-click-modal="false" :center="true" @closed="closeDialog" width="700px" top="10vh">
 			<h2>{{workorder.title}}</h2>
 			<div class="detail">
 				<dl>
@@ -101,32 +98,12 @@
 			</div>
 			<span slot="footer" class="dialog-footer">
 				<vue-ckeditor v-model="content" :config="config" />
-				<el-button type="primary" class="submit" @click="submitReply(workorder.id)">提交</el-button>
+				<div class="btn-grounp">
+					<el-button type="info" class="submit"  plain v-if="workorder.status==50">本工单已关闭</el-button>
+					<el-button type="primary" class="submit" @click="submitReply(workorder.id)" v-else>提交</el-button>
+					<el-button type="danger" size="medium" @click="closeWorkorder(workorder.id)"  v-if="workorder.status!=50">关闭工单</el-button>
+				</div>
 			</span>
-		</el-dialog>
-		<el-dialog title="工单详情" :visible.sync="newWorkorderDialog">
-			<el-form ref="form" :model="form" :rules="rules" label-width="80px">
-				<el-form-item label="工单标题" prop="title">
-					<el-input v-model="form.title"></el-input>
-				</el-form-item>
-				<el-form-item label="问题描述">
-					<vue-ckeditor v-model="form.Description" :config="config" />
-				</el-form-item>
-				<el-form-item label="问题分类" prop="Type">
-					<el-select v-model="form.Type" placeholder="请选择活动区域" style="width: 100%;">
-						<el-option label="安装服务" value="10"></el-option>
-						<el-option label="空间域名" value="20"></el-option>
-						<el-option label="售后投诉" value="30"></el-option>
-						<el-option label="技术支持" value="40"></el-option>
-						<el-option label="试用咨询" value="50"></el-option>
-						<el-option label="其他问题" value="100"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="submitWorkorder('form')">立即提交</el-button>
-					<el-button>取消</el-button>
-				</el-form-item>
-			</el-form>
 		</el-dialog>
 	</div>
 </template>
@@ -154,38 +131,6 @@ export default {
 			replytotal: 0,
 			workorder: {},
 			content: '',
-			editorOption: {
-				modules: {
-					toolbar: [
-						['bold', 'italic', 'underline', 'strike', 'image', 'blockquote', 'code-block']
-					]
-				}
-			},
-			newWorkorderDialog: false,
-			form: {
-				title: '',
-				Description: '',
-				Type: ''
-			},
-			rules: {
-				title: [{
-					required: true,
-					message: '请输入活动名称',
-					trigger: 'blur'
-				},
-				{
-					min: 5,
-					max: 20,
-					message: '长度在 5 到 20 个字符',
-					trigger: 'blur'
-				}
-				],
-				Type: [{
-					required: true,
-					message: '请选择问题类型',
-					trigger: 'change'
-				}]
-			},
 			config: {
 				toolbar: [
 					['Bold', 'Italic', 'Underline', 'Link', 'Unlink', 'Image']
@@ -198,7 +143,7 @@ export default {
 				fileTools_defaultFileName: 'file',
 				language: 'zh-cn',
 			},
-			loading: true
+			loading: true,
 		};
 	},
 	created() {
@@ -209,7 +154,11 @@ export default {
 	methods: {
 		getList(type, val) {
 			var that = this;
-			that.get_json(that.$store.state.api + 'admin/workorder/status/' + type + '/page/' + val, function (data) {
+						var url = 'workorder/status/' + type + '/page/' + val
+			if (type == 10) {
+				url = 'workorder/status/' + type + '/page/' + val
+			}
+			that.get_json(that.$store.state.api + url, function (data) {
 				that.list = data.data;
 				that.page = data.page;
 				that.size = data.size;
@@ -264,27 +213,31 @@ export default {
 		replyPageFn(val) {
 			this.getReplyList(this.workorder.id, val)
 		},
-		submitWorkorder(formName) {
-			this.$refs[formName].validate((valid) => {
-				if (valid) {
-					var that = this;
-					that.post_json(that.$store.state.api + 'workorder/', that.form, function (data) {
-						that.newWorkorderDialog = false;
-						that.$message({
-							type: 'success',
-							message: '提交成功！'
-						});
-						that.getList(that.path, that.page)
+		closeDialog() {
+			this.workorder = {}
+		},
+		closeWorkorder(id) {
+			var that = this;
+			that.$confirm('此操作将关闭工单, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				that.put_json(that.$store.state.api + 'admin/WorkOrder/' + id + '/close', {}, function (data) {
+					that.dialogTableVisible = false;
+					that.$message({
+						type: 'success',
+						message: '关闭成功!'
 					});
-				} else {
-					console.log('error submit!!');
-					return false;
-				}
+					that.getList(that.path, that.page)
+				});
+			}).catch(() => {
+				that.$message({
+					type: 'info',
+					message: '已取消关闭'
+				});
 			});
 		},
-		closeWorkorder() {
-			this.workorder = {}
-		}
 	}
 }
 </script>
@@ -343,12 +296,12 @@ export default {
 }
 
 .el-dialog {
-  max-height: 80%;
-  overflow: auto;
+  margin: 0 auto;
 }
 
 .el-dialog__body {
-  padding: 20px;
+  height: 45vh;
+  overflow: auto;
 }
 
 .el-dialog__footer {
@@ -357,12 +310,20 @@ export default {
 
 .el-dialog__footer .submit {
   width: 100%;
+}
+
+.btn-grounp {
+  display: flex;
   margin-top: 10px;
 }
 
 .content {
   padding: 10px;
   border: 1px dashed #ccc;
+}
+.content img{
+	max-width: 100%;
+	height: auto!important;
 }
 
 .reply {

@@ -2,14 +2,14 @@
 	<div class="tabs">
 		<el-tabs v-model="path" @tab-click="handleClick">
 			<el-tab-pane label="全部" name="100"></el-tab-pane>
-			
 			<el-tab-pane label="待我处理" name="10"><span slot="label">待我处理</span></el-tab-pane>
 			<el-tab-pane label="未受理" name="20"></el-tab-pane>
 			<el-tab-pane label="处理中" name="30"></el-tab-pane>
-			<el-tab-pane label="已完成" name="40"></el-tab-pane>
 			<el-tab-pane label="已关闭" name="50"></el-tab-pane>
 		</el-tabs>
 		<div class="tab-content">
+			<el-alert title="现在是上班时间，增值技术支持服务工单响应时间为30分钟，执行人为开发、前端部门以及分类为售后投诉的工单处理时间一般为2-3个工作日，谢谢理解！" type="warning">
+			</el-alert>
 			<el-table :data="list" stripe style="width: 100%">
 				<el-table-column prop="id" label="ID" width="80px">
 				</el-table-column>
@@ -43,7 +43,7 @@
 			<br>
 			<el-button type="primary" @click="newWorkorderDialog=true">提交新工单</el-button>
 		</div>
-		<el-dialog title="工单详情" :visible.sync="dialogTableVisible" :close-on-click-modal="false" :center="true" @closed="closeWorkorder">
+		<el-dialog title="工单详情" :visible.sync="dialogTableVisible" :close-on-click-modal="false" :center="true" @closed="closeDialog" width="700px" top="10vh">
 			<h2>{{workorder.title}}</h2>
 			<div class="detail">
 				<dl>
@@ -102,7 +102,11 @@
 			</div>
 			<span slot="footer" class="dialog-footer">
 				<vue-ckeditor v-model="content" :config="config" />
-				<el-button type="primary" class="submit" @click="submitReply(workorder.id)">提交</el-button>
+				<div class="btn-grounp">
+					<el-button type="info" class="submit" plain v-if="workorder.status==50">本工单已关闭</el-button>
+					<el-button type="primary" class="submit" @click="submitReply(workorder.id)" v-else>提交</el-button>
+					<el-button type="danger" size="medium" @click="closeWorkorder(workorder.id)" v-if="workorder.status!=50">关闭工单</el-button>
+				</div>
 			</span>
 		</el-dialog>
 		<el-dialog title="工单详情" :visible.sync="newWorkorderDialog">
@@ -209,7 +213,11 @@ export default {
 	methods: {
 		getList(type, val) {
 			var that = this;
-			that.get_json(that.$store.state.api + 'workorder/status/' + type + '/page/' + val, function (data) {
+			var url = 'workorder/status/' + type + '/page/' + val
+			if (type == 10) {
+				url ='workorder/status/' + type + '/page/' + val
+			}
+			that.get_json(that.$store.state.api + url, function (data) {
 				that.list = data.data;
 				that.page = data.page;
 				that.size = data.size;
@@ -280,9 +288,31 @@ export default {
 				}
 			});
 		},
-		closeWorkorder() {
+		closeDialog() {
 			this.workorder = {}
-		}
+		},
+		closeWorkorder(id) {
+			var that = this;
+			that.$confirm('此操作将关闭工单, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				that.put_json(that.$store.state.api + 'WorkOrder/' + id + '/close', {}, function (data) {
+					that.dialogTableVisible = false;
+					that.$message({
+						type: 'success',
+						message: '关闭成功!'
+					});
+					that.getList(that.path, that.page)
+				});
+			}).catch(() => {
+				that.$message({
+					type: 'info',
+					message: '已取消关闭'
+				});
+			});
+		},
 	}
 }
 </script>
@@ -302,7 +332,6 @@ export default {
   text-align: center;
   font-size: 16px;
 }
-
 .tabs .el-tabs__nav-next,
 .tabs .el-tabs__nav-prev {
   line-height: 70px;
@@ -341,14 +370,13 @@ export default {
   width: 130px;
 }
 
-
 .el-dialog {
-  max-height: 80%;
-  overflow: auto;
+  margin: 0 auto;
 }
 
 .el-dialog__body {
-  padding: 20px;
+  height: 45vh;
+  overflow: auto;
 }
 
 .el-dialog__footer {
@@ -357,15 +385,11 @@ export default {
 
 .el-dialog__footer .submit {
   width: 100%;
+}
+
+.btn-grounp {
+  display: flex;
   margin-top: 10px;
-}
-
-.quill-editor {
-  height: 135px;
-}
-
-.quill-editor .ql-container {
-  height: 90px;
 }
 
 .content {
@@ -373,6 +397,10 @@ export default {
   border: 1px dashed #ccc;
 }
 
+.content img {
+  max-width: 100%;
+  height: auto !important;
+}
 .reply {
   background: #eee;
   margin: 10px 0;

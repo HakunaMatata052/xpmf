@@ -371,10 +371,10 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title + '-新派魔方'
   }
-  next();
+  next()
 })
 
 router.afterEach(route => {
-  window.scrollTo(0, 0);
+  window.scrollTo(0, 0)
 })
 export default router

@@ -4,7 +4,7 @@
 		</el-alert>-->
 		<div class="site-list" v-for="(item,index) in list" :key="item.id">
 			<div class="site-list-left">
-				<div class="site-img" @mouseover="changeActive(index)" @mouseout="siteImgShowId=null"  @click="setUploadId(index,item.siteId,item.siteName)">
+				<div class="site-img" @mouseover="changeActive(index)" @mouseout="siteImgShowId=null" @click="setUploadId(index,item.siteId,item.siteName)">
 					<el-upload :ref="index" class="site-img-uploads" name="upload" :action="$store.state.api+'UserSite/thumbnail'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
 						<img :src="item.fullpathThumbnail||'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA+ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgKFdpbmRvd3MpIiB4bXA6Q3JlYXRlRGF0ZT0iMjAxOC0xMS0wN1QwOTozOToyNyswODowMCIgeG1wOk1vZGlmeURhdGU9IjIwMTgtMTEtMDdUMDk6Mzk6NTYrMDg6MDAiIHhtcDpNZXRhZGF0YURhdGU9IjIwMTgtMTEtMDdUMDk6Mzk6NTYrMDg6MDAiIGRjOmZvcm1hdD0iaW1hZ2UvcG5nIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjA4MTc0QkIxRTIyRTExRThCMzgwRDk5RDdEQjUzRENBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjA4MTc0QkIyRTIyRTExRThCMzgwRDk5RDdEQjUzRENBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDgxNzRCQUZFMjJFMTFFOEIzODBEOTlEN0RCNTNEQ0EiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MDgxNzRCQjBFMjJFMTFFOEIzODBEOTlEN0RCNTNEQ0EiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5uut5+AAAAEElEQVR42mL8//8/A0CAAQAJAQL/abyQ8AAAAABJRU5ErkJggg=='">
 					</el-upload>
@@ -14,7 +14,7 @@
 				</div>
 				<div class="site-info">
 					<h3>{{item.siteName}}</h3>
-					<p v-if="item.userSiteBindDomains.length!=0"><a :href="'http://'+item.userSiteBindDomains[0].domain" target="_blank">http://{{item.userSiteBindDomains[0].domain}}</a></p>
+					<p><a :href="'http://'+item.userSiteBindDomains[0].domain" target="_blank" v-if="item.userSiteBindDomains.length!=0">http://{{item.userSiteBindDomains[0].domain}}</a></p>
 					<div class="btn-group">
 						<el-button size="small" type="success" @click="bindDomainFn(item.siteId)">绑定域名</el-button>
 						<el-button size="small" type="primary" @click="bindFn('template',item.siteId)">选择模板</el-button>
@@ -72,13 +72,10 @@
 			<el-table :data="domainlist" stripe style="width: 100%">
 				<el-table-column prop="id" label="ID" width="50">
 				</el-table-column>
-
 				<el-table-column prop="domain" label="域名">
 				</el-table-column>
-
 				<el-table-column prop="creatime" label="绑定时间">
 				</el-table-column>
-
 				<el-table-column label="操作" width="50">
 					<template slot-scope="scope">
 						<el-button type="danger" icon="el-icon-delete" @click="delBindDomain(scope.row.id)" circle></el-button>
@@ -89,31 +86,33 @@
 		</el-dialog>
 
 		<el-dialog title="FTP信息" :visible.sync="dialogFtp">
-			<el-form label-position="left" inline class="table-expand">
-				<el-form-item label="网站名称">
-					<span>{{ftplist.spaceName}}</span>
-				</el-form-item>
-				<el-form-item label="空间大小">
-					<span>{{ftplist.capacity}}</span>
-				</el-form-item>
-				<el-form-item label="绑定域名">
-					<span>{{ftplist.ftpAddress}}</span>
-				</el-form-item>
-				<el-form-item label="FTPIP">
-					<span>{{ftplist.id}}</span>
-				</el-form-item>
-				<el-form-item label="FTP用户名">
-					<span>{{ftplist.ftpAddress}}</span>
-				</el-form-item>
-				<el-form-item label="FTP密码">
-					<span>{{ftplist.ftpAccount}}</span>
-				</el-form-item>
-				<el-form-item label="创建时间">
-					<span>{{ftplist.creatime}}</span>
-				</el-form-item>
-			</el-form>
+			<div class="detail">
+				<dl>
+					<dt>空间大小</dt>
+					<dd>{{ftplist.capacity}}</dd>
+				</dl>
+				<dl>
+					<dt>FTP IP</dt>
+					<dd>
+						{{ftplist.ftpAddress}}
+					</dd>
+				</dl>
+				<dl>
+					<dt>FTP用户名</dt>
+					<dd>{{ftplist.ftpAccount}}</dd>
+				</dl>
+
+				<dl>
+					<dt>FTP密码</dt>
+					<dd>{{ftplist.ftpPassword}}</dd>
+				</dl>
+
+				<dl>
+					<dt>创建时间</dt>
+					<dd>{{ftplist.creatime}}</dd>
+				</dl>
+			</div>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="dialogFtp = false">取 消</el-button>
 				<el-button type="primary" @click="dialogFtp = false">确 定</el-button>
 			</div>
 		</el-dialog>
@@ -125,7 +124,7 @@ export default {
 		return {
 			list: [],
 			siteImgShowId: null,
-			setUpload:{},
+			setUpload: {},
 			domainlist: [],
 			ftplist: {},
 			dialogBindDomain: false,
@@ -188,14 +187,21 @@ export default {
 		},
 		bind() {
 			var that = this;
-			that.post_json(that.$store.state.api + 'UserSite/bind/domain', that.bindDomainForm, function (data) {
+			if (that.bindDomainForm.domain.length == 0) {
 				that.$message({
-					type: 'success',
-					message: '绑定成功！'
+					type: 'error',
+					message: '域名不能为空'
 				});
-				that.bindDomainFn(that.bindDomainForm.id)
+			} else {
+				that.post_json(that.$store.state.api + 'UserSite/bind/domain', that.bindDomainForm, function (data) {
+					that.$message({
+						type: 'success',
+						message: '绑定成功！'
+					});
+					that.bindDomainFn(that.bindDomainForm.id)
+				})
+			}
 
-			})
 		},
 		delBindDomain(id) {
 			var that = this;
@@ -257,21 +263,21 @@ export default {
 		},
 		changeActive(index) {
 			this.siteImgShowId = index;
-		},		
-		handleAvatarSuccess(res, file) {
-			var that= this;
-			var file = file;
-			that.put_json(that.$store.state.api + 'UserSite/'+that.setUpload.id,{
-				thumbnail:res.fileName,
-				name:that.setUpload.siteName
-			},function(){					
-				that.$set(that.list[that.setUpload.index],'fullpathAvatar',URL.createObjectURL(file.raw))
-			})
-			
 		},
-		setUploadId(index,id,siteName){
-			this.setUpload.index = index;			
-			this.setUpload.id = id;	
+		handleAvatarSuccess(res, file) {
+			var that = this;
+			var file = file;
+			that.put_json(that.$store.state.api + 'UserSite/' + that.setUpload.id, {
+				thumbnail: res.fileName,
+				name: that.setUpload.siteName
+			}, function () {
+				that.$set(that.list[that.setUpload.index], 'fullpathAvatar', URL.createObjectURL(file.raw))
+			})
+
+		},
+		setUploadId(index, id, siteName) {
+			this.setUpload.index = index;
+			this.setUpload.id = id;
 			this.setUpload.siteName = siteName;
 		}
 	}
@@ -316,9 +322,13 @@ export default {
   font-size: 20px;
   margin-right: 20px;
 }
-.site-img-uploads input{
-	width: 100%;
-	height: 100%;
+.site-list-left .site-info p {
+  height: 28px;
+  line-height: 28px;
+}
+.site-img-uploads input {
+  width: 100%;
+  height: 100%;
 }
 
 .site-list-left .site-name small {
@@ -335,18 +345,23 @@ export default {
 .toggle {
   display: block;
 }
-.table-expand {
-  font-size: 0;
+
+.detail {
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.table-expand label {
-  width: 90px;
-  color: #99a9bf;
-}
-
-.table-expand .el-form-item {
-  margin-right: 0;
-  margin-bottom: 0;
+.detail dl {
+  display: flex;
   width: 50%;
+  padding: 10px 30px 10px 0;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.detail dt {
+  color: #a6a6a6;
+  width: 130px;
 }
 </style>

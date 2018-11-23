@@ -1,5 +1,5 @@
 <template>
-	<div id="template">
+	<div id="host">
 		<el-table :data="list" stripe style="width: 100%">
 			<el-table-column prop="id" label="ID" width="80" show-overflow-tooltip>
 			</el-table-column>
@@ -29,32 +29,34 @@
 		</el-pagination>
 		<br />
 		<el-button type="primary">去购买</el-button>
-		<el-dialog title="FTP信息" :visible.sync="dialogFtp">
-			<el-form label-position="left" inline class="table-expand">
-				<el-form-item label="网站名称">
-					<span>{{ftplist.spaceName}}</span>
-				</el-form-item>
-				<el-form-item label="空间大小">
-					<span>{{ftplist.capacity}}</span>
-				</el-form-item>
-				<el-form-item label="绑定域名">
-					<span>{{ftplist.ftpAddress}}</span>
-				</el-form-item>
-				<el-form-item label="FTPIP">
-					<span>{{ftplist.id}}</span>
-				</el-form-item>
-				<el-form-item label="FTP用户名">
-					<span>{{ftplist.ftpAddress}}</span>
-				</el-form-item>
-				<el-form-item label="FTP密码">
-					<span>{{ftplist.ftpAccount}}</span>
-				</el-form-item>
-				<el-form-item label="创建时间">
-					<span>{{ftplist.creatime}}</span>
-				</el-form-item>
-			</el-form>
+		<el-dialog title="FTP信息" :visible.sync="dialogFtp">			
+			<div class="detail">
+				<dl>
+					<dt>空间大小</dt>
+					<dd>{{ftplist.capacity}}</dd>
+				</dl>
+				<dl>
+					<dt>FTP IP</dt>
+					<dd>
+						{{ftplist.ftpAddress}}
+					</dd>
+				</dl>
+				<dl>
+					<dt>FTP用户名</dt>
+					<dd>{{ftplist.ftpAccount}}</dd>
+				</dl>
+
+				<dl>
+					<dt>FTP密码</dt>
+					<dd>{{ftplist.ftpPassword}}</dd>
+				</dl>
+
+				<dl>
+					<dt>创建时间</dt>
+					<dd>{{ftplist.creatime}}</dd>
+				</dl>
+			</div>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="dialogFtp = false">取 消</el-button>
 				<el-button type="primary" @click="dialogFtp = false">确 定</el-button>
 			</div>
 		</el-dialog>
@@ -122,7 +124,7 @@
 
 <style scoped>
 	
-	#template .remainDays {
+	#host .remainDays {
 		background: #ee3231;
 		color: #fff;
 		padding: 2px 15px;
@@ -130,18 +132,23 @@
 		display: inline-block;
 		margin-left: 10px;
 	}
-	.table-expand {
-		font-size: 0;
-	}
-	
-	.table-expand label {
-		width: 90px;
-		color: #99a9bf;
-	}
-	
-	.table-expand .el-form-item {
-		margin-right: 0;
-		margin-bottom: 0;
-		width: 50%;
-	}
+
+.detail {
+  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.detail dl {
+  display: flex;
+  width: 50%;
+  padding: 10px 30px 10px 0;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.detail dt {
+  color: #a6a6a6;
+  width: 130px;
+}
 </style>

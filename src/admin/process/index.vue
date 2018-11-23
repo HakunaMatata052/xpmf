@@ -154,7 +154,7 @@ export default {
 			var that = this;
 			var url = '/admin/workorder/status/' + type + '/page/' + val
 			if (type == 10) {
-				url ='/workorder/mine/page/' + val
+				url = '/workorder/mine/page/' + val
 			}
 			that.get_json(that.$store.state.api + url, function (data) {
 				that.list = data.data;
@@ -273,6 +273,8 @@ export default {
 .tabs .tab-content {
   padding: 20px;
 }
+</style><style scoped>
+
 
 .detail {
   padding: 20px 0;
@@ -292,7 +294,6 @@ export default {
   color: #a6a6a6;
   width: 130px;
 }
-
 .el-dialog {
   margin: 0 auto;
 }
@@ -319,11 +320,11 @@ export default {
   padding: 10px;
   border: 1px dashed #ccc;
 }
+
 .content img {
   max-width: 100%;
   height: auto !important;
 }
-
 .reply {
   background: #eee;
   margin: 10px 0;

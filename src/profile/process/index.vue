@@ -11,8 +11,6 @@
 			<el-alert title="现在是上班时间，增值技术支持服务工单响应时间为30分钟，执行人为开发、前端部门以及分类为售后投诉的工单处理时间一般为2-3个工作日，谢谢理解！" type="warning">
 			</el-alert>
 			<el-table :data="list" stripe style="width: 100%">
-				<el-table-column prop="id" label="ID" width="80px">
-				</el-table-column>
 				<el-table-column prop="title" label="工单标题">
 				</el-table-column>
 				<el-table-column prop="consumerUsername" label="用户名">
@@ -27,8 +25,8 @@
 				</el-table-column>
 				<el-table-column prop="statusString" label="状态" width="200px">
 					<template slot-scope="scope">
-						<el-tag>{{scope.row.statusString}}
-						</el-tag>
+						<el-tag type="danger" v-if="scope.row.status==50">{{scope.row.statusString}}</el-tag>
+						<el-tag v-else>{{scope.row.statusString}}</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" width="200px">
@@ -215,7 +213,7 @@ export default {
 			var that = this;
 			var url = 'workorder/status/' + type + '/page/' + val
 			if (type == 10) {
-				url ='workorder/status/' + type + '/page/' + val
+				url ='/workorder/mine/page/' + val
 			}
 			that.get_json(that.$store.state.api + url, function (data) {
 				that.list = data.data;
@@ -289,7 +287,8 @@ export default {
 			});
 		},
 		closeDialog() {
-			this.workorder = {}
+			this.workorder = {};			
+			this.getList(this.path, this.page);
 		},
 		closeWorkorder(id) {
 			var that = this;
@@ -375,7 +374,7 @@ export default {
 }
 
 .el-dialog__body {
-  height: 45vh;
+  height: 50vh;
   overflow: auto;
 }
 

@@ -43,9 +43,7 @@ exports.install = function (Vue, options) {
 			})
 		} else {
 			that.$message(that.$store.state.status[status]);
-			that.$router.push({
-				path: '/login'
-			})
+			//this.goToLogin()
 		}
 
 	};
@@ -94,9 +92,7 @@ exports.install = function (Vue, options) {
 			})
 		} else {
 			that.$message(that.$store.state.status[status]);
-			that.$router.push({
-				path: '/login'
-			})
+			//this.goToLogin()
 		}
 
 	};
@@ -151,9 +147,7 @@ exports.install = function (Vue, options) {
 				})
 			} else {
 				that.$message(that.$store.state.status[status]);
-				that.$router.push({
-					path: '/login'
-				})
+				//this.goToLogin()
 			}
 		}).catch(() => {
 			this.$message({
@@ -200,9 +194,7 @@ exports.install = function (Vue, options) {
 			})
 		} else {
 			that.$message(that.$store.state.status[status]);
-			that.$router.push({
-				path: '/login'
-			})
+			//this.goToLogin()
 		}
 
 	};
@@ -226,9 +218,7 @@ exports.install = function (Vue, options) {
 	Vue.prototype.ajax_error = function (status) {
 		var that = this;
 		if (status == 401) {
-			that.$router.push({
-				path: '/login'
-			})
+			//this.goToLogin()
 		} else {
 			that.$message({
 				type: 'error',
@@ -257,16 +247,12 @@ exports.install = function (Vue, options) {
 					});
 				} else {
 					localStorage.clear();
-					this.$router.push({
-						path: '/login'
-					})
+					//this.goToLogin()
 
 				}
 			})
 		} else {
-			this.$router.push({
-				path: '/login'
-			})
+			//this.goToLogin()
 		}
 
 	};
@@ -275,12 +261,31 @@ exports.install = function (Vue, options) {
 	Vue.prototype.timex = function () {
 		var startTime = new Date();
 		var endTime = localStorage.getItem('expires');
-		console.log(new Date(endTime).getTime() - startTime.getTime());
-		return new Date(endTime).getTime() - startTime.getTime();
+		if (endTime == null) {
+			this.goToLogin();
+			return false;
+		} else {
+			//console.log(new Date(endTime).getTime() - startTime.getTime());
+			return new Date(endTime).getTime() - startTime.getTime();
+		}
 	};
 
 	// 返回顶部
 	Vue.prototype.gotop = function () {
 		window.scrollTo(0, 0);
+	}
+
+	// 跳转登录页
+	Vue.prototype.goToLogin = function () {
+		if (this.$route.path=='/login') {
+			return false;
+		} else {
+			this.$store.state.num++;
+			this.$store.state.callbackUrl = this.$route.path;
+			this.$router.push({
+				path: '/login'
+			})
+		}
+		
 	}
 };

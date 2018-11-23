@@ -12,10 +12,7 @@ const portfinder = require('portfinder')
 
 const express = require('express')
 const app = express()
-var appData = require('../list.json') //加载本地数据文件
-var seller = appData //获取对应的本地数据
 var apiRoutes = express.Router()
-app.use('/apis', apiRoutes)
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -56,12 +53,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 			poll: config.dev.poll,
 		},
 		before(app) {
-			app.get('/apis/DoitHandler', (req, res) => {
-				res.json(seller) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
-			}),
-			app.post('/apis/DoitHandler', function(req, res) { // 注意这里改为post就可以了
-				res.json(seller) //接口返回json数据，上面配置的数据seller就赋值给data请求后调用
-			})
+
 		}
 	},
 	plugins: [

@@ -12,7 +12,6 @@
 						<div class="item-left">
 							<img v-if="formConfig.userinfo.fullpathAvatar" :src="formConfig.userinfo.fullpathAvatar" class="avatar">
 							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-
 						</div>
 						<div class="item-right">
 							<h4><i class="el-icon-upload2"></i>上传头像 </h4>

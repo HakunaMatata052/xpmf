@@ -86,7 +86,7 @@
 		</el-dialog>
 		<el-dialog title="通过审核" :visible.sync="auditDialog" :fullscreen="false" @closed="close" :center="true" width="400px">
 			<el-upload class="img-uploader" name="upload" :action="$store.state.api+'case/picture'" :headers="headers" :show-file-list="false" :on-success="auditpic" style="width:200px;margin:auto">
-				<img v-if="audit.picture" :src="$store.state.pic+audit.picture" class="img">
+				<img v-if="audit.picture" :src="audit.fullpathPicture" class="img">
 				<i v-else class="el-icon-plus img-uploader-icon"></i>
 			</el-upload>
 			<el-input v-model="audit.id" type="hidden"></el-input>
@@ -284,8 +284,8 @@ export default {
 			that.auditDialog = true;
 		},
 		auditpic(res, file) {
-			this.form.picture = res.fileName;
-			this.$set(this.form, "fullpathPicture", URL.createObjectURL(file.raw));
+			this.audit.picture = res.fileName;
+			this.$set(this.audit, "fullpathPicture", URL.createObjectURL(file.raw));
 		},
 		adopt() {
 			var that = this;
@@ -381,129 +381,8 @@ export default {
 .tabs .tab-content {
   padding: 20px;
 }
-
-.detail {
-  padding: 20px 0;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.detail dl {
-  display: flex;
-  width: 50%;
-  padding: 10px 30px 10px 0;
-  border-bottom: 1px solid #ccc;
-  align-items: center;
-}
-
-.detail dt {
-  color: #a6a6a6;
-  width: 130px;
-}
-
-.el-dialog {
-  max-height: 80%;
-  overflow: auto;
-}
-
-.el-dialog__body {
-  padding: 20px;
-}
-
-.el-dialog__footer {
-  text-align: left;
-}
-
-.el-dialog__footer .submit {
-  width: 100%;
-  margin-top: 10px;
-}
-
-.quill-editor {
-  height: 135px;
-}
-
-.quill-editor .ql-container {
-  height: 90px;
-}
-
-.content {
-  padding: 10px;
-  border: 1px dashed #ccc;
-}
-
-.reply {
-  background: #eee;
-  margin: 10px 0;
-  padding: 10px;
-}
-
-.reply h2 {
-  text-align: center;
-}
-
-.reply .tip {
-  text-align: center;
-  padding: 10px 0;
-  color: #ccc;
-}
-
-.reply-list dl {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  padding: 10px 0;
-}
-
-.reply-list dt {
-  width: 50px;
-  margin-right: 20px;
-}
-
-.reply-list dt img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.reply-list dd {
-  display: flex;
-  justify-content: space-between;
-  flex-flow: wrap;
-  flex-grow: 1;
-}
-
-.reply-list dd span {
-  font-size: 14px;
-  color: #999;
-}
-
-.reply-list .reply-con {
-  width: 100%;
-  margin-top: 10px;
-}
-
-.reply-list .reply-con img {
-  max-width: 80%;
-}
-
-.reply-con strong {
-  font-weight: bold !important;
-}
-
-.reply-con em {
-  font-style: italic !important;
-}
-
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
+</style>
+<style scoped>
 .img-uploader .el-upload:hover {
   border-color: #409eff;
 }

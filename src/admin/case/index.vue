@@ -309,18 +309,34 @@ export default {
 			);
 		},
 		refuse(val) {
+
+
 			var that = this;
-			that.put_json(
-				that.$store.state.api + "case/" + val + "/refuse",
-				{},
-				function (data) {
-					that.$message({
-						type: "success",
-						message: "操作成功！"
-					});
-					that.getList(that.path, that.page);
-				}
-			);
+			that.$prompt('请输入拒绝原因', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+			}).then(({ value }) => {
+				that.put_json(
+					that.$store.state.api + "case/" + val + "/refuse",
+					{ remark: value },
+					function (data) {
+						that.$message({
+							type: "success",
+							message: "操作成功！"
+						});
+						that.getList(that.path, that.page);
+					}
+				);
+			}).catch(() => {
+				this.$message({
+					type: 'info',
+					message: '取消输入'
+				});
+			});
+
+
+
+
 		},
 		close() {
 			this.form = {

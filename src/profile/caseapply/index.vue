@@ -29,7 +29,7 @@
 						<el-button size="mini" @click="putCase(scope.row.siteId)" type="success" v-else-if="scope.row.showcaseStatus==30" disabled>已通过</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="showcaseStatusString" label="备注">
+				<el-table-column prop="remark" label="备注">
 				</el-table-column>
 			</el-table>
 			<br />

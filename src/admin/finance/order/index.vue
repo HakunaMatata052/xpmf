@@ -16,24 +16,31 @@
 						</p>
 					</template>
 				</el-table-column>
-				<el-table-column prop="user.username" width="150px" label="用户名" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column prop="user.username" width="150" label="用户名" :key="Math.random()" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="金额" width="120px" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column label="金额" width="120" :key="Math.random()" show-overflow-tooltip>
 					<template slot-scope="scope">
 						{{scope.row.price}}元
 					</template>
 				</el-table-column>
-				<el-table-column prop="creatime" label="提交时间" width="200px" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column prop="creatime" label="提交时间" width="200" :key="Math.random()" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="statusString" label="状态" width="120px" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column label="状态" width="100" :key="Math.random()" show-overflow-tooltip>
 					<template slot-scope="scope">
 						<el-tag type="danger" v-if="scope.row.status==10">{{scope.row.statusString}}</el-tag>
 						<el-tag v-else>{{scope.row.statusString}}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" width="180px">
+				<el-table-column label="已删除" width="80px" :key="Math.random()" show-overflow-tooltip>
 					<template slot-scope="scope">
-						<el-button type="primary" size="small" @click="openOrder(scope.row)">查看详情</el-button>
+						<el-tag  type="success" v-if="scope.row.using==true">否</el-tag>
+						<el-tag  type="danger"v-else>是</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column label="操作" width="200">
+					<template slot-scope="scope">
+						<el-button type="primary" size="mini" @click="openOrder(scope.row)">查看详情</el-button>
+						<el-button type="danger" size="mini" @click="delOrder(scope.row.id)">删除订单</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -153,7 +160,12 @@ export default {
 		openOrder(val) {
 			this.dialogOrder = true;
 			this.orderInfo = val;
-			console.log(val)
+		},
+		delOrder(id){
+			var that = this;
+			that.del_json(that.$store.state.api + 'admin/Order/' + id, function (data) {
+				that.getList(that.path, that.page);
+			})
 		}
 	}
 }

@@ -13,7 +13,7 @@
 			<el-table :data="list" stripe style="width: 100%">
 				<el-table-column prop="siteId" label="ID" width="80">
 				</el-table-column>
-				<el-table-column prop="domain" label="网站域名" width="200">
+				<el-table-column prop="userSiteBindDomains[0].domain" label="网站域名" width="200">
 				</el-table-column>
 				<el-table-column label="是否加入案例展示" width="150">
 					<template slot-scope="scope">

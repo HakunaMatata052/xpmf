@@ -7,7 +7,7 @@
 				<el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">创建类别</el-button>
 			</div>
 			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
-				<el-table-column prop="name" label="类别名称">
+				<el-table-column prop="name" label="类别名称" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column label="操作" width="200">
 					<template slot-scope="scope">

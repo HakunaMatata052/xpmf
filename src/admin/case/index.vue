@@ -86,14 +86,14 @@
 				<el-button type="primary" @click="edit('form',form.id,form.templateCode)">确 定</el-button>
 			</div>
 		</el-dialog>
-		<el-dialog title="通过审核" :visible.sync="auditDialog" :fullscreen="false" @closed="close">
-			<el-upload class="img-uploader" name="upload" :action="$store.state.api+'case/picture'" :headers="headers" :show-file-list="false" :on-success="auditpic">
+		<el-dialog title="通过审核" :visible.sync="auditDialog" :fullscreen="false" @closed="close" :center="true" width="400px">
+			<el-upload class="img-uploader" name="upload" :action="$store.state.api+'case/picture'" :headers="headers" :show-file-list="false" :on-success="auditpic" style="width:200px;margin:auto">
 				<img v-if="audit.picture" :src="$store.state.pic+audit.picture" class="img">
 				<i v-else class="el-icon-plus img-uploader-icon"></i>
 			</el-upload>
 			<el-input v-model="audit.id" type="hidden"></el-input>
 			<div slot="footer" class="dialog-footer">
-				<el-button @click="dialogFormVisible = false">取 消</el-button>
+				<el-button @click="auditDialog = false">取 消</el-button>
 				<el-button type="primary" @click="adopt()">确 定</el-button>
 			</div>
 		</el-dialog>

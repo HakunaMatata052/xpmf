@@ -14,7 +14,7 @@
 				</div>
 				<div class="site-info">
 					<h3>{{item.siteName}}</h3>
-					<p><a :href="'http://'+item.domain" target="_blank">http://{{item.domain}}</a></p>
+					<p v-if="item.userSiteBindDomains.length!=0"><a :href="'http://'+item.userSiteBindDomains[0].domain" target="_blank">http://{{item.userSiteBindDomains[0].domain}}</a></p>
 					<div class="btn-group">
 						<el-button size="small" type="success" @click="bindDomainFn(item.siteId)">绑定域名</el-button>
 						<el-button size="small" type="primary" @click="bindFn('template',item.siteId)">选择模板</el-button>

@@ -37,7 +37,8 @@ var user = r => require.ensure([], () => r(require('./admin/user/index.vue')), '
 var admin_process = r => require.ensure([], () => r(require('./admin/process/index.vue')), 'admin_process')
 var admin_host = r => require.ensure([], () => r(require('./admin/host/index.vue')), 'admin_host')
 var links = r => require.ensure([], () => r(require('./admin/links/index.vue')), 'links')
-var admin_finance = r => require.ensure([], () => r(require('./admin/finance/index.vue')), 'admin_finance')
+var admin_invoice = r => require.ensure([], () => r(require('./admin/finance/invoice/index.vue')), 'admin_invoice')
+var admin_order = r => require.ensure([], () => r(require('./admin/finance/order/index.vue')), 'admin_order')
 
 // 公用
 var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login')
@@ -323,15 +324,22 @@ const router = new VueRouter({
         title: '空间管理'
       }
     },
-
     {
-      path: '/admin/finance',
-      component: admin_finance,
+      path: '/admin/invoice',
+      component: admin_invoice,
       // redirect: 'site',
       meta: {
-        title: '财务管理'
+        title: '发票管理'
       }
-    }
+      },
+      {
+        path: '/admin/order',
+        component: admin_order,
+        // redirect: 'site',
+        meta: {
+          title: '订单管理'
+        }
+      }
     ]
   }, {
     path: '/login',
@@ -375,6 +383,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(route => {
-  window.scrollTo(0, 0)
+  window.scrollTo(0, 0);
+  console.log("跳转")
 })
 export default router

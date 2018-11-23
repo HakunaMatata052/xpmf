@@ -57,11 +57,9 @@
 					<el-input type="textarea" :autosize="{ minRows: 5, maxRows: 10}" placeholder="请输入内容" v-model="formConfig.userinfo.userCompany.address">
 					</el-input>
 				</el-form-item>
-				<div class="item">
-					<div class="item-left">
-						<el-button type="primary" @click="submit('formConfig')">提交</el-button>
-					</div>
-				</div>
+				<el-form-item>
+					<el-button type="primary" @click="submit('formConfig')" style="width:100%;">提交</el-button>
+				</el-form-item>
 			</el-form>
 
 		</el-card>
@@ -240,7 +238,7 @@ export default {
 }
 
 .item .item-left {
-  width: 80px;
+  width: 110px;
   min-height: 35px;
   line-height: 35px;
   margin-right: 30px;

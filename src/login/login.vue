@@ -57,9 +57,8 @@
 							path: '/admin/config'
 						})
 					} else {
-
 						that.$router.push({
-							path: '/'
+							path: that.$store.state.callbackUrl
 						})
 					};
 					that.interdiction = false;
@@ -79,7 +78,7 @@
 					}
 				}).then(res => {
 					that.$router.push({
-						path: '/'
+						path: that.$store.state.callbackUrl
 					})
 				}, error => {
 					//that.ajax_error(error.status)
@@ -92,7 +91,7 @@
 						}
 					}).then(res => {
 						that.$router.push({
-							path: '/'
+							path: that.$store.state.callbackUrl
 						})
 					}, error => {
 						//that.ajax_error(error.status)

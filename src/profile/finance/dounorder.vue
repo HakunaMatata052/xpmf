@@ -8,7 +8,10 @@
 					</p>
 				</template>
 			</el-table-column>
-			<el-table-column prop="price" label="价格" width="100">
+			<el-table-column label="价格" width="100">
+				<template slot-scope="scope">
+						{{scope.row.price}}元
+					</template>
 			</el-table-column>
 			<el-table-column prop="creatime" label="时间" width="200">
 			</el-table-column>

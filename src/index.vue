@@ -116,10 +116,24 @@
 						<i class="iconfont icon-yun"></i>
 						<span slot="title">空间管理</span>
 					</el-menu-item>
-					<el-menu-item index="/admin/finance" v-if="admin">
-						<i class="iconfont icon-fapiao"></i>
-						<span slot="title">发票管理</span>
-					</el-menu-item>
+
+			<el-submenu index="/admin/order" v-if="admin">
+						<template slot="title">
+							<i class="iconfont icon-caiwujiesuan"></i>
+							<span slot="title">财务管理</span>
+						</template>
+						<el-menu-item-group>
+							<el-menu-item index="/admin/order">
+								<i class="iconfont icon-caiwujiesuan"></i>
+								<span slot="title">订单管理</span>
+							</el-menu-item>
+							<el-menu-item index="/admin/invoice">
+								<i class="iconfont icon-fapiao"></i>
+								<span slot="title">发票管理</span>
+							</el-menu-item>
+						</el-menu-item-group>
+					</el-submenu>
+
 				</el-menu>
 
 			</el-aside>
@@ -200,7 +214,6 @@ export default {
 		that.$router.afterEach(route => {
 			that.active = that.$route.path;
 		});
-
 		var role = localStorage.getItem("role");
 		that.username = localStorage.getItem("username");
 		if (role == "Admin") {
@@ -273,6 +286,7 @@ export default {
   font-size: 16px;
   display: flex;
   align-items: center;
+	min-width: 92px;
 }
 .header .avatar {
   margin-right: 10px;

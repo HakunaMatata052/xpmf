@@ -9,24 +9,22 @@
 		</el-tabs>
 		<div class="tab-content">
 			<el-table :data="list" stripe style="width: 100%" v-loading="loading">
-				<el-table-column prop="id" label="ID" width="80px">
+				<el-table-column prop="title" label="工单标题" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="title" label="工单标题">
+				<el-table-column prop="consumerUsername" label="用户名" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="consumerUsername" label="用户名">
-				</el-table-column>
-				<el-table-column prop="typeString" label="类型" width="200px">
+				<el-table-column prop="typeString" label="类型" width="200px" show-overflow-tooltip>
 					<template slot-scope="scope">
 						<el-tag type="success">{{scope.row.typeString}}
 						</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="updatime" label="更新时间" width="200px">
+				<el-table-column prop="updatime" label="更新时间" width="200px" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="statusString" label="状态" width="200px">
+				<el-table-column prop="statusString" label="状态" width="200px" show-overflow-tooltip>
 					<template slot-scope="scope">
-						<el-tag>{{scope.row.statusString}}
-						</el-tag>
+						<el-tag type="danger" v-if="scope.row.status==50">{{scope.row.statusString}}</el-tag>
+						<el-tag v-else>{{scope.row.statusString}}</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" width="200px">
@@ -99,9 +97,9 @@
 			<span slot="footer" class="dialog-footer">
 				<vue-ckeditor v-model="content" :config="config" />
 				<div class="btn-grounp">
-					<el-button type="info" class="submit"  plain v-if="workorder.status==50">本工单已关闭</el-button>
+					<el-button type="info" class="submit" plain v-if="workorder.status==50">本工单已关闭</el-button>
 					<el-button type="primary" class="submit" @click="submitReply(workorder.id)" v-else>提交</el-button>
-					<el-button type="danger" size="medium" @click="closeWorkorder(workorder.id)"  v-if="workorder.status!=50">关闭工单</el-button>
+					<el-button type="danger" size="medium" @click="closeWorkorder(workorder.id)" v-if="workorder.status!=50">关闭工单</el-button>
 				</div>
 			</span>
 		</el-dialog>
@@ -154,9 +152,9 @@ export default {
 	methods: {
 		getList(type, val) {
 			var that = this;
-						var url = 'workorder/status/' + type + '/page/' + val
+			var url = '/admin/workorder/status/' + type + '/page/' + val
 			if (type == 10) {
-				url = 'workorder/status/' + type + '/page/' + val
+				url ='/workorder/mine/page/' + val
 			}
 			that.get_json(that.$store.state.api + url, function (data) {
 				that.list = data.data;
@@ -180,7 +178,6 @@ export default {
 			that.dialogTableVisible = true;
 			that.get_json(that.$store.state.api + 'admin/workorder/' + id, function (data) {
 				that.workorder = data;
-				console.log(that.workorder)
 			});
 			that.getReplyList(id, 1)
 
@@ -214,7 +211,8 @@ export default {
 			this.getReplyList(this.workorder.id, val)
 		},
 		closeDialog() {
-			this.workorder = {}
+			this.workorder = {};
+			this.getList(this.path, this.page);
 		},
 		closeWorkorder(id) {
 			var that = this;
@@ -300,7 +298,7 @@ export default {
 }
 
 .el-dialog__body {
-  height: 45vh;
+  height: 50vh;
   overflow: auto;
 }
 
@@ -321,9 +319,9 @@ export default {
   padding: 10px;
   border: 1px dashed #ccc;
 }
-.content img{
-	max-width: 100%;
-	height: auto!important;
+.content img {
+  max-width: 100%;
+  height: auto !important;
 }
 
 .reply {

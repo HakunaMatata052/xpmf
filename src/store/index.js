@@ -18,6 +18,7 @@ export default new vuex.Store({
       450: '旧密码不正确！',
       500: '程序发生错误！'
     },
+    callbackUrl:'/',
     login: {
       token: '',
       role: '',
@@ -32,7 +33,8 @@ export default new vuex.Store({
     wxpay: '//wxpay.xpmof.com/',
     alipay: '',
     domain: '',
-    notice: true
+    notice: true,
+    num:0,
   },
   mutations: {
     domainURI (url) {

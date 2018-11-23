@@ -10,18 +10,18 @@
 					<br> 2、新派魔方的用户遍及全国各地（甚至全球），且以中小企业为主，这其中一定包含着您的潜在客户！
 				</p>
 			</div>
-			<el-table :data="list" stripe style="width: 100%">
-				<el-table-column prop="siteName" label="网站名称" width="250">
+			<el-table :data="list" stripe style="width: 100%" >
+				<el-table-column prop="siteName" label="网站名称" width="250"  show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="userSiteBindDomains[0].domain" label="网站域名" width="350">
+				<el-table-column prop="userSiteBindDomains[0].domain" label="网站域名" width="350"  show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="是否加入案例展示" width="150">
+				<el-table-column label="是否加入案例展示" width="150" align="center">
 					<template slot-scope="scope">
 						<span v-if="scope.row.showcaseStatus!=100">否</span>
 						<span v-else-if="scope.row.showcaseStatus==100">是</span>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作">
+				<el-table-column label="操作" align="center"  show-overflow-tooltip>
 					<template slot-scope="scope">
 						<el-button size="mini" @click="putCase(scope.row.siteId)" type="success" v-if="scope.row.showcaseStatus==0">申请展示案例</el-button>
 						<el-button size="mini" @click="putCase(scope.row.siteId)" type="primary" v-else-if="scope.row.showcaseStatus==10" disabled>审核中</el-button>

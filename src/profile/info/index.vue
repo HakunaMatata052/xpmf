@@ -5,19 +5,22 @@
 				<span>个人设置</span>
 			</div>
 			<el-form :model="formConfig" ref="formConfig" label-width="110px" class="formConfig">
-				<div class="item">
-					<div class="item-left">
-						<el-upload class="avatar-uploader" name="upload" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
+
+				<el-upload class="avatar-uploader" name="upload" :action="$store.state.api+'user/avatar/'" :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess">
+
+					<div class="item">
+						<div class="item-left">
 							<img v-if="formConfig.userinfo.fullpathAvatar" :src="formConfig.userinfo.fullpathAvatar" class="avatar">
 							<i v-else class="el-icon-plus avatar-uploader-icon"></i>
-						</el-upload>
-					</div>
-					<div class="item-right">
-						<h4><i class="el-icon-upload2"></i>上传头像 </h4>
-						<p>支持上传 jpg、png、gif 格式图片，大小不超过「2Mb」。</p>
-					</div>
-				</div>
 
+						</div>
+						<div class="item-right">
+							<h4><i class="el-icon-upload2"></i>上传头像 </h4>
+							<p>支持上传 jpg、png、gif 格式图片，大小不超过「2Mb」。</p>
+						</div>
+					</div>
+
+				</el-upload>
 				<el-form-item label="用户名">
 					{{formConfig.userinfo.username}}
 				</el-form-item>
@@ -257,6 +260,8 @@ export default {
   font-size: 18px;
   color: #ee3231;
   width: 100%;
+  display: block;
+  text-align: left;
 }
 
 .item .item-right p {

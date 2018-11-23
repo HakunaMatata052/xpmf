@@ -331,15 +331,15 @@ const router = new VueRouter({
       meta: {
         title: '发票管理'
       }
-      },
-      {
-        path: '/admin/order',
-        component: admin_order,
-        // redirect: 'site',
-        meta: {
-          title: '订单管理'
-        }
+    },
+    {
+      path: '/admin/order',
+      component: admin_order,
+      // redirect: 'site',
+      meta: {
+        title: '订单管理'
       }
+    }
     ]
   }, {
     path: '/login',
@@ -363,7 +363,6 @@ const router = new VueRouter({
       title: '未找到页面'
     }
   },
-
   {
     path: '/403',
     component: page403,
@@ -371,7 +370,7 @@ const router = new VueRouter({
     meta: {
       title: '未找到页面'
     }
-  }
+  },
   ]
 })
 

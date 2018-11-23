@@ -1,5 +1,5 @@
 <template>
-	<div class="tabs">
+	<div class="tabs" id="workorder">
 		<el-tabs v-model="path" @tab-click="handleClick">
 			<el-tab-pane label="全部" name="100"></el-tab-pane>
 			<el-tab-pane label="待我处理" name="10"></el-tab-pane>
@@ -273,9 +273,13 @@ export default {
 .tabs .tab-content {
   padding: 20px;
 }
-</style><style scoped>
 
-
+#workorder .content img {
+  max-width: 100%;
+  height: auto !important;
+}
+</style>
+<style scoped>
 .detail {
   padding: 20px 0;
   display: flex;
@@ -321,10 +325,6 @@ export default {
   border: 1px dashed #ccc;
 }
 
-.content img {
-  max-width: 100%;
-  height: auto !important;
-}
 .reply {
   background: #eee;
   margin: 10px 0;

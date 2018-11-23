@@ -10,15 +10,13 @@
 				<el-tab-pane label="待审核" name="case/admin/page/"></el-tab-pane>
 			</el-tabs>
 			<el-table :data="list" stripe style="width: 100%" v-show="path=='case/cases/page/'" v-loading="loading">
-				<el-table-column prop="id" label="ID" width="80px" show-overflow-tooltip>
-				</el-table-column>
 				<el-table-column prop="siteName" max-width="160px" label="网站名称" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column prop="domain" label="域名" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column prop="templateCode" width="120px" label="模板编号" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="remark" label="备注" max-width="300px" show-overflow-tooltip>
+				<el-table-column prop="remark" label="备注" max-width="300" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column label="操作" width="200px">
 					<template slot-scope="scope">

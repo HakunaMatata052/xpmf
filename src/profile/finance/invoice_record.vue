@@ -7,15 +7,19 @@
 			<el-tab-pane label="已完成" name="60"></el-tab-pane>
 		</el-tabs>
 		<el-table :data="list" stripe  style="width: 100%">
-			<el-table-column prop="amount" label="开票金额">
+			<el-table-column prop="amount" label="开票金额" width="200">
 				<template slot-scope="scope">
 					<el-button type="success" round size="mini">{{scope.row.amount}}</el-button>
 				</template>
 			</el-table-column>
-			<el-table-column prop="creatime" label="操作时间">
+			<el-table-column prop="creatime" label="操作时间" width="260">
 			</el-table-column>
-			
 			<el-table-column prop="statusString" label="状态">
+				<template slot-scope="scope">
+					<el-tag v-if="scope.row.status==30">{{scope.row.statusString}}</el-tag>
+					<el-tag type="danger" v-else-if="scope.row.status==40">{{scope.row.statusString}}</el-tag>
+					<el-tag type="success" v-else-if="scope.row.status==60">{{scope.row.statusString}}</el-tag>
+				</template>
 			</el-table-column>
 		</el-table>
 		<br />

@@ -1,5 +1,5 @@
 <template>
-	<div class="tabs">
+	<div class="tabs" id="workorder">
 		<el-tabs v-model="path" @tab-click="handleClick">
 			<el-tab-pane label="全部" name="100"></el-tab-pane>
 			<el-tab-pane label="待我处理" name="10"><span slot="label">待我处理</span></el-tab-pane>
@@ -84,13 +84,11 @@
 							<span>{{x.replyer}}</span>
 							<span>{{x.creatime}}</span>
 							<div class="reply-con" v-html="x.body">
-
 							</div>
 						</dd>
 					</dl>
-
-					<br />
-					<el-pagination background layout="total,prev, pager, next" :current-page.sync="replypage" :page-size="replysize" :total="replytotal" @current-change="replyPageFn">
+					<br v-if="replytotal!=0" />
+					<el-pagination background layout="total,prev, pager, next" :current-page.sync="replypage" :page-size="replysize" :total="replytotal" @current-change="replyPageFn" v-if="replytotal!=0">
 					</el-pagination>
 				</div>
 			</div>
@@ -232,13 +230,12 @@ export default {
 		},
 		openWorkorder(id) {
 			var that = this;
-			that.dialogTableVisible = true;
 			that.get_json(that.$store.state.api + 'workorder/' + id, function (data) {
 				that.workorder = data;
 				console.log(that.workorder)
 			});
-			that.getReplyList(id, 1)
-
+			that.getReplyList(id, 1);			
+			that.dialogTableVisible = true;
 		},
 		getReplyList(id, page) {
 			var that = this;
@@ -349,6 +346,10 @@ export default {
 .tabs .tab-content {
   padding: 20px;
 }
+#workorder .content img {
+  max-width: 100%;
+  height: auto !important;
+}
 </style>
 <style scoped>
 .detail {
@@ -394,11 +395,6 @@ export default {
 .content {
   padding: 10px;
   border: 1px dashed #ccc;
-}
-
-.content img {
-  max-width: 100%;
-  height: auto !important;
 }
 .reply {
   background: #eee;

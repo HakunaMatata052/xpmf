@@ -6,32 +6,32 @@
 			<el-tab-pane label="已完成" name="80"></el-tab-pane>
 		</el-tabs>
 		<div class="tab-content">
-			<el-table :data="list" stripe style="width: 100%">
-				<el-table-column prop="orderNo" label="订单编号" width="190px" :key="Math.random()" show-overflow-tooltip>
+			<el-table :data="list" stripe show-summary sum-text="合计（元）" style="width: 100%" >
+				<el-table-column prop="orderNo" label="订单编号" width="190px"  show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="订单明细" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column label="订单明细"  show-overflow-tooltip>
 					<template slot-scope="scope">
 						<p v-for="item in scope.row.orderDetails" :key="item.id">
 							{{item.targetTypeString}}：{{item.goodsName}}
 						</p>
 					</template>
 				</el-table-column>
-				<el-table-column prop="user.username" width="150" label="用户名" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column prop="user.username" width="150" label="用户名"  show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="金额" width="120" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column prop="price" label="金额" width="120" sortable show-overflow-tooltip>
 					<template slot-scope="scope">
 						{{scope.row.price}}元
 					</template>
 				</el-table-column>
-				<el-table-column prop="creatime" label="提交时间" width="200" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column prop="creatime" label="提交时间" width="200" sortable  show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column label="状态" width="100" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column label="状态" width="100"  show-overflow-tooltip>
 					<template slot-scope="scope">
 						<el-tag type="danger" v-if="scope.row.status==10">{{scope.row.statusString}}</el-tag>
 						<el-tag v-else>{{scope.row.statusString}}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column label="已删除" width="80px" :key="Math.random()" show-overflow-tooltip>
+				<el-table-column label="已删除" width="80px"  show-overflow-tooltip>
 					<template slot-scope="scope">
 						<el-tag  type="success" v-if="scope.row.using==true">否</el-tag>
 						<el-tag  type="danger"v-else>是</el-tag>
@@ -92,7 +92,10 @@
 
 				<dl>
 					<dt>角色</dt>
-					<dd>{{orderInfo.user.role}}</dd>
+					<dd>
+						<el-tag v-if="orderInfo.user.role=='Consumer'">客户</el-tag>
+						<el-tag v-else-if="orderInfo.user.role=='Agent'">代理商</el-tag>
+						</dd>
 				</dl>
 				<dl>
 					<dt>手机号码</dt>

@@ -43,7 +43,7 @@ exports.install = function (Vue, options) {
 			})
 		} else {
 			that.$message(that.$store.state.status[status]);
-			//this.goToLogin()
+			this.goToLogin()
 		}
 
 	};
@@ -92,7 +92,7 @@ exports.install = function (Vue, options) {
 			})
 		} else {
 			that.$message(that.$store.state.status[status]);
-			//this.goToLogin()
+			this.goToLogin()
 		}
 
 	};
@@ -147,7 +147,7 @@ exports.install = function (Vue, options) {
 				})
 			} else {
 				that.$message(that.$store.state.status[status]);
-				//this.goToLogin()
+				this.goToLogin()
 			}
 		}).catch(() => {
 			this.$message({
@@ -194,7 +194,7 @@ exports.install = function (Vue, options) {
 			})
 		} else {
 			that.$message(that.$store.state.status[status]);
-			//this.goToLogin()
+			this.goToLogin()
 		}
 
 	};
@@ -218,7 +218,7 @@ exports.install = function (Vue, options) {
 	Vue.prototype.ajax_error = function (status) {
 		var that = this;
 		if (status == 401) {
-			//this.goToLogin()
+			this.goToLogin()
 		} else {
 			that.$message({
 				type: 'error',
@@ -247,12 +247,12 @@ exports.install = function (Vue, options) {
 					});
 				} else {
 					localStorage.clear();
-					//this.goToLogin()
+					this.goToLogin()
 
 				}
 			})
 		} else {
-			//this.goToLogin()
+			this.goToLogin()
 		}
 
 	};

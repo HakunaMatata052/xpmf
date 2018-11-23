@@ -117,7 +117,7 @@
 						<span slot="title">空间管理</span>
 					</el-menu-item>
 
-			<el-submenu index="/admin/order" v-if="admin">
+					<el-submenu index="/admin/order" v-if="admin">
 						<template slot="title">
 							<i class="iconfont icon-caiwujiesuan"></i>
 							<span slot="title">财务管理</span>
@@ -150,32 +150,29 @@
 						<ul class="foot-h-l clearfix">
 							<li>
 								<h4>产品相关</h4>
-								<a href="" target="_blank">全部模板</a>
-								<a href="" target="_blank">推荐用户</a>
+								<a href="/template" target="_blank">全部模板</a>
+								<a href="/case" target="_blank">案例推荐</a>
 							</li>
 							<li>
 								<h4>服务支持</h4>
-								<a href="" target="_blank">相关教程</a>
-								<a href="" target="_blank">常见问题</a>
+								<a href="//help.xpmof.com" target="_blank">相关教程</a>
+								<a href="//help.xpmof.com/62094414" target="_blank">常见问题</a>
 							</li>
 							<li>
 								<h4>关于我们</h4>
-								<a href="" target="_blank">了解我们</a>
+								<a href="/about/details/1" target="_blank">了解我们</a>
 								<a href="" target="_blank">功能介绍</a>
 							</li>
 							<li>
-								<h4>关注我们</h4>
 								<div class="clearfix">
-									<a href="" target="_blank"><i class="iconfont icon-weibo"></i></a>
-									<a href=""><i class="iconfont icon-tubiao215"></i></a>
-									<a href="" target="_blank"><i class="iconfont icon-wechat"></i></a>
+									<img src="//www.xpmof.com/images/erweima.jpg">
 								</div>
 							</li>
 						</ul>
 						<div class="foot-h-r">
 							<p class="title">{{$store.state.siteinfo.phone}}</p>
 							<p class="subtitle">周一至周五：9:00-18:00</p>
-							<a :href="'http://wpa.qq.com/msgrd?V=1&uin='+$store.state.siteinfo.qq+'&Site=xpmof.com&Menu=no'" target="_blank" class="service">24小时在线客服</a>
+							<a :href="'//wpa.qq.com/msgrd?V=1&uin='+$store.state.siteinfo.qq+'&Site=xpmof.com&Menu=no'" target="_blank" class="service">24小时在线客服</a>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -203,9 +200,7 @@ export default {
 		logout() {
 			localStorage.clear();
 			this.$store.state.userinfo = {};
-			this.$router.push({
-				path: "/login"
-			});
+			this.goToLogin()
 		}
 	},
 	created() {
@@ -286,7 +281,7 @@ export default {
   font-size: 16px;
   display: flex;
   align-items: center;
-	min-width: 92px;
+  min-width: 92px;
 }
 .header .avatar {
   margin-right: 10px;

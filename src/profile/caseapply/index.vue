@@ -11,9 +11,9 @@
 				</p>
 			</div>
 			<el-table :data="list" stripe style="width: 100%">
-				<el-table-column prop="siteId" label="ID" width="80">
+				<el-table-column prop="siteName" label="网站名称" width="250">
 				</el-table-column>
-				<el-table-column prop="userSiteBindDomains[0].domain" label="网站域名" width="200">
+				<el-table-column prop="userSiteBindDomains[0].domain" label="网站域名" width="350">
 				</el-table-column>
 				<el-table-column label="是否加入案例展示" width="150">
 					<template slot-scope="scope">
@@ -41,54 +41,54 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				list: [],
-				page: 0,
-				size: 0,
-				total: 0
-			};
+export default {
+	data() {
+		return {
+			list: [],
+			page: 0,
+			size: 0,
+			total: 0
+		};
+	},
+	created() {
+		this.getList(1);
+	},
+	methods: {
+		getList(val) {
+			var that = this;
+			that.get_json(that.$store.state.api + '/case/page/' + val, function (data) {
+				that.list = data.data;
+				that.page = data.page;
+				that.size = data.size;
+				that.total = data.total;
+			})
 		},
-		created() {
-			this.getList(1);
+		putCase(val) {
+			var that = this;
+			that.put_json(that.$store.state.api + 'case/' + val + '/showcase', {}, function (data) {
+				that.$message({
+					type: 'success',
+					message: '提交成功！'
+				});
+				that.getList(that.page);
+			})
 		},
-		methods: {
-			getList(val) {
-				var that = this;
-				that.get_json(that.$store.state.api + '/case/page/' + val, function(data) {
-					that.list = data.data;
-					that.page = data.page;
-					that.size = data.size;
-					that.total = data.total;
-				})
-			},
-			putCase(val) {
-				var that = this;
-				that.put_json(that.$store.state.api + 'case/' + val + '/showcase',{},function(data) {
-					that.$message({
-						type: 'success',
-						message: '提交成功！'
-					});
-					that.getList(that.page);
-				})
-			},
-			pageFn(val) {
-				this.getList(val);
-				this.gotop();
-			}
+		pageFn(val) {
+			this.getList(val);
+			this.gotop();
 		}
 	}
+}
 </script>
 
 <style scoped>
-	.info h4 {
-		font-size: 20px;
-		color: #ee3231;
-		margin-bottom: 10px;
-	}
-	
-	.info p {
-		line-height: 25px;
-	}
+.info h4 {
+  font-size: 20px;
+  color: #ee3231;
+  margin-bottom: 10px;
+}
+
+.info p {
+  line-height: 25px;
+}
 </style>

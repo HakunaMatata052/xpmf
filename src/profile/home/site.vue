@@ -18,7 +18,7 @@
 					<div class="btn-group">
 						<el-button size="small" type="success" @click="bindDomainFn(item.siteId)">绑定域名</el-button>
 						<el-button size="small" type="primary" @click="bindFn('template',item.siteId)">选择模板</el-button>
-						<el-button size="small" @click="bindFn('business',item.siteId)">绑定授权</el-button>
+						<el-button size="small" @click="jump_router('/home/business')">绑定授权</el-button>
 						<el-button size="small" @click="bindFn('host',item.siteId)">绑定空间</el-button>
 						<el-button size="small" @click="bindFn('wuyou',item.siteId)">绑定无忧</el-button>
 						<el-button size="small" @click="bindFn('service',item.siteId)">绑定服务</el-button>

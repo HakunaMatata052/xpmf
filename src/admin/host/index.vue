@@ -110,7 +110,7 @@
 				that.get_json(that.$store.state.api + 'admin/UserSpace/' + id + '/ftp', function(data) {
 						that.form = data;
 						that.form.userSpaceId = id;
-						console.log(that.form)
+						console.log(that.form);
 						that.dialogloading = false;
 				})
 			},

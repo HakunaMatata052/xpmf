@@ -96,7 +96,7 @@
 			},
 			ftpFn(id) {
 				var that = this;
-				that.get_json(that.$store.state.api + 'usersite/' + id + '/ftp', function(data) {
+				that.get_json(that.$store.state.api + 'usersite/' + id + '/spaceftp', function(data) {
 					that.ftplist = data;
 					that.dialogFtp = true;
 				})

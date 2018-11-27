@@ -8,16 +8,20 @@
 					</div>
 					<div class="info">
 						<h3>{{item.template.name}}</h3>
-						<p>编号 : {{item.template.code}}</p>
+						<p><span>编号 : {{item.template.code}}</span>
+							<el-tag v-if="item.userSite!=null">所属网站：{{item.userSite.siteName}}</el-tag>
+						</p>
+						
 						<div class="btn-group" v-if="bind">
 							<el-button size="small" type="success" @click="bindFn(item.id)" v-if="!item.currentUsed">绑定</el-button>
 							<el-tag type="success" v-else>已绑定</el-tag>
 						</div>
-					</div>
+						
 							<div class="btn-group">
 								<el-button size="mini" type="primary" @click="jump_href(item.template.showcase,'_blank')">网站演示</el-button>
 								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.template.id,'_blank')">查看案例</el-button>
 							</div>
+					</div>
 				</div>
 			</el-col>
 		</el-row>
@@ -122,6 +126,9 @@ export default {
   margin: 10px 0;
   line-height: 25px;
   color: #999;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 
 .template-list .info h3 {
@@ -137,7 +144,6 @@ export default {
 
 .template-list .btn-group button {
   flex-grow: 1;
-  margin: 0 5px 5px;
 }
 
 .template-list .del {

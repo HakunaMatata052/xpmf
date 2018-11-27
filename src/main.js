@@ -1,34 +1,31 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 import App from './app.vue'
 import router from './routers'
 import vueResource from 'vue-resource'
-import ElementUI from 'element-ui';
+import ElementUI from 'element-ui'
 
-import 'element-ui/lib/theme-chalk/index.css' 
-import store from './store';
-import base from './utils';
+import 'element-ui/lib/theme-chalk/index.css'
+import store from './store'
+import base from './utils'
 
-	
-Vue.use(base);
-Vue.use(ElementUI);
+Vue.use(base)
+Vue.use(ElementUI)
 Vue.use(VueRouter)
-Vue.use(vueResource);
-//Vue.config.debug = false;
-//Vue.http.options.emulateJSON = true;
+Vue.use(vueResource)
+// Vue.config.debug = false;
+// Vue.http.options.emulateJSON = true;
 
-//Vue.http.options.headers = {
-//'Authorization':'Bearer '+ store.state.token
-//};
-// Vue.http.interceptors.push((request, next) => {
-// 	next((response) => {
-// 		return response
-// 	});
-// });
-
-
+// Vue.http.options.headers = {
+// 'Authorization':'Bearer '+ store.state.token
+// };
+//  Vue.http.interceptors.push((request, next) => {
+//    next((response) => {
+//      return response
+//    });
+//  });
 
 const vue = new Vue({
 	router,

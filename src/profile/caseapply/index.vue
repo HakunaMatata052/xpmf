@@ -17,8 +17,8 @@
 				</el-table-column>
 				<el-table-column label="是否加入案例展示" width="150" align="center">
 					<template slot-scope="scope">
-						<span v-if="scope.row.showcaseStatus!=100">否</span>
-						<span v-else-if="scope.row.showcaseStatus==100">是</span>
+						<span v-if="scope.row.showcaseStatus==30">是</span>
+						<span v-else>否</span>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" align="center"  show-overflow-tooltip>

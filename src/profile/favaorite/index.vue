@@ -23,7 +23,6 @@
 								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.template.id,'_blank')">查看案例</el-button>
 							</div>
 						</div>
-						<div class="btn-group"></div>
 					</div>
 				</el-col>
 			</el-row>
@@ -131,7 +130,6 @@ export default {
 
 .template-list .btn-group button {
   flex-grow: 1;
-  margin: 0 5px 5px;
 }
 
 .template-list .del {

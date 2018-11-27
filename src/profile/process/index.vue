@@ -98,10 +98,10 @@
 			</div>
 			<span slot="footer" class="dialog-footer">
 				<vue-ckeditor v-model="content" :config="config" />
-				<div class="btn-grounp">
+				<div class="btn-grounp">					
+					<el-button type="danger" size="medium" @click="closeWorkorder(workorder.id)" v-if="workorder.status!=50">关闭工单</el-button>
 					<el-button type="info" class="submit" plain v-if="workorder.status==50">本工单已关闭</el-button>
 					<el-button type="primary" class="submit" @click="submitReply(workorder.id)" v-else>提交</el-button>
-					<el-button type="danger" size="medium" @click="closeWorkorder(workorder.id)" v-if="workorder.status!=50">关闭工单</el-button>
 				</div>
 			</span>
 		</el-dialog>
@@ -346,19 +346,19 @@ export default {
 .tabs .tab-content {
   padding: 20px;
 }
-#workorder .content img {
+#workorder .content img ,
+#workorder .reply-list img{
   max-width: 100%;
   height: auto !important;
 }
-</style>
-<style scoped>
-.detail {
+
+#workorder .detail {
   padding: 20px 0;
   display: flex;
   flex-wrap: wrap;
 }
 
-.detail dl {
+#workorder .detail dl {
   display: flex;
   width: 50%;
   padding: 10px 30px 10px 0;
@@ -366,33 +366,33 @@ export default {
   align-items: center;
 }
 
-.detail dt {
+#workorder .detail dt {
   color: #a6a6a6;
   width: 130px;
 }
-.el-dialog {
+#workorder .el-dialog {
   margin: 0 auto;
 }
 
-.el-dialog__body {
+#workorder .el-dialog__body {
   height: 50vh;
   overflow: auto;
 }
 
-.el-dialog__footer {
+#workorder .el-dialog__footer {
   text-align: left;
 }
 
-.el-dialog__footer .submit {
+#workorder .el-dialog__footer .submit {
   width: 100%;
 }
 
-.btn-grounp {
+#workorder .btn-grounp {
   display: flex;
   margin-top: 10px;
 }
 
-.content {
+#workorder .content {
   padding: 10px;
   border: 1px dashed #ccc;
 }
@@ -459,4 +459,6 @@ export default {
 .reply-con em {
   font-style: italic !important;
 }
+</style>
+<style scoped>
 </style>

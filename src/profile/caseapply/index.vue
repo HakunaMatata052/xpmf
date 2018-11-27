@@ -56,7 +56,7 @@ export default {
 	methods: {
 		getList(val) {
 			var that = this;
-			that.get_json(that.$store.state.api + '/case/page/' + val, function (data) {
+			that.get_json(that.$store.state.api + 'case/page/' + val, function (data) {
 				that.list = data.data;
 				that.page = data.page;
 				that.size = data.size;

@@ -1,22 +1,18 @@
 <template>
 	<div id="host">
 		<el-table :data="list" stripe style="width: 100%">
-			<el-table-column prop="id" label="ID" width="80" show-overflow-tooltip>
+			<el-table-column prop="ftpName" label="FTP名称" width="260" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="ftpName" label="FTP名称" max-width="200" show-overflow-tooltip>
+			<el-table-column prop="capacity" label="容量" width="150" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="domain" label="绑定域名" max-width="300" show-overflow-tooltip>
-			</el-table-column>
-			<el-table-column prop="capacity" label="容量" max-width="150" show-overflow-tooltip>
-			</el-table-column>
-			<el-table-column label="到期时间" min-width="160" show-overflow-tooltip>
+			<el-table-column label="到期时间" width="280" show-overflow-tooltip>
 				<template slot-scope="scope">
 					<span class="capacity">{{scope.row.creatime}}</span>
 					<span class="remainDays">剩余{{scope.row.remainDays}}天</span>
 				</template>
 			</el-table-column>
 
-			<el-table-column label="操作" width="100">
+			<el-table-column label="操作" min-width="100">
 				<template slot-scope="scope">
 					<el-button size="small" @click="bindFn(scope.row.id)" type="success" v-if="bind&&!scope.row.currentUsed">绑定</el-button>
 					<el-tag type="success" v-else-if="scope.row.currentUsed">已绑定</el-tag>
@@ -28,7 +24,7 @@
 		<el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 		</el-pagination>
 		<br />
-		<el-button type="primary">去购买</el-button>
+		<el-button type="primary" @click="jump_href('/server')">去购买</el-button>
 		<el-dialog title="FTP信息" :visible.sync="dialogFtp">			
 			<div class="detail">
 				<dl>

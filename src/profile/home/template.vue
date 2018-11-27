@@ -7,10 +7,6 @@
 						<img :src="item.template.fullpathThumbnail" alt="" />
 					</div>
 					<div class="info">
-
-						<div class="del">
-							<el-button icon="el-icon-delete" circle></el-button>
-						</div>
 						<h3>{{item.template.name}}</h3>
 						<p>编号 : {{item.template.code}}</p>
 						<div class="btn-group" v-if="bind">
@@ -18,7 +14,10 @@
 							<el-tag type="success" v-else>已绑定</el-tag>
 						</div>
 					</div>
-					<div class="btn-group"></div>
+							<div class="btn-group">
+								<el-button size="mini" type="primary" @click="jump_href(item.template.showcase,'_blank')">网站演示</el-button>
+								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.template.id,'_blank')">查看案例</el-button>
+							</div>
 				</div>
 			</el-col>
 		</el-row>

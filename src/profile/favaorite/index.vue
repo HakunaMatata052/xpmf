@@ -18,9 +18,9 @@
 							<h3>{{item.templateName}}</h3>
 							<p>编号 : {{item.template.code}}</p>
 							<div class="btn-group">
-								<el-button size="mini" type="danger" @click="jump_href('/order/preview/'+item.templateId,'_blank')">立即购买</el-button>
+								<el-button size="mini" type="danger" @click="jump_href('/order/preview/'+item.template.id,'_blank')">立即购买</el-button>
 								<el-button size="mini" type="primary" @click="jump_href(item.template.showcase,'_blank')">网站演示</el-button>
-								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.templateId,'_blank')">查看案例</el-button>
+								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.template.id,'_blank')">查看案例</el-button>
 							</div>
 						</div>
 						<div class="btn-group"></div>
@@ -53,7 +53,7 @@ export default {
 	methods: {
 		getList(val) {
 			var that = this;
-			that.get_json(that.$store.state.api + '/templatecollection/page/' + val, function (data) {
+			that.get_json(that.$store.state.api + 'templatecollection/page/' + val, function (data) {
 				that.TemplateList = data.data;
 				that.page = data.page;
 				that.size = data.size;
@@ -66,7 +66,7 @@ export default {
 		},
 		del(id) {
 			var that = this;
-			that.del_json(that.$store.state.api + '/templatecollection/' + id, function (data) {
+			that.del_json(that.$store.state.api + 'templatecollection/' + id, function (data) {
 				that.getList(that.page)
 			})
 		}

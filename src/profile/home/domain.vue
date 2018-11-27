@@ -1,13 +1,9 @@
 <template>
 	<div id="template">
 		<el-table :data="list" stripe style="width: 100%">
-			<el-table-column prop="id" label="ID" width="80" show-overflow-tooltip>
+			<el-table-column prop="domain" label="域名" width="260" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column prop="siteName" label="网站名称" show-overflow-tooltip>
-			</el-table-column>
-			<el-table-column prop="domain" label="绑定域名" show-overflow-tooltip>
-			</el-table-column>
-			<el-table-column prop="creatime" label="开始时间" min-width="100" show-overflow-tooltip>
+			<el-table-column prop="creatime" label="开始时间" width="200" show-overflow-tooltip>
 			</el-table-column>
 			<el-table-column label="到期时间" min-width="160" show-overflow-tooltip>
 				<template slot-scope="scope">

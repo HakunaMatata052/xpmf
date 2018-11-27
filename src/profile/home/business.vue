@@ -1,24 +1,22 @@
 <template>
 	<div id="template">
 		<el-table :data="list" stripe style="width: 100%">
-			<el-table-column prop="id" label="ID" width="80" show-overflow-tooltip>
-			</el-table-column>
-			<el-table-column prop="domain" label="绑定域名" show-overflow-tooltip>
+			<el-table-column prop="domain" label="绑定域名" width="260" show-overflow-tooltip>
 				<template slot-scope="scope">
 					<span v-if="scope.row.domain.length==0">暂未授权</span>
 					{{scope.row.domain}}
 				</template>
 			</el-table-column>
-			<el-table-column prop="authorizeDate" label="购买时间" min-width="100" show-overflow-tooltip>
+			<el-table-column prop="authorizeDate" label="购买时间" width="200" show-overflow-tooltip>
 			</el-table-column>
-			<el-table-column label="操作" width="100">
+			<el-table-column label="操作" min-width="100">
 				<template slot-scope="scope">
 					<el-button size="small" @click="dialogBind(scope.row.id)" type="success" v-if="!scope.row.currentUsed">绑定</el-button>
 					<el-tag type="success" v-else>已绑定</el-tag>
 				</template>
 			</el-table-column>
 		</el-table>
-		<br />
+		<br  v-if="total!=0"/>
 		<el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
 		</el-pagination>
 		<br />

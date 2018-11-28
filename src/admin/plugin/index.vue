@@ -3,7 +3,7 @@
     <el-card class="box-card" shadow="never">
       <div slot="header" class="clearfix">
         <span>插件列表</span>
-        <el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新建模板</el-button>
+        <el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新建插件</el-button>
       </div>
       <el-row :gutter="20" class="applist">
         <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list" :key="item.id">

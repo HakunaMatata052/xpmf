@@ -136,7 +136,7 @@
 		methods: {
 			getList() {
 				var that = this;
-				that.get_json(that.$store.state.api + 'admin/FriendUrl/', function(data) {
+				that.get_json(that.$store.state.api + 'FriendUrl/', function(data) {
 					that.list = data;
 					that.loading = false;
 				})
@@ -145,7 +145,7 @@
 				var that = this;
 				that.dialogFormVisible = true;
 				if(id.length != 0) {
-					that.get_json(that.$store.state.api + 'admin/FriendUrl/' + id, function(data) {
+					that.get_json(that.$store.state.api + 'FriendUrl/' + id, function(data) {
 						that.form = data;
 					});
 					that.dialogloading = false;

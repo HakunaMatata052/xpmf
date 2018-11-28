@@ -2,7 +2,7 @@
   <div id="template" v-loading="loading">
     <el-card class="box-card" shadow="never">
       <div slot="header" class="clearfix">
-        <span>模板列表</span>
+        <span>插件列表</span>
         <el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新建模板</el-button>
       </div>
       <el-row :gutter="20" class="applist">

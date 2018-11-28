@@ -17,7 +17,7 @@ exports.install = function (Vue, options) {
 						message: error.data
 					});
 				} else {
-					this.ajax_error(error.status)
+					this.ajax_error(error.status, error.body)
 				}
 			})
 		} else if (that.timex() <= 0) {
@@ -37,7 +37,7 @@ exports.install = function (Vue, options) {
 							message: error.data
 						});
 					} else {
-						this.ajax_error(error.status)
+						this.ajax_error(error.status, error.body)
 					}
 				})
 			})
@@ -65,7 +65,7 @@ exports.install = function (Vue, options) {
 						message: error.data
 					});
 				} else {
-					this.ajax_error(error.status)
+					this.ajax_error(error.status, error.body)
 				}
 			})
 		} else if (that.timex() <= 0) {
@@ -86,7 +86,7 @@ exports.install = function (Vue, options) {
 							message: error.data
 						});
 					} else {
-						this.ajax_error(error.status)
+						this.ajax_error(error.status, error.body)
 					}
 				})
 			})
@@ -119,7 +119,7 @@ exports.install = function (Vue, options) {
 							message: error.data
 						});
 					} else {
-						this.ajax_error(error.status)
+						this.ajax_error(error.status, error.body)
 					}
 
 				})
@@ -141,7 +141,7 @@ exports.install = function (Vue, options) {
 								message: error.data
 							});
 						} else {
-							this.ajax_error(error.status)
+							this.ajax_error(error.status, error.body)
 						}
 					})
 				})
@@ -169,7 +169,7 @@ exports.install = function (Vue, options) {
 					fn(res.data);
 				}
 			}, error => {
-				this.ajax_error(error.status)
+				this.ajax_error(error.status, error.body)
 			})
 		} else if (that.timex() <= 0) {
 			that.refresh_token(function () {
@@ -188,7 +188,7 @@ exports.install = function (Vue, options) {
 							message: error.data
 						});
 					} else {
-						this.ajax_error(error.status)
+						this.ajax_error(error.status, error.body)
 					}
 				})
 			})
@@ -215,14 +215,15 @@ exports.install = function (Vue, options) {
 
 	};
 	//Ajax请求错误执行的函数
-	Vue.prototype.ajax_error = function (status) {
+	Vue.prototype.ajax_error = function (status, msg) {
 		var that = this;
 		if (status == 401) {
 			this.goToLogin()
 		} else {
+			var message = (msg !== "" || msg !== null || msg !== undefined) ? (that.$store.state.status[status] + ": " + msg) : (that.$store.state.status[status])
 			that.$message({
 				type: 'error',
-				message: that.$store.state.status[status]
+				message: message
 			});
 			//console.info(error)
 		}
@@ -277,7 +278,7 @@ exports.install = function (Vue, options) {
 
 	// 跳转登录页
 	Vue.prototype.goToLogin = function () {
-		if (this.$route.path=='/login') {
+		if (this.$route.path == '/login') {
 			return false;
 		} else {
 			this.$store.state.num++;
@@ -286,6 +287,6 @@ exports.install = function (Vue, options) {
 				path: '/login'
 			})
 		}
-		
+
 	}
 };

@@ -16,9 +16,10 @@ export default new vuex.Store({
       404: '没有找到相关信息！',
       409: '用户名已存在！',
       450: '旧密码不正确！',
-      500: '程序发生错误！'
+      500: '程序发生错误！',
+      550: "操作失败"
     },
-    callbackUrl:'/',
+    callbackUrl: '/',
     login: {
       token: '',
       role: '',
@@ -34,10 +35,10 @@ export default new vuex.Store({
     alipay: '',
     domain: '',
     notice: true,
-    num:0,
+    num: 0,
   },
   mutations: {
-    domainURI (url) {
+    domainURI(url) {
       var durl = /http:\/\/([^\/]+)\//i;
       var domain = url.match(durl)
       return domain[1]

@@ -17,7 +17,7 @@
 							<el-tag type="success" v-else>已绑定</el-tag>
 						</div>
 						
-							<div class="btn-group">
+							<div class="btn-group" v-else>
 								<el-button size="mini" type="primary" @click="jump_href(item.template.showcase,'_blank')">网站演示</el-button>
 								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.template.id,'_blank')">查看案例</el-button>
 							</div>
@@ -121,10 +121,15 @@ export default {
   padding: 20px;
   background: #fbfbfb;
 }
+.template-list .info span {
+	width: 50%;
+	overflow: hidden;
+}
 
 .template-list .info p {
   margin: 10px 0;
   line-height: 25px;
+	height: 25px;
   color: #999;
 	display: flex;
 	justify-content: space-between;

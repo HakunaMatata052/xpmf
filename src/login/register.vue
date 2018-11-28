@@ -7,7 +7,6 @@
 				<i slot="suffix" class="el-input__icon el-icon-edit"></i>
 			</el-input>
 			<div class="em"></div>
-
 			<el-input placeholder="公司名称" v-model="reg.companyName" class="login-input" @keyup.enter.native="regFn">
 				<i slot="suffix" class="el-input__icon el-icon-edit"></i>
 			</el-input>

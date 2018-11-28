@@ -5,7 +5,7 @@
 			<el-tab-pane label="待我处理" name="10"><span slot="label">待我处理</span></el-tab-pane>
 			<el-tab-pane label="未受理" name="20"></el-tab-pane>
 			<el-tab-pane label="处理中" name="30"></el-tab-pane>
-			<el-tab-pane label="已关闭" name="50"></el-tab-pane>
+			<el-tab-pane label="已完成" name="50"></el-tab-pane>
 		</el-tabs>
 		<div class="tab-content">
 			<el-alert title="现在是上班时间，增值技术支持服务工单响应时间为30分钟，执行人为开发、前端部门以及分类为售后投诉的工单处理时间一般为2-3个工作日，谢谢理解！" type="warning">
@@ -25,7 +25,8 @@
 				</el-table-column>
 				<el-table-column prop="statusString" label="状态" width="200px">
 					<template slot-scope="scope">
-						<el-tag type="danger" v-if="scope.row.status==50">{{scope.row.statusString}}</el-tag>
+						<el-tag type="success" v-if="scope.row.status==50">{{scope.row.statusString}}</el-tag>
+						<el-tag type="primary" v-else-if="scope.row.status==30">{{scope.row.statusString}}</el-tag>
 						<el-tag v-else>{{scope.row.statusString}}</el-tag>
 					</template>
 				</el-table-column>
@@ -211,7 +212,7 @@ export default {
 			var that = this;
 			var url = 'workorder/status/' + type + '/page/' + val
 			if (type == 10) {
-				url = '/workorder/mine/page/' + val
+				url = 'workorder/mine/page/' + val
 			}
 			that.get_json(that.$store.state.api + url, function (data) {
 				that.list = data.data;

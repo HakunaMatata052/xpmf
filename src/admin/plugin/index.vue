@@ -38,7 +38,7 @@
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="缩略图" label-width="120px" prop="Thumbnail">
+            <el-form-item label="缩略图" label-width="120px" prop="fullpathThumbnail">
               <el-upload
                 class="img-uploader"
                 name="upload"

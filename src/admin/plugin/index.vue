@@ -38,7 +38,7 @@
         </el-form-item>
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-form-item label="缩略图" label-width="120px">
+            <el-form-item label="缩略图" label-width="120px" prop="Thumbnail">
               <el-upload
                 class="img-uploader"
                 name="upload"
@@ -69,7 +69,16 @@
               </el-upload>
               <i class="el-icon-success" v-if="sourceState"></i>
             </el-form-item>
-            <el-form-item label="模板价格" label-width="120px">
+            <el-form-item
+              label="插件价格"
+              label-width="120px"
+              prop="price"
+              :rules=" [
+          { required: true, message: '价格不能为空' },
+          { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额' },
+          { max: 6, message: '金额过大' },
+        ]"
+            >
               <el-input v-model="form.price"></el-input>
             </el-form-item>
             <el-form-item label="排序" label-width="120px">
@@ -77,10 +86,10 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="摘要" label-width="120px">
+        <el-form-item label="摘要" label-width="120px" prop="description">
           <el-input v-model="form.description" type="textarea"></el-input>
         </el-form-item>
-        <el-form-item label="内容" label-width="120px">
+        <el-form-item label="内容" label-width="120px" prop="content">
           <vue-ckeditor v-model="form.content" :config="config" types="Basic"/>
         </el-form-item>
       </el-form>
@@ -119,22 +128,26 @@ export default {
           message: '长度在 2 到 20 个字符',
           trigger: 'blur'
         }],
-        showcase: {
-          required: true,
-          message: '请输入案例地址（以http://开头）',
-          trigger: 'blur'
-        },
         source: {
           required: true,
           message: '请上传模板',
           trigger: 'blur'
         },
-
-        categoryId: [{
+        Thumbnail: {
           required: true,
-          message: '请选择类别',
-          trigger: 'change'
-        }]
+          message: '请上传缩略图',
+          trigger: 'blur'
+        },
+        description: {
+          required: true,
+          message: '请输入摘要',
+          trigger: 'blur'
+        },
+        content: {
+          required: true,
+          message: '请输入内容',
+          trigger: 'blur'
+        },
       },
       categories: [],
       sourceState: false,
@@ -156,7 +169,7 @@ export default {
     this.getList(1);
     this.headers.Authorization = 'Bearer ' + localStorage.getItem('token');
     this.config.fileTools_requestHeaders.Authorization = 'Bearer ' + localStorage.getItem('token');
-    this.config.filebrowserImageUploadUrl = this.$store.state.pic + 'api/News/picture';
+    this.config.filebrowserImageUploadUrl = this.$store.state.pic + 'api/admin/plugin/picture';
   },
   methods: {
     getList(val) {
@@ -241,7 +254,7 @@ export default {
       this.$set(this.form, 'fullpathThumbnail', URL.createObjectURL(file.raw));
     },
     beforeThumbnailUpload(file) {
-      const isJPG = file.type === 'image/jpeg||image/png';
+      const isJPG = file.type === 'image/jpeg' || 'image/png';
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {

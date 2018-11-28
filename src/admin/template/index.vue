@@ -53,7 +53,11 @@
 						<el-form-item label="模板编号" label-width="120px">
 							<el-input v-model="form.code"></el-input>
 						</el-form-item>
-						<el-form-item label="模板价格" label-width="120px">
+						<el-form-item label="模板价格" label-width="120px" prop="price" :rules="[
+          { required: true, message: '价格不能为空' },
+          { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额' },
+          { max: 6, message: '金额过大' },
+        ]">
 							<el-input v-model="form.price"></el-input>
 						</el-form-item>
 					</el-col>

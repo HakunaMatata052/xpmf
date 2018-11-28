@@ -132,6 +132,11 @@
             <i class="iconfont icon-yun"></i>
             <span slot="title">空间管理</span>
           </el-menu-item>
+          
+          <el-menu-item index="/admin/plugin" v-if="admin">
+            <i class="iconfont icon-plugin"></i>
+            <span slot="title">插件管理</span>
+          </el-menu-item>
 
           <el-submenu index="/admin/order" v-if="admin">
             <template slot="title">

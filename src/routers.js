@@ -39,6 +39,7 @@ var admin_host = r => require.ensure([], () => r(require('./admin/host/index.vue
 var links = r => require.ensure([], () => r(require('./admin/links/index.vue')), 'links')
 var admin_invoice = r => require.ensure([], () => r(require('./admin/finance/invoice/index.vue')), 'admin_invoice')
 var admin_order = r => require.ensure([], () => r(require('./admin/finance/order/index.vue')), 'admin_order')
+var plugin = r => require.ensure([], () => r(require('./admin/plugin/index.vue')), 'plugin')
 
 // 公用
 var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login')
@@ -338,6 +339,13 @@ const router = new VueRouter({
       // redirect: 'site',
       meta: {
         title: '订单管理'
+      }
+    },
+    {
+      path: '/admin/plugin',
+      component: plugin,
+      meta: {
+        title: '插件管理'
       }
     }
     ]

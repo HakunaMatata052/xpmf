@@ -85,7 +85,7 @@
 					});
 					that.dialogloading = false;
 				}else{
-					that.loading = false;
+					that.dialogloading = false;
 				}
 			},
 			edit(formName, val) {

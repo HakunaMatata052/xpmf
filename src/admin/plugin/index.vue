@@ -81,7 +81,7 @@
               <el-input v-model="form.price"></el-input>
             </el-form-item>
             <el-form-item label="排序" label-width="120px">
-              <el-input v-model="form.ordering"></el-input>
+              <el-input v-model="form.sorting"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

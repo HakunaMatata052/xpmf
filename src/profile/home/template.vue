@@ -1,86 +1,134 @@
 <template>
-	<div id="template">
-		<el-row :gutter="20">
-			<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list" :key="item.id">
-				<div class="template-list">
-					<div class="img">
-						<img :src="item.template.fullpathThumbnail" alt="" />
-					</div>
-					<div class="info">
-						<h3>{{item.template.name}}</h3>
-						<p><span>编号 : {{item.template.code}}</span>
-							<el-tag v-if="item.userSite!=null">所属网站：{{item.userSite.siteName}}</el-tag>
-						</p>
-						
-						<div class="btn-group" v-if="bind">
-							<el-button size="small" type="success" @click="bindFn(item.id)" v-if="!item.currentUsed">绑定</el-button>
-							<el-tag type="success" v-else>已绑定</el-tag>
-						</div>
-						
-							<div class="btn-group" v-else>
-								<el-button size="mini" type="primary" @click="jump_href(item.template.showcase,'_blank')">网站演示</el-button>
-								<el-button size="mini" type="success" @click="jump_href('/case/template/'+item.template.id,'_blank')">查看案例</el-button>
-							</div>
-					</div>
-				</div>
-			</el-col>
-		</el-row>
-		<br>
-		<el-pagination background layout="total,prev, pager, next" :current-page.sync="page" :page-size="size" :total="total" @current-change="pageFn" v-if="total!=0">
-		</el-pagination>
-		<br />
-		<el-button type="primary" @click="jump_href('/template','_blank')">去购买</el-button>
-	</div>
+  <div id="template">
+    <el-row :gutter="20">
+      <el-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+        :lg="6"
+        :xl="6"
+        v-for="item in list"
+        :key="item.id"
+      >
+        <div class="template-list">
+          <div class="img">
+            <img
+              :src="item.template.fullpathThumbnail"
+              alt=""
+            />
+          </div>
+          <div class="info">
+            <h3>{{item.template.name}}</h3>
+            <p><span>编号 : {{item.template.code}}</span>
+            </p>
+            <p>
+              所属网站：<el-tag
+                v-if="item.userSite!=null"
+                style="width:220px;"
+              >{{item.userSite.siteName}}</el-tag>
+            </p>
+            <div
+              class="btn-group"
+              v-if="bind"
+            >
+              <el-button
+                size="small"
+                type="success"
+                @click="bindFn(item.id)"
+                v-if="!item.currentUsed"
+              >绑定</el-button>
+              <el-tag
+                type="success"
+                v-else
+              >已绑定</el-tag>
+            </div>
+
+            <div
+              class="btn-group"
+              v-else
+            >
+              <el-button
+                size="mini"
+                type="primary"
+                @click="jump_href(item.template.showcase,'_blank')"
+              >网站演示</el-button>
+              <el-button
+                size="mini"
+                type="success"
+                @click="jump_href('/case/template/'+item.template.id,'_blank')"
+              >查看案例</el-button>
+            </div>
+          </div>
+        </div>
+      </el-col>
+    </el-row>
+    <br>
+    <el-pagination
+      background
+      layout="total,prev, pager, next"
+      :current-page.sync="page"
+      :page-size="size"
+      :total="total"
+      @current-change="pageFn"
+      v-if="total!=0"
+    >
+    </el-pagination>
+    <br />
+    <el-button
+      type="primary"
+      @click="jump_href('/template','_blank')"
+    >去购买</el-button>
+  </div>
 </template>
 
 <script>
 export default {
-	data() {
-		return {
-			bind: false,
-			apiUrl: 'usertemplate/page/',
-			list: [],
-			page: 0,
-			size: 0,
-			total: 0
-		};
-	},
-	created() {
-		if (this.$route.params.id) {
-			this.bind = true;
-			this.apiUrl = 'UserTemplate/unused/site/'+this.$route.params.id+'/page/'
-		}
-		this.getList(1);
-	},
-	methods: {
-		getList(val) {
-			var that = this;
-			that.get_json(that.$store.state.api + that.apiUrl + val, function (data) {
-				that.list = data.data;
-				that.page = data.page;
-				that.size = data.size;
-				that.total = data.total;
-			});
+  data() {
+    return {
+      bind: false,
+      apiUrl: 'usertemplate/page/',
+      list: [],
+      page: 0,
+      size: 0,
+      total: 0
+    };
+  },
+  created() {
+    if (this.$route.params.id) {
+      this.bind = true;
+      this.apiUrl = 'UserTemplate/unused/site/' + this.$route.params.id + '/page/'
+    }
+    this.getList(1);
+  },
+  methods: {
+    getList(val) {
+      var that = this;
+      that.get_json(that.$store.state.api + that.apiUrl + val, function (data) {
+        that.list = data.data;
+        that.page = data.page;
+        that.size = data.size;
+        that.total = data.total;
+      });
 
-		},
-		pageFn(val) {
-			this.getList(val);
-			this.gotop();
-		},
-		bindFn(id) {
-			var that = this;
-			that.post_json(that.$store.state.api + 'UserSite/bind/template', {
-				UserSiteId: that.$route.params.id,
-				UserTemplateId: id
-			}, function (data) {
-				that.$message({
-					type: 'success',
-					message: '绑定成功！'
-				});
-				that.$store.state.dialogbind = false;
-			})
-		}
-	}
+    },
+    pageFn(val) {
+      this.getList(val);
+      this.gotop();
+    },
+    bindFn(id) {
+      var that = this;
+      that.post_json(that.$store.state.api + 'UserSite/bind/template', {
+        UserSiteId: that.$route.params.id,
+        UserTemplateId: id
+      }, function (data) {
+        that.$message({
+          type: 'success',
+          message: '绑定成功！'
+        });
+        that.$store.state.dialogbind = false;
+      })
+    }
+  }
 }
 </script>
 
@@ -121,19 +169,18 @@ export default {
   padding: 20px;
   background: #fbfbfb;
 }
-.template-list .info span {
-	width: 50%;
-	overflow: hidden;
+.template-list .info p {
+  overflow: hidden;
 }
 
 .template-list .info p {
   margin: 10px 0;
   line-height: 25px;
-	height: 25px;
+  height: 25px;
   color: #999;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .template-list .info h3 {

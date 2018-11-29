@@ -1,52 +1,30 @@
 <template>
   <div id="template">
     <el-row :gutter="20">
-      <el-col
-        :xs="24"
-        :sm="12"
-        :md="8"
-        :lg="6"
-        :xl="6"
-        v-for="item in list"
-        :key="item.id"
-      >
+      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list" :key="item.id">
         <div class="template-list">
           <div class="img">
-            <img
-              :src="item.template.fullpathThumbnail"
-              alt=""
-            />
+            <img :src="item.template.fullpathThumbnail" alt>
           </div>
           <div class="info">
             <h3>{{item.template.name}}</h3>
-            <p><span>编号 : {{item.template.code}}</span>
-            </p>
             <p>
-              所属网站：<el-tag
-                v-if="item.userSite!=null"
-                style="width:220px;"
-              >{{item.userSite.siteName}}</el-tag>
+              <span>编号 : {{item.template.code}}</span>
             </p>
-            <div
-              class="btn-group"
-              v-if="bind"
-            >
+            <p>所属网站：
+              <el-tag v-if="item.userSite!=null" class="tag">{{item.userSite.siteName}}</el-tag>
+            </p>
+            <div class="btn-group" v-if="bind">
               <el-button
                 size="small"
                 type="success"
                 @click="bindFn(item.id)"
                 v-if="!item.currentUsed"
               >绑定</el-button>
-              <el-tag
-                type="success"
-                v-else
-              >已绑定</el-tag>
+              <el-tag type="success" v-else>已绑定</el-tag>
             </div>
 
-            <div
-              class="btn-group"
-              v-else
-            >
+            <div class="btn-group" v-else>
               <el-button
                 size="mini"
                 type="primary"
@@ -71,13 +49,9 @@
       :total="total"
       @current-change="pageFn"
       v-if="total!=0"
-    >
-    </el-pagination>
-    <br />
-    <el-button
-      type="primary"
-      @click="jump_href('/template','_blank')"
-    >去购买</el-button>
+    ></el-pagination>
+    <br>
+    <el-button type="primary" @click="jump_href('/template','_blank')">去购买</el-button>
   </div>
 </template>
 
@@ -170,10 +144,6 @@ export default {
   background: #fbfbfb;
 }
 .template-list .info p {
-  overflow: hidden;
-}
-
-.template-list .info p {
   margin: 10px 0;
   line-height: 25px;
   height: 25px;
@@ -182,10 +152,18 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-
+.template-list .info .tag{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 220px;
+}
 .template-list .info h3 {
   margin: 0;
   font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .template-list .btn-group {

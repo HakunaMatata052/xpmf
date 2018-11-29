@@ -6,7 +6,7 @@
         <el-button type="primary" style="margin-left: 30px;" @click="editDialog('')">新建插件</el-button>
       </div>
       <el-row :gutter="20" class="applist">
-        <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list" :key="item.id">
+        <el-col :xs="24" :sm="24/2" :md="24/2" :lg="24/3" :xl="24/4" v-for="item in list" :key="item.id">
           <div class="item">
             <img :src="item.fullpathThumbnail" alt>
             <div class="info">
@@ -73,10 +73,7 @@
               label="插件价格"
               label-width="120px"
               prop="price"
-              :rules=" [
-          { required: true, message: '价格不能为空',required: true },
-          { pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额' }
-        ]"
+              :rules=" [{required: true, message: '价格不能为空',required: true },{ pattern: /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, message: '请输入正确的金额' }]"
             >
               <el-input v-model="form.price"></el-input>
             </el-form-item>
@@ -85,6 +82,10 @@
             </el-form-item>
           </el-col>
         </el-row>
+        
+        <el-form-item label="界面地址" label-width="120px" prop="path">
+          <el-input v-model="form.path"></el-input>
+        </el-form-item>
         <el-form-item label="摘要" label-width="120px" prop="description">
           <el-input v-model="form.description" type="textarea"></el-input>
         </el-form-item>
@@ -143,6 +144,11 @@ export default {
           trigger: 'blur'
         },
         content: {
+          required: true,
+          message: '请输入内容',
+          trigger: 'blur'
+        },
+        path: {
           required: true,
           message: '请输入内容',
           trigger: 'blur'
@@ -316,7 +322,9 @@ export default {
   overflow: hidden;
   color: #666;
 }
-
+.btn-group{
+    display: flex;
+}
 .img-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;

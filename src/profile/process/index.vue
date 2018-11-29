@@ -13,8 +13,6 @@
 			<el-table :data="list" stripe style="width: 100%">
 				<el-table-column prop="title" label="工单标题">
 				</el-table-column>
-				<el-table-column prop="consumerUsername" label="用户名">
-				</el-table-column>
 				<el-table-column prop="typeString" label="类型" width="200px">
 					<template slot-scope="scope">
 						<el-tag type="success">{{scope.row.typeString}}

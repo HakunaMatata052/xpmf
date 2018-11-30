@@ -220,7 +220,7 @@ exports.install = function (Vue, options) {
     if (status == 401) {
       this.goToLogin()
     } else {
-      var message = (msg !== "" || msg !== null || msg !== undefined) ? (that.$store.state.status[status] + ": " + msg) : (that.$store.state.status[status])
+      var message = (msg !== "" && msg !== null && msg !== undefined) ? (that.$store.state.status[status] + ": " + msg) : (that.$store.state.status[status]);
       that.$message({
         type: 'error',
         message: message

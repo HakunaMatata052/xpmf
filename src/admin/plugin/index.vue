@@ -13,8 +13,8 @@
               <div class="title">{{item.name}}</div>
               <p>{{item.description}}</p>
               <div class="btn-group">
-                <el-button size="mini" type="primary" @click="editDialog(item.id)">编辑模板</el-button>
-                <el-button size="mini" type="danger" @click="del(item.id)">删除模板</el-button>
+                <el-button size="mini" type="primary" @click="editDialog(item.id)">编辑插件</el-button>
+                <el-button size="mini" type="danger" @click="del(item.id)">删除插件</el-button>
               </div>
             </div>
           </div>

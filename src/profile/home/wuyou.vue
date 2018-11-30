@@ -31,7 +31,7 @@
         show-overflow-tooltip
       >
         <template slot-scope="scope">
-          <span class="capacity">{{scope.row.creatime}}</span>
+          <span class="capacity">{{scope.row.expres}}</span>
           <span class="remainDays">剩余{{scope.row.remainDays}}天</span>
         </template>
       </el-table-column>

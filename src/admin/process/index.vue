@@ -214,18 +214,21 @@ export default {
       });
     },
     submitReply(id) {
-      var that = this;
-      that.post_json(that.$store.state.api + 'workorder/' + id + '/reply', {
-        workeruserid: id,
-        body: that.content
-      }, function (data) {
-        that.content = '';
-        that.$message({
-          type: 'success',
-          message: '提交成功！'
+      var that = this; if (that.content.length == 0) {
+        that.$message.error('请填写回复内容')
+      } else {
+        that.post_json(that.$store.state.api + 'workorder/' + id + '/reply', {
+          workeruserid: id,
+          body: that.content
+        }, function (data) {
+          that.content = '';
+          that.$message({
+            type: 'success',
+            message: '提交成功！'
+          });
+          that.getReplyList(id, that.replypage)
         });
-        that.getReplyList(id, that.replypage)
-      });
+      }
     },
 
     replyPageFn(val) {

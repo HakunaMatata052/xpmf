@@ -19,7 +19,7 @@
 				<i slot="suffix" class="el-input__icon el-icon-view"></i>
 			</el-input>
 			<div class="em"></div>
-			<el-button type="primary" class="submit" @click="regFn">注册</el-button>
+			<el-button type="danger" class="submit" @click="regFn">注册</el-button>
 			<div class="em"></div>
 			<p>已经有账号了? 去
 				<router-link to="/login">登陆</router-link>

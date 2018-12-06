@@ -10,7 +10,7 @@
 				<i slot="suffix" class="el-input__icon el-icon-view"></i>
 			</el-input>
 			<div class="em"></div>
-			<el-button type="primary" native-type="submit"  class="submit" @click="loginFn">登陆</el-button>
+			<el-button type="danger" native-type="submit"  class="submit" @click="loginFn">登陆</el-button>
 			<div class="em"></div>
 			<p>没有账号? 去
 				<router-link to="/register">注册</router-link>

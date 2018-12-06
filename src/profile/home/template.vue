@@ -1,10 +1,21 @@
 <template>
   <div id="template">
     <el-row :gutter="20">
-      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list" :key="item.id">
+      <el-col
+        :xs="24"
+        :sm="12"
+        :md="8"
+        :lg="6"
+        :xl="6"
+        v-for="item in list"
+        :key="item.id"
+      >
         <div class="template-list">
           <div class="img">
-            <img :src="item.template.fullpathThumbnail" alt>
+            <img
+              :src="item.template.fullpathThumbnail"
+              alt
+            >
           </div>
           <div class="info">
             <h3>{{item.template.name}}</h3>
@@ -12,23 +23,35 @@
               <span>编号 : {{item.template.code}}</span>
             </p>
             <p>所属网站：
-              <el-tag v-if="item.userSite!=null" class="tag">{{item.userSite.siteName}}</el-tag>
+              <el-tag
+                v-if="item.userSite!=null"
+                class="tag"
+              >{{item.userSite.siteName}}</el-tag>
             </p>
-            <div class="btn-group" v-if="bind">
+            <div
+              class="btn-group"
+              v-if="bind"
+            >
               <el-button
                 size="small"
                 type="success"
                 @click="bindFn(item.id)"
                 v-if="!item.currentUsed"
               >绑定</el-button>
-              <el-tag type="success" v-else>已绑定</el-tag>
+              <el-tag
+                type="success"
+                v-else
+              >已绑定</el-tag>
             </div>
 
-            <div class="btn-group" v-else>
+            <div
+              class="btn-group"
+              v-else
+            >
               <el-button
                 size="mini"
                 type="primary"
-                @click="jump_href(item.template.showcase,'_blank')"
+                @click="jump_href(item.case.domain,'_blank')"
               >网站演示</el-button>
               <el-button
                 size="mini"
@@ -51,7 +74,10 @@
       v-if="total!=0"
     ></el-pagination>
     <br>
-    <el-button type="primary" @click="jump_href('/template','_blank')">去购买</el-button>
+    <el-button
+      type="primary"
+      @click="jump_href('/template','_blank')"
+    >去购买</el-button>
   </div>
 </template>
 
@@ -152,7 +178,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.template-list .info .tag{
+.template-list .info .tag {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

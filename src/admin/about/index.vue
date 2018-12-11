@@ -10,7 +10,16 @@
                 </el-table-column>
                 <el-table-column prop="title" label="标题" show-overflow-tooltip>
                 </el-table-column>
-                <el-table-column prop="ordering" label="排序" max-width="80">
+                <el-table-column prop="sorting" label="排序" max-width="80">
+                </el-table-column>
+                
+                <el-table-column prop="seoTitle" label="SEO标题" max-width="80">
+                </el-table-column>
+                
+                <el-table-column prop="seoKeywords" label="SEO关键词" max-width="80">
+                </el-table-column>
+                
+                <el-table-column prop="seoDescription" label="SEO描述" max-width="80">
                 </el-table-column>
                 <el-table-column label="操作" width="200">
                     <template slot-scope="scope">

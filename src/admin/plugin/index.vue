@@ -196,7 +196,7 @@ export default {
       that.dialogFormVisible = true;
       if (id.length != 0) {
         that.get_json(that.$store.state.api + 'Plugin/' + id, function (data) {
-          that.form = data;
+          that.form = data.plugin;
           that.dialogloading = false;
         });
       } else {

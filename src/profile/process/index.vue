@@ -1,37 +1,90 @@
 <template>
-  <div class="tabs" id="workorder">
-    <el-tabs v-model="path" @tab-click="handleClick">
-      <el-tab-pane label="全部" name="100"></el-tab-pane>
-      <el-tab-pane label="待我处理" name="10">
+  <div
+    class="tabs"
+    id="workorder"
+  >
+    <el-tabs
+      v-model="path"
+      @tab-click="handleClick"
+    >
+      <el-tab-pane
+        label="全部"
+        name="100"
+      ></el-tab-pane>
+      <el-tab-pane
+        label="待我处理"
+        name="10"
+      >
         <span slot="label">待我处理</span>
       </el-tab-pane>
-      <el-tab-pane label="未受理" name="20"></el-tab-pane>
-      <el-tab-pane label="处理中" name="30"></el-tab-pane>
-      <el-tab-pane label="已完成" name="50"></el-tab-pane>
+      <el-tab-pane
+        label="未受理"
+        name="20"
+      ></el-tab-pane>
+      <el-tab-pane
+        label="处理中"
+        name="30"
+      ></el-tab-pane>
+      <el-tab-pane
+        label="已完成"
+        name="50"
+      ></el-tab-pane>
     </el-tabs>
     <div class="tab-content">
       <el-alert
-        title="现在是上班时间，增值技术支持服务工单响应时间为30分钟，执行人为开发、前端部门以及分类为售后投诉的工单处理时间一般为2-3个工作日，谢谢理解！"
+        title="现在是上班时间啊，增值技术支持服务工单响应时间为30分钟，执行人为开发、前端部门以及分类为售后投诉的工单处理时间一般为2-3个工作日，谢谢理解！"
         type="warning"
       ></el-alert>
-      <el-table :data="list" stripe style="width: 100%">
-        <el-table-column prop="title" label="工单标题"></el-table-column>
-        <el-table-column prop="typeString" label="类型" width="200px">
+      <el-table
+        :data="list"
+        stripe
+        style="width: 100%"
+      >
+        <el-table-column
+          prop="title"
+          label="工单标题"
+        ></el-table-column>
+        <el-table-column
+          prop="typeString"
+          label="类型"
+          width="200px"
+        >
           <template slot-scope="scope">
             <el-tag type="success">{{scope.row.typeString}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="updatime" label="更新时间" width="200px"></el-table-column>
-        <el-table-column prop="statusString" label="状态" width="200px">
+        <el-table-column
+          prop="updatime"
+          label="更新时间"
+          width="200px"
+        ></el-table-column>
+        <el-table-column
+          prop="statusString"
+          label="状态"
+          width="200px"
+        >
           <template slot-scope="scope">
-            <el-tag type="success" v-if="scope.row.status==50">{{scope.row.statusString}}</el-tag>
-            <el-tag type="primary" v-else-if="scope.row.status==30">{{scope.row.statusString}}</el-tag>
+            <el-tag
+              type="success"
+              v-if="scope.row.status==50"
+            >{{scope.row.statusString}}</el-tag>
+            <el-tag
+              type="primary"
+              v-else-if="scope.row.status==30"
+            >{{scope.row.statusString}}</el-tag>
             <el-tag v-else>{{scope.row.statusString}}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200px">
+        <el-table-column
+          label="操作"
+          width="200px"
+        >
           <template slot-scope="scope">
-            <el-button type="primary" size="primary" @click="openWorkorder(scope.row.id)">查看详情</el-button>
+            <el-button
+              type="primary"
+              size="primary"
+              @click="openWorkorder(scope.row.id)"
+            >查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -46,7 +99,10 @@
         v-if="total!=0"
       ></el-pagination>
       <br>
-      <el-button type="primary" @click="newWorkorderDialog=true">提交新工单</el-button>
+      <el-button
+        type="primary"
+        @click="newWorkorderDialog=true"
+      >提交新工单</el-button>
     </div>
     <el-dialog
       title="工单详情"
@@ -73,7 +129,7 @@
             <el-tag>{{workorder.typeString}}</el-tag>
           </dd>
         </dl>
-        <dl>    
+        <dl>
           <dt>当前状态</dt>
           <dd>{{workorder.statusString}}</dd>
         </dl>
@@ -88,18 +144,31 @@
           <dd>{{workorder.updatime}}</dd>
         </dl>
       </div>
-      <div class="content" v-html="workorder.description"></div>
-      <div class="reply" v-loading="replyLoad" v-if="replyList.length!=0">
+      <div
+        class="content"
+        v-html="workorder.description"
+      ></div>
+      <div
+        class="reply"
+        v-loading="replyLoad"
+        v-if="replyList.length!=0"
+      >
         <h2>回复交流区</h2>
         <div class="reply-list">
-          <dl v-for="x in replyList" :key="x.id">
+          <dl
+            v-for="x in replyList"
+            :key="x.id"
+          >
             <dt>
               <img :src="x.fullReplyerAvatar">
             </dt>
             <dd>
               <span>{{x.replyer}}</span>
               <span>{{x.creatime}}</span>
-              <div class="reply-con" v-html="x.body"></div>
+              <div
+                class="reply-con"
+                v-html="x.body"
+              ></div>
             </dd>
           </dl>
           <br v-if="replytotal!=0">
@@ -114,12 +183,21 @@
           ></el-pagination>
         </div>
       </div>
-      <div class="reply" v-else>
+      <div
+        class="reply"
+        v-else
+      >
         <h2>回复交流区</h2>
         <p class="tip">暂无内容</p>
       </div>
-      <span slot="footer" class="dialog-footer">
-        <vue-ckeditor v-model="content" :config="config"/>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <vue-ckeditor
+          v-model="content"
+          :config="config"
+        />
         <div class="btn-grounp">
           <el-button
             type="danger"
@@ -127,31 +205,83 @@
             @click="closeWorkorder(workorder.id)"
             v-if="workorder.status!=50"
           >关闭工单</el-button>
-          <el-button type="info" class="submit" plain v-if="workorder.status==50">本工单已关闭</el-button>
-          <el-button type="primary" class="submit" @click="submitReply(workorder.id)" v-else>提交</el-button>
+          <el-button
+            type="info"
+            class="submit"
+            plain
+            v-if="workorder.status==50"
+          >本工单已关闭</el-button>
+          <el-button
+            type="primary"
+            class="submit"
+            @click="submitReply(workorder.id)"
+            v-else
+          >提交</el-button>
         </div>
       </span>
     </el-dialog>
-    <el-dialog title="工单详情" :visible.sync="newWorkorderDialog">
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="工单标题" prop="title">
+    <el-dialog
+      title="工单详情"
+      :visible.sync="newWorkorderDialog"
+    >
+      <el-form
+        ref="form"
+        :model="form"
+        :rules="rules"
+        label-width="80px"
+      >
+        <el-form-item
+          label="工单标题"
+          prop="title"
+        >
           <el-input v-model="form.title"></el-input>
         </el-form-item>
         <el-form-item label="问题描述">
-          <vue-ckeditor v-model="form.Description" :config="config"/>
+          <vue-ckeditor
+            v-model="form.Description"
+            :config="config"
+          />
         </el-form-item>
-        <el-form-item label="问题分类" prop="Type">
-          <el-select v-model="form.Type" placeholder="请选择活动区域" style="width: 100%;">
-            <el-option label="安装服务" value="10"></el-option>
-            <el-option label="空间域名" value="20"></el-option>
-            <el-option label="售后投诉" value="30"></el-option>
-            <el-option label="技术支持" value="40"></el-option>
-            <el-option label="试用咨询" value="50"></el-option>
-            <el-option label="其他问题" value="100"></el-option>
+        <el-form-item
+          label="问题分类"
+          prop="Type"
+        >
+          <el-select
+            v-model="form.Type"
+            placeholder="请选择活动区域"
+            style="width: 100%;"
+          >
+            <el-option
+              label="安装服务"
+              value="10"
+            ></el-option>
+            <el-option
+              label="空间域名"
+              value="20"
+            ></el-option>
+            <el-option
+              label="售后投诉"
+              value="30"
+            ></el-option>
+            <el-option
+              label="技术支持"
+              value="40"
+            ></el-option>
+            <el-option
+              label="试用咨询"
+              value="50"
+            ></el-option>
+            <el-option
+              label="其他问题"
+              value="100"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitWorkorder('form')">立即提交</el-button>
+          <el-button
+            type="primary"
+            @click="submitWorkorder('form')"
+          >立即提交</el-button>
           <el-button @click="newWorkorderDialog=false">取消</el-button>
         </el-form-item>
       </el-form>

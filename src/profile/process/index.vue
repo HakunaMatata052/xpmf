@@ -73,7 +73,7 @@
             <el-tag>{{workorder.typeString}}</el-tag>
           </dd>
         </dl>
-        <dl>
+        <dl>    
           <dt>当前状态</dt>
           <dd>{{workorder.statusString}}</dd>
         </dl>

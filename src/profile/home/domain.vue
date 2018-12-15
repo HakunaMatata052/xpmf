@@ -42,10 +42,6 @@
     >
     </el-pagination>
     <br />
-    <el-button
-      type="primary"
-      @click="jump_href('/permission','_blank')"
-    >去购买</el-button>
   </div>
 </template>
 

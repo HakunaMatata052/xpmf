@@ -175,7 +175,7 @@
               <li>
                 <h4>服务支持</h4>
                 <a href="//help.xpmof.com" target="_blank">相关教程</a>
-                <a href="//help.xpmof.com/62094414" target="_blank">常见问题</a>
+                <a href="//help.xpmof.com/62094414/" target="_blank">常见问题</a>
               </li>
               <li>
                 <h4>关于我们</h4>

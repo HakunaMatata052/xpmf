@@ -23,7 +23,8 @@
           >
           {{$store.state.userinfo.username}}
         </a>
-        <a href="javascript:;" @click="jump_router('/process')">工单</a>
+        <a href="javascript:;" @click="jump_router('/process')" v-if="!admin">工单</a>
+        <a href="javascript:;" @click="jump_router('/admin/tongji')" v-else-if="admin">统计</a>
         <a href="javascript:;" class="logout" @click="logout">
           <i class="iconfont icon-tuichu"></i>退出
         </a>

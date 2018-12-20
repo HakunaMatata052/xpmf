@@ -49,7 +49,7 @@
               size="small"
               type="primary"
               @click="bindFn('template',item.siteId)"
-            >选择模板</el-button>
+            >查看模板</el-button>
             <el-button
               size="small"
               @click="jump_router('/home/business')"

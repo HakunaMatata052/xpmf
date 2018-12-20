@@ -40,6 +40,7 @@ var links = r => require.ensure([], () => r(require('./admin/links/index.vue')),
 var admin_invoice = r => require.ensure([], () => r(require('./admin/finance/invoice/index.vue')), 'admin_invoice')
 var admin_order = r => require.ensure([], () => r(require('./admin/finance/order/index.vue')), 'admin_order')
 var plugin = r => require.ensure([], () => r(require('./admin/plugin/index.vue')), 'plugin')
+var tongji = r => require.ensure([], () => r(require('./admin/tongji/index.vue')), 'tongji')
 
 // 公用
 var Login = r => require.ensure([], () => r(require('./login/login.vue')), 'login')
@@ -347,7 +348,14 @@ const router = new VueRouter({
       meta: {
         title: '插件管理'
       }
-    }
+      },
+      {
+        path: '/admin/tongji',
+        component: tongji,
+        meta: {
+          title: '统计'
+        }
+      }
     ]
   }, {
     path: '/login',

@@ -7,7 +7,7 @@
 					<el-option v-for="item in roleList" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
 				</el-select>
-				<el-input placeholder="请输入搜索关键词，如用户名，电话" v-model="search" style="float:right;max-width:500px;margin-left: 30px;">
+				<el-input placeholder="请输入搜索关键词，如用户名，电话" v-model="search" style="float:right;max-width:500px;margin-left: 30px;" @keyup.enter.native="searchFn">
 					<el-button slot="append" icon="el-icon-search" @click="searchFn"></el-button>
 				</el-input>
 			</div>

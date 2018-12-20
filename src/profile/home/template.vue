@@ -1,21 +1,10 @@
 <template>
   <div id="template">
     <el-row :gutter="20">
-      <el-col
-        :xs="24"
-        :sm="12"
-        :md="8"
-        :lg="6"
-        :xl="6"
-        v-for="item in list"
-        :key="item.id"
-      >
+      <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="item in list" :key="item.id">
         <div class="template-list">
           <div class="img">
-            <img
-              :src="item.template.fullpathThumbnail"
-              alt
-            >
+            <img :src="item.template.fullpathThumbnail" alt>
           </div>
           <div class="info">
             <h3>{{item.template.name}}</h3>
@@ -23,31 +12,13 @@
               <span>编号 : {{item.template.code}}</span>
             </p>
             <p>所属网站：
-              <el-tag
-                v-if="item.userSite!=null"
-                class="tag"
-              >{{item.userSite.siteName}}</el-tag>
+              <el-tag v-if="item.userSite!=null" class="tag">{{item.userSite.siteName}}</el-tag>
             </p>
-            <div
-              class="btn-group"
-              v-if="bind"
-            >
-              <el-button
-                size="small"
-                type="success"
-                @click="bindFn(item.id)"
-                v-if="!item.currentUsed"
-              >绑定</el-button>
-              <el-tag
-                type="success"
-                v-else
-              >已绑定</el-tag>
+            <div class="btn-group" v-if="bind">
+              <el-tag type="success" v-if="item.currentUsed">已绑定</el-tag>
             </div>
 
-            <div
-              class="btn-group"
-              v-else
-            >
+            <div class="btn-group" v-else>
               <el-button
                 size="mini"
                 type="primary"
@@ -74,10 +45,7 @@
       v-if="total!=0"
     ></el-pagination>
     <br>
-    <el-button
-      type="primary"
-      @click="jump_href('/template','_blank')"
-    >去购买</el-button>
+    <el-button type="primary" @click="jump_href('/template','_blank')">去购买</el-button>
   </div>
 </template>
 
@@ -96,18 +64,31 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.bind = true;
-      this.apiUrl = 'UserTemplate/unused/site/' + this.$route.params.id + '/page/'
+      this.apiUrl = 'usertemplate/' + this.$route.params.id
     }
     this.getList(1);
   },
   methods: {
     getList(val) {
       var that = this;
-      that.get_json(that.$store.state.api + that.apiUrl + val, function (data) {
-        that.list = data.data;
-        that.page = data.page;
-        that.size = data.size;
-        that.total = data.total;
+      if (that.$route.params.id) {
+        val = ''
+      }
+      that.get_json(that.$store.state.api + that.apiUrl + val, function (res) {
+        if (that.$route.params.id) {
+          var list = [];
+          var data = {};
+          data.template = res;
+          list.push(data)
+          that.list = list;
+          console.log(that.list)
+        } else {
+          that.list = data.data;
+          that.page = data.page;
+          that.size = data.size;
+          that.total = data.total;
+        }
+
       });
 
     },

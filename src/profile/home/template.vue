@@ -83,10 +83,10 @@ export default {
           that.list = list;
           console.log(that.list)
         } else {
-          that.list = data.data;
-          that.page = data.page;
-          that.size = data.size;
-          that.total = data.total;
+          that.list = res.data;
+          that.page = res.page;
+          that.size = res.size;
+          that.total = res.total;
         }
 
       });

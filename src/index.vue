@@ -175,8 +175,8 @@
               </li>
               <li>
                 <h4>服务支持</h4>
-                <a href="//help.xpmof.com" target="_blank">相关教程</a>
-                <a href="//help.xpmof.com/62094414/" target="_blank">常见问题</a>
+                <a href="//help.sxmyw.cn" target="_blank">相关教程</a>
+                <a href="//help.sxmyw.cn/62094414/" target="_blank">常见问题</a>
               </li>
               <li>
                 <h4>关于我们</h4>
@@ -185,7 +185,7 @@
               </li>
               <li>
                 <div class="clearfix">
-                  <img src="//www.xpmof.com/images/erweima.jpg">
+                  <img src="//www.sxmyw.cn/images/erweima.jpg">
                 </div>
               </li>
             </ul>

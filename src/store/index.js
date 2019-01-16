@@ -32,7 +32,7 @@ export default new vuex.Store({
     refresh_token: process.env.API_ROOT + '/api/token/refresh', // 刷新token
     api: process.env.API_ROOT + '/api/',
     pic: process.env.API_ROOT + '/',
-    wxpay: '//wxpay.xpmof.com/',
+    wxpay: '//wxpay.sxmyw.cn/',
     alipay: '',
     domain: '',
     notice: true,
